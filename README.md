@@ -25,11 +25,11 @@ git clone https://github.com/navsoft-ankit/FeedbackmanagmentFullstack.git
 2. Navigate to backend project
 cd src/Authservice
 3. Install dependencies
-dotnet restore
+**dotnet restore**
 4. Install EF tool (if not installed)
-dotnet tool install --global dotnet-ef
+**dotnet tool install --global dotnet-ef**
 5. Run migrations
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+**dotnet ef migrations add InitialCreate**
+**dotnet ef database update**
 6. Run the project
-dotnet run
+**dotnet run**
