@@ -11,5 +11,6 @@ namespace Authservice.Repository
         Task AddUserAsync(User user);
         Task UpdateUserAsync(User user);
         Task DeleteUserAsync(Guid id);
+        Task <int>GetUsersCountAsync();
     }
 }

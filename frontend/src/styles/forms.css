@@ -52,7 +52,7 @@ body{
   background:
     linear-gradient(
       90deg,
-      #6366f1,
+      #c24a4a,
       #8b5cf6
     );
 
@@ -96,7 +96,7 @@ body{
 .form-box h2{
   margin-bottom:22px;
 
-  color:#111827;
+  color:#f05252;
 
   font-size:28px;
 }
@@ -261,7 +261,7 @@ textarea{
 .forms-header h1{
   font-size:38px;
 
-  color:#111827;
+  color:#ed5252;
 
   margin-bottom:10px;
 }
@@ -320,8 +320,8 @@ textarea{
   background:
     linear-gradient(
       90deg,
-      #6366f1,
-      #8b5cf6
+      #f16363,
+      #5147d7
     );
 }
 
@@ -331,7 +331,7 @@ textarea{
 
   box-shadow:
     0 10px 30px
-    rgba(99,102,241,0.12);
+    rgba(220, 220, 231, 0.12);
 }
 
 /* TITLE */
@@ -339,7 +339,7 @@ textarea{
 .form-card h3{
   font-size:32px;
 
-  color:#111827;
+  color:#271611;
 
   margin-bottom:14px;
 
@@ -416,7 +416,7 @@ textarea{
   background:
     linear-gradient(
       90deg,
-      #6366f1,
+      #f16363,
       #8b5cf6
     );
 
@@ -569,7 +569,7 @@ textarea{
   background:
     linear-gradient(
       135deg,
-      #6366f1,
+      #f75240,
       #8b5cf6
     );
 
@@ -626,7 +626,7 @@ textarea{
   background:
     linear-gradient(
       90deg,
-      #6366f1,
+      #f55151,
       #8b5cf6
     );
 
@@ -741,7 +741,7 @@ textarea{
   background:
     linear-gradient(
       135deg,
-      #6366f1,
+      #f16363,
       #8b5cf6
     );
 
@@ -757,7 +757,7 @@ textarea{
 .user-top h3{
   font-size:24px;
 
-  color:#111827;
+  color:#271111;
 
   margin-bottom:4px;
 }
@@ -846,7 +846,7 @@ textarea{
 /* ========================= */
 
 body{
-  background:#0b0b0f;
+  background:#0f0b0c;
   color:white;
 }
 
@@ -1213,8 +1213,8 @@ select option{
   background:
     linear-gradient(
       145deg,
-      #0f172a,
-      #111827
+        #312e81,
+    #951d25
     );
 
   border:
@@ -1256,7 +1256,7 @@ select option{
 
   margin-bottom:25px;
 
-  color:#60a5fa;
+  color:#f90202;
 }
 
 /* USER INFO */
@@ -1277,12 +1277,7 @@ select option{
 
 .user-info p{
   background:
-    rgba(
-      255,
-      255,
-      255,
-      0.04
-    );
+    rgba(20, 0, 0, 0.04);
 
   padding:16px;
 
@@ -1348,12 +1343,7 @@ select option{
     );
 
   border:
-    1px solid rgba(
-      59,
-      130,
-      246,
-      0.2
-    );
+    1px solid rgba(59, 81, 246, 0.2);
 
   padding:22px;
 

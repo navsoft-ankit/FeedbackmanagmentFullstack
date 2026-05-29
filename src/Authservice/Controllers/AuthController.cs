@@ -182,5 +182,11 @@ namespace Authservice.Controllers
                 refreshToken = newRefreshToken
             });
         }
+        [HttpGet("active-users-count")]
+public async Task<IActionResult> GetActiveUsersCount()
+{
+    var count = await _userService.GetUsersCountAsync();
+    return Ok(new { activeUsers = count });
+}
     }
 }

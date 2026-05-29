@@ -137,9 +137,9 @@ export default function LoginPage() {
 
     <div className="auth-container">
 
-      <div className="auth-wrapper">
+      <div className={`auth-wrapper ${!isLogin ? "active" : ""}`}>
 
-        {/* LEFT PANEL */}
+        {/* LEFT SLIDING PANEL */}
 
         <div className="left-panel">
 
@@ -161,14 +161,20 @@ export default function LoginPage() {
 
             <button
               className="switch-btn"
-              onClick={() =>
-                setIsLogin(!isLogin)
-              }
+              onClick={() => {
+
+                setIsLogin(!isLogin);
+
+                setName("");
+                setEmail("");
+                setPassword("");
+
+              }}
             >
 
               {isLogin
-                ? "Register"
-                : "Login"}
+                ? "Create Account"
+                : "Back to Login"}
 
             </button>
 
@@ -201,6 +207,8 @@ export default function LoginPage() {
                 : "Create a new account"}
             </p>
 
+            {/* NAME FIELD */}
+
             {!isLogin && (
 
               <div className="input-box">
@@ -221,6 +229,8 @@ export default function LoginPage() {
 
             )}
 
+            {/* EMAIL FIELD */}
+
             <div className="input-box">
 
               <Mail size={18} />
@@ -237,6 +247,8 @@ export default function LoginPage() {
 
             </div>
 
+            {/* PASSWORD FIELD */}
+
             <div className="input-box">
 
               <Lock size={18} />
@@ -252,6 +264,8 @@ export default function LoginPage() {
               />
 
             </div>
+
+            {/* SUBMIT BUTTON */}
 
             <button
               type="submit"

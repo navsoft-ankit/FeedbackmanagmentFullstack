@@ -18,111 +18,115 @@ public class FormService : IFormService
     // CREATE FORM
     // =========================
     public async Task<FormResponseDTO> CreateFormAsync(CreateFormDTO dto)
-{
-    if (dto == null)
-        throw new Exception("Request body is empty");
-
-    if (string.IsNullOrWhiteSpace(dto.Title))
-        throw new Exception("Form title is required");
-
-    if (dto.Questions == null || dto.Questions.Count == 0)
-        throw new Exception("At least one question is required");
-
-    // 🔥 STEP 1: CREATE FORM FIRST
-    var form = new FeedbackForm
     {
-        Id = Guid.NewGuid(),
-        Title = dto.Title.Trim(),
-        Description = dto.Description,
-        CreatedAt = DateTime.UtcNow,
-        Questions = new List<Question>()
-    };
+        var form = new FeedbackForm
+        {
+            Id = Guid.NewGuid(),
+            Title = dto.Title,
+            Description = dto.Description,
+            CreatedAt = DateTime.UtcNow,
+            Questions = new List<Question>()
+        };
 
-    // 🔥 STEP 2: ADD QUESTIONS
-    form.Questions = dto.Questions.Select(q => new Question
-    {
-        Id = Guid.NewGuid(),
-
-        Text = string.IsNullOrWhiteSpace(q.Text)
-            ? throw new Exception("Question text is required")
-            : q.Text.Trim(),
-
-        Type = ParseQuestionType(q.Type),
-
-        FeedbackFormId = form.Id,   // 🔥 IMPORTANT FIX
-
-        Note = q.Note,
-        MetadataJson = q.MetadataJson,
-
-        Options = (q.Options ?? new List<string>())
-            .Where(o => !string.IsNullOrWhiteSpace(o))
-            .Select(o => new Option
+        form.Questions = dto.Questions.Select(q => new Question
+        {
+            Id = Guid.NewGuid(),
+            Text = q.Text,
+            Type = ParseQuestionType(q.Type),
+            FeedbackFormId = form.Id,
+            Options = q.Options?.Select(o => new Option
             {
                 Id = Guid.NewGuid(),
-                Value = o.Trim()
-            })
-            .ToList()
+                Value = o
+            }).ToList()
+        }).ToList();
 
-    }).ToList();
-
-    // 🔥 STEP 3: SAVE
-    _context.FeedbackForms.Add(form);
-
-    try
-    {
+        _context.FeedbackForms.Add(form);
         await _context.SaveChangesAsync();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine("🔥 SAVE FAILED: " + ex.Message);
-        Console.WriteLine("🔥 INNER: " + ex.InnerException?.Message);
-        throw;
+
+        return MapToResponse(form);
     }
 
-    return MapToResponse(form);
-}
-
     // =========================
-    // ENUM PARSER (SAFE)
+    // AVAILABLE FORMS (USER)
     // =========================
-    private QuestionType ParseQuestionType(object type)
+    public async Task<List<FormResponseDTO>> GetAvailableFormsAsync(string email)
     {
-        if (type == null)
-            throw new Exception("Question type is required");
+        var filledFormIds = await _context.Feedbacks
+            .Where(f => f.Email == email)
+            .Select(f => f.FormId)
+            .ToListAsync();
 
-        // numeric enum support
-        if (int.TryParse(type.ToString(), out int intVal))
+        var forms = await _context.FeedbackForms
+            .Include(f => f.Questions)
+            .ThenInclude(q => q.Options)
+            .Where(f => !filledFormIds.Contains(f.Id))
+            .ToListAsync();
+
+        return forms.Select(MapToResponse).ToList();
+    }
+
+    // =========================
+    // FILLED FORMS (USER)
+    // =========================
+    public async Task<List<FormResponseDTO>> GetFilledFormsAsync(string email)
+    {
+        var filledFormIds = await _context.Feedbacks
+            .Where(f => f.Email == email)
+            .Select(f => f.FormId)
+            .ToListAsync();
+
+        var forms = await _context.FeedbackForms
+            .Include(f => f.Questions)
+            .ThenInclude(q => q.Options)
+            .Where(f => filledFormIds.Contains(f.Id))
+            .ToListAsync();
+
+        return forms.Select(MapToResponse).ToList();
+    }
+
+    // =========================
+    // USER STATS
+    // =========================
+    public async Task<object> GetUserStatsAsync(string email)
+    {
+        var filled = await _context.Feedbacks
+            .Where(f => f.Email == email)
+            .Select(f => f.FormId)
+            .Distinct()
+            .ToListAsync();
+
+        var available = await _context.FeedbackForms
+            .CountAsync(f => !filled.Contains(f.Id));
+
+        return new
         {
-            if (Enum.IsDefined(typeof(QuestionType), intVal))
-                return (QuestionType)intVal;
-
-            throw new Exception($"Invalid question type value: {intVal}");
-        }
-
-        var str = type.ToString()?.Trim()?.ToLower();
-
-        return str switch
-        {
-            "text" => QuestionType.Text,
-            "mcq" => QuestionType.MCQ,
-            "dropdown" => QuestionType.Dropdown,
-            _ => throw new Exception($"Invalid question type: {type}")
+            availableForms = available,
+            submittedForms = filled.Count
         };
     }
 
     // =========================
-    // GET FORM
+    // DELETE FORM
     // =========================
-    public async Task<FormResponseDTO?> GetFormAsync(Guid id)
+    public async Task<bool> DeleteFormAsync(Guid id)
     {
+        var feedbacks = await _context.Feedbacks
+            .Where(f => f.FormId == id)
+            .ToListAsync();
+
+        _context.Feedbacks.RemoveRange(feedbacks);
+
         var form = await _context.FeedbackForms
-            .Include(f => f.Questions)
-            .ThenInclude(q => q.Options)
             .FirstOrDefaultAsync(f => f.Id == id);
 
-        if (form == null) return null;
+        if (form == null)
+            return false;
 
-        return MapToResponse(form);
+        _context.FeedbackForms.Remove(form);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
     // =========================
@@ -139,19 +143,30 @@ public class FormService : IFormService
     }
 
     // =========================
-    // UPDATE FORM
+    // GET FORM
     // =========================
-    public async Task<FormResponseDTO?> UpdateFormAsync(Guid id, UpdateFormDTO dto)
+    public async Task<FormResponseDTO?> GetFormAsync(Guid id)
     {
         var form = await _context.FeedbackForms
             .Include(f => f.Questions)
             .ThenInclude(q => q.Options)
             .FirstOrDefaultAsync(f => f.Id == id);
 
+        return form == null ? null : MapToResponse(form);
+    }
+
+    // =========================
+    // UPDATE FORM
+    // =========================
+    public async Task<FormResponseDTO?> UpdateFormAsync(Guid id, UpdateFormDTO dto)
+    {
+        var form = await _context.FeedbackForms
+            .FirstOrDefaultAsync(f => f.Id == id);
+
         if (form == null)
             return null;
 
-        form.Title = dto.Title?.Trim();
+        form.Title = dto.Title;
         form.Description = dto.Description;
 
         await _context.SaveChangesAsync();
@@ -160,24 +175,7 @@ public class FormService : IFormService
     }
 
     // =========================
-    // DELETE FORM
-    // =========================
-    public async Task<bool> DeleteFormAsync(Guid id)
-    {
-        var form = await _context.FeedbackForms
-            .FirstOrDefaultAsync(f => f.Id == id);
-
-        if (form == null)
-            return false;
-
-        _context.FeedbackForms.Remove(form);
-        await _context.SaveChangesAsync();
-
-        return true;
-    }
-
-    // =========================
-    // RESPONSE MAPPER
+    // MAPPER
     // =========================
     private FormResponseDTO MapToResponse(FeedbackForm form)
     {
@@ -191,10 +189,15 @@ public class FormService : IFormService
                 Id = q.Id.ToString(),
                 Text = q.Text,
                 Type = q.Type.ToString(),
-                Note = q.Note,
-                MetadataJson = q.MetadataJson,
-                Options = q.Options?.Select(o => o.Value).ToList() ?? new List<string>()
-            }).ToList() ?? new List<QuestionDTO>()
+                Options = q.Options?.Select(o => o.Value).ToList()
+            }).ToList()
         };
+    }
+
+    private QuestionType ParseQuestionType(object type)
+    {
+        return Enum.TryParse<QuestionType>(type.ToString(), true, out var result)
+            ? result
+            : QuestionType.Text;
     }
 }

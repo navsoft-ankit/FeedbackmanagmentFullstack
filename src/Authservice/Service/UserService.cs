@@ -46,5 +46,9 @@ namespace Authservice.Service
         {
             return await _userRepository.GetUserByRefreshTokenAsync(refreshToken);
         }
+        public async Task<int> GetUsersCountAsync()
+{
+    return await _userRepository.GetUsersCountAsync();
+}
     }
 }

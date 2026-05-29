@@ -1,14 +1,14 @@
 .dashboard-container{
   display:flex;
   min-height:100vh;
-  background:#0b0b0f;
+  background:#8282dc;
 }
 
 /* SIDEBAR */
 
 .sidebar{
   width:260px;
-  background:#050510;
+  background: #ea4848;
   color:white;
   display:flex;
   flex-direction:column;
@@ -31,7 +31,7 @@
 
 .logo p{
   margin-top:8px;
-  color:#6b7280;
+  color:#000207;
   font-size:12px;
   letter-spacing:1px;
 }
@@ -50,7 +50,7 @@
   padding:14px 18px;
   border-radius:14px;
   cursor:pointer;
-  color:#9ca3af;
+  color:#00040b;
   transition:0.3s;
   font-size:15px;
   font-weight:500;
@@ -64,7 +64,7 @@
 .menu-item.active{
   background:linear-gradient(
     90deg,
-    #4f46e5,
+    #e54646,
     #7c3aed
   );
 
@@ -109,7 +109,7 @@
 
 .topbar{
   background:#151821;
-  border:1px solid #262a36;
+  border:1px solid #362626;
   border-radius:20px;
   padding:28px;
   display:flex;
@@ -139,7 +139,7 @@
   width:45px;
   height:45px;
   border-radius:14px;
-  background:#1d2330;
+  background:#301d1d;
   border:1px solid #2b3445;
   display:flex;
   align-items:center;
@@ -154,7 +154,7 @@
   border-radius:14px;
   background:linear-gradient(
     135deg,
-    #6366f1,
+    #f00202,
     #8b5cf6
   );
 
@@ -209,7 +209,7 @@
   background:linear-gradient(
     135deg,
     #312e81,
-    #4c1d95
+    #951d25
   );
 
   border-radius:24px;
@@ -233,7 +233,7 @@
 .hero-card button{
   border:none;
   background:white;
-  color:#4f46e5;
+  color:#ee0b0b;
   padding:14px 24px;
   border-radius:14px;
   font-weight:700;
@@ -256,7 +256,7 @@
 }
 
 .details-card{
-  background:#151821;
+  background:#d60303;
   border:1px solid #262a36;
   border-radius:20px;
   padding:28px;
@@ -272,7 +272,7 @@
 
 .activity-item{
   padding:14px 0;
-  border-bottom:1px solid #262a36;
+  border-bottom:1px solid #362626;
   color:#d1d5db;
   display:flex;
   align-items:center;
@@ -288,7 +288,7 @@
   width:8px;
   height:8px;
   border-radius:50%;
-  background:#8b5cf6;
+  background:#f65c5c;
 }
 
 /* ACTION BUTTON */
@@ -307,7 +307,7 @@
 }
 
 .action-btn:hover{
-  background:#312e81;
+  background:#812e2e;
 }
 
 /* MOBILE */

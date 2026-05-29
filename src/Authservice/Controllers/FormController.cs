@@ -70,7 +70,7 @@ public class FormController : ControllerBase
     }
 
     // =========================
-    // GET SINGLE FORM (PUBLIC)
+    // GET SINGLE FORM
     // =========================
     [AllowAnonymous]
     [HttpGet("{id}")]
@@ -93,5 +93,56 @@ public class FormController : ControllerBase
     {
         var forms = await _service.GetAllFormsAsync();
         return Ok(forms);
+    }
+
+    // =========================
+    // 🔥 USER AVAILABLE FORMS
+    // =========================
+    [HttpGet("available")]
+    public async Task<IActionResult> GetAvailable([FromQuery] string email)
+    {
+        try
+        {
+            var result = await _service.GetAvailableFormsAsync(email);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    // =========================
+    // 🔥 USER FILLED FORMS
+    // =========================
+    [HttpGet("filled")]
+    public async Task<IActionResult> GetFilled([FromQuery] string email)
+    {
+        try
+        {
+            var result = await _service.GetFilledFormsAsync(email);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    // =========================
+    // 🔥 USER DASHBOARD STATS
+    // =========================
+    [HttpGet("user-stats")]
+    public async Task<IActionResult> GetUserStats([FromQuery] string email)
+    {
+        try
+        {
+            var result = await _service.GetUserStatsAsync(email);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }
