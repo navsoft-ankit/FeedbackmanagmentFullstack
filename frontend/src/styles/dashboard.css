@@ -10,7 +10,7 @@
 
 .sidebar{
   width:260px;
-  background: linear-gradient(135deg, #3f39dc, #7c3aed, #ed3a76);
+   background: linear-gradient( #3f2076, #630f2b);
   color:white;
   display:flex;
   flex-direction:column;
@@ -184,7 +184,7 @@
   width:45px;
   height:45px;
   border-radius:14px;
-  background:#301d1d;
+  background: linear-gradient( #3f2076, #630f2b);
   border:1px solid #2b3445;
   display:flex;
   align-items:center;
@@ -301,7 +301,7 @@
 }
 
 .details-card{
-  background:#d60303;
+    background: linear-gradient( #3f2076, #630f2b);
   border:1px solid #262a36;
   border-radius:20px;
   padding:28px;
@@ -333,7 +333,7 @@
   width:8px;
   height:8px;
   border-radius:50%;
-  background:#f65c5c;
+  background:#130f0f;
 }
 
 /* ACTION BUTTON */
@@ -352,7 +352,7 @@
 }
 
 .action-btn:hover{
-  background:#812e2e;
+  background: linear-gradient( #7c3aed, #ed3a76);
 }
 
 /* MOBILE */
