@@ -1,9 +1,9 @@
-📋 Feedback Management System
+Feedback Management System
 
 A backend system built with ASP.NET Core Web API that allows users to create dynamic feedback forms.
 It supports form creation, questions, options, and structured retrieval of form data.
 
-🚀 Features
+Features
 Create dynamic feedback forms
 Add multiple questions per form
 Support multiple question types (Text, Dropdown, MCQ, etc.)
@@ -19,17 +19,17 @@ Entity Framework Core
 SQL Server
 C#
 Postman
-⚙️ Setup Instructions
+Setup Instructions
 1. Clone the repository
-git clone https://github.com/navsoft-ankit/FeedbackmanagmentFullstack.git
+**git clone https://github.com/navsoft-ankit/FeedbackmanagmentFullstack.git**
 2. Navigate to backend project
 cd src/Authservice
 3. Install dependencies
-**dotnet restore**
+  **dotnet restore**
 4. Install EF tool (if not installed)
   1.**dotnet tool install --global dotnet-ef**
 5. Run migrations
   2.**dotnet ef migrations add InitialCreate**
   3.**dotnet ef database update**
 6. Run the project
-**dotnet run**
+  4.**dotnet run**
