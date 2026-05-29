@@ -14,5 +14,6 @@ namespace Authservice.Models
         public DateTime CreatedAt { get; set; }
 
         public List<Question> Questions { get; set; } = new();
+        public List<Feedback> Feedbacks { get; set; } = new();
     }
 }

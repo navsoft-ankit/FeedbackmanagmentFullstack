@@ -1446,3 +1446,32 @@ select option{
 
   font-weight: 500;
 }
+.delete-feedback-btn {
+  width: 100%;
+
+  margin-top: 18px;
+
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #ff4d4f;
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.delete-feedback-btn:hover {
+  background: #ff1f1f;
+
+  transform: translateY(-2px);
+}

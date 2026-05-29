@@ -11,6 +11,7 @@ import ExportPage from "../pages/ExportPage";
 import SubmittedFormsPage from "../pages/SubmittedFormsPage";
 import AdminFeedbackDetailsPage
 from "../pages/AdminFeedbackDetailsPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 export default function AppRoutes() {
   return (
@@ -67,6 +68,8 @@ export default function AppRoutes() {
     <AdminFeedbackDetailsPage />
   }
 />
+
+<Route path="/reset-password" element={<ResetPasswordPage />} />
 
     </Routes>
   );

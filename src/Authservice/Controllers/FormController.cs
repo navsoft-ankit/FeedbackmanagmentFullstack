@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Authservice.DTOs;
+using Authservice.DTOs.Form;
 using Authservice.Service;
-
 
 namespace Authservice.Controllers;
 
-[Authorize(Roles = "Admin")] // পুরো controller secure
 [ApiController]
 [Route("api/forms")]
-[Authorize] // পুরো controller secure
+[Authorize]
 public class FormController : ControllerBase
 {
     private readonly IFormService _service;
@@ -19,42 +17,81 @@ public class FormController : ControllerBase
         _service = service;
     }
 
-    // 🔥 Admin only
+    // =========================
+    // CREATE FORM
+    // =========================
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateFormDTO dto)
     {
-        var result = await _service.CreateFormAsync(dto);
-        return Ok(result);
+        try
+        {
+            var result = await _service.CreateFormAsync(dto);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
+    // =========================
+    // UPDATE FORM
+    // =========================
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateFormDTO dto)
     {
-        var result = await _service.UpdateFormAsync(id, dto);
-        return Ok(result);
+        try
+        {
+            var result = await _service.UpdateFormAsync(id, dto);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
+    // =========================
+    // DELETE FORM
+    // =========================
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await _service.DeleteFormAsync(id);
+
+        if (!result)
+            return NotFound();
+
         return Ok(result);
     }
 
-    // 🔓 Public (form view করতে পারে সবাই)
+    // =========================
+    // GET SINGLE FORM (PUBLIC)
+    // =========================
     [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        return Ok(await _service.GetFormAsync(id));
-    }
-    //PUBLIC ALL FORMS
-[AllowAnonymous]
-[HttpGet("all-public")]
-public async Task<IActionResult> GetAll()
-{
-    var forms = await _service.GetAllFormsAsync();
+        var result = await _service.GetFormAsync(id);
 
-    return Ok(forms);
-}
+        if (result == null)
+            return NotFound();
+
+        return Ok(result);
+    }
+
+    // =========================
+    // GET ALL FORMS (PUBLIC)
+    // =========================
+    [AllowAnonymous]
+    [HttpGet("all-public")]
+    public async Task<IActionResult> GetAll()
+    {
+        var forms = await _service.GetAllFormsAsync();
+        return Ok(forms);
+    }
 }

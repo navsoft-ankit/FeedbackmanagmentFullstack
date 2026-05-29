@@ -16,7 +16,9 @@ import "../styles/dashboard.css";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role" || "")
+  .trim()
+  .toLowerCase();
   const email = localStorage.getItem("email");
 
   const [stats, setStats] = useState({
@@ -54,7 +56,7 @@ export default function DashboardPage() {
           </div>
 
           {/* ADMIN MENU */}
-          {role === "Admin" && (
+          {role === "admin" && (
             <>
               <div
                 className="menu-item active"
@@ -93,7 +95,7 @@ export default function DashboardPage() {
           )}
 
           {/* USER MENU */}
-          {role === "User" && (
+          {role === "user" && (
             <>
               <div
                 className="menu-item active"
@@ -127,7 +129,7 @@ export default function DashboardPage() {
         {/* TOPBAR */}
         <div className="topbar">
           <div>
-            <h1>{role === "Admin" ? "Admin Dashboard" : "User Dashboard"}</h1>
+            <h1>{role === "admin" ? "Admin Dashboard" : "User Dashboard"}</h1>
             <p>Welcome back, {email}</p>
           </div>
           <div className="top-icons">
@@ -141,7 +143,7 @@ export default function DashboardPage() {
         </div>
 
         {/* ── ADMIN VIEW ── */}
-        {role === "Admin" && (
+        {role === "admin" && (
           <>
             {/* STATS */}
             <div className="cards">
@@ -162,7 +164,7 @@ export default function DashboardPage() {
             {/* HERO */}
             <div className="hero-card">
               <div>
-                <h2>Manage Feedback Efficiently 🚀</h2>
+                <h2>Manage Feedback Efficiently </h2>
                 <p>
                   Create forms, monitor responses, export reports and manage
                   everything from one powerful dashboard.
@@ -211,12 +213,12 @@ export default function DashboardPage() {
         )}
 
         {/* ── USER VIEW ── */}
-        {role === "User" && (
+        {role === "user" && (
           <>
             {/* HERO */}
             <div className="hero-card">
               <div>
-                <h2>Welcome User 👋</h2>
+                <h2>Welcome User </h2>
                 <p>
                   Fill feedback forms and submit responses quickly using the
                   smart feedback management system.

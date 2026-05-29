@@ -3,8 +3,8 @@ using Authservice.DTOs;
 using Authservice.Models;
 using Authservice.Service;
 using Microsoft.AspNetCore.Authorization;
-using System.Reflection.Metadata.Ecma335;
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Authservice.Controllers
 {
@@ -14,99 +14,138 @@ namespace Authservice.Controllers
     {
         private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
+        private readonly IEmailService _emailService;
 
-        public AuthController(IUserService userService, IJwtService jwtService)
+        public AuthController(
+            IUserService userService,
+            IJwtService jwtService,
+            IEmailService emailService)
         {
             _userService = userService;
             _jwtService = jwtService;
+            _emailService = emailService;
         }
 
+        // ================= REGISTER =================
         [HttpPost("register")]
         [Authorize(AuthenticationSchemes = "ApiKey")]
-        public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO dto)
         {
-            var existingUser = await _userService.GetUserByEmailAsync(registerDTO.Email);
+            var existingUser = await _userService.GetUserByEmailAsync(dto.Email);
 
             if (existingUser != null)
-            {
-                return BadRequest("Account already exists with this email.");
-            }
+                return BadRequest("Account already exists.");
 
             var user = new User
             {
-                Name = registerDTO.Name,
-                Email = registerDTO.Email,
-                Password = registerDTO.Password,
-                  Role = registerDTO.Role ?? "User"
+                Name = dto.Name,
+                Email = dto.Email,
+                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                Role = dto.Role ?? "User"
             };
 
             await _userService.AddUserAsync(user);
 
             return Ok("User registered successfully.");
         }
+
+        // ================= LOGIN =================
         [HttpPost("login")]
         [Authorize(AuthenticationSchemes = "ApiKey")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
+        public async Task<IActionResult> Login([FromBody] LoginDTO dto)
         {
-            var user = await _userService.GetUserByEmailAsync(loginDTO.Email);
+            var user = await _userService.GetUserByEmailAsync(dto.Email);
 
-            if (user == null || user.Password != loginDTO.Password)
-                return Unauthorized("Invalid email or password.");
+            if (user == null || string.IsNullOrEmpty(user.Password))
+                return Unauthorized("Invalid email or password");
+
+            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+                return Unauthorized("Invalid email or password");
 
             var token = _jwtService.GenerateToken(user);
-            var refreshToken = Guid.NewGuid().ToString();
+
+            var refreshToken = Convert.ToBase64String(
+                RandomNumberGenerator.GetBytes(64)
+            );
+
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
 
             await _userService.UpdateUserAsync(user);
-            return Ok(
-                new
-                {
-                    Message = $"{user.Role} logged in successfully",
-                    Role = user.Role,
-                    Token = token,
-                    RefreshToken = refreshToken
-                }
-            );
+
+            return Ok(new
+            {
+                message = $"{user.Role} logged in successfully",
+                role = user.Role,
+                token,
+                refreshToken
+            });
         }
 
-        [HttpPost("forgot-password")]
+               // ================= FORGOT PASSWORD =================
+       [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO dto)
         {
             var user = await _userService.GetUserByEmailAsync(dto.Email);
 
             if (user == null)
-                return BadRequest("User not found.");
+                return Ok("If email exists, reset link sent.");
 
-            // 1. generate token
-            var token = Guid.NewGuid().ToString();
+            // ✅ SAFE TOKEN (HEX ONLY — NO URL ISSUES)
+            var tokenBytes = RandomNumberGenerator.GetBytes(32);
+            var token = Convert.ToHexString(tokenBytes);
 
-            // 2. save token with expiry (DB or cache)
-            user.ResetToken = token;
-            user.ResetTokenExpiry = DateTime.UtcNow.AddMinutes(30);
+            // store HASH in DB
+            var tokenHash = Convert.ToHexString(
+                SHA256.HashData(Encoding.UTF8.GetBytes(token))
+            );
+
+            user.ResetToken = tokenHash;
+            user.ResetTokenExpiry = DateTime.UtcNow.AddMinutes(15);
 
             await _userService.UpdateUserAsync(user);
 
-            // 3. create reset link
-            var resetLink = $"https://yourfrontend.com/reset-password?token={token}&email={user.Email}";
+            // ✅ SAFE URL
+            var resetLink =
+                $"http://localhost:5173/reset-password?email={Uri.EscapeDataString(user.Email)}&token={token}";
 
-            // 4. send email (এখানে mock)
-            return Ok(new { message = "Reset link generated", link = resetLink });
+            await _emailService.SendEmailAsync(
+                user.Email,
+                "Reset Password",
+                $"Click here: {resetLink}"
+            );
+
+            return Ok("If email exists, reset link sent.");
         }
+
+        // ================= RESET PASSWORD =================
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO dto)
         {
+            if (dto == null)
+                return BadRequest("Invalid request");
+
             var user = await _userService.GetUserByEmailAsync(dto.Email);
 
             if (user == null)
-                return BadRequest("User not found.");
+                return BadRequest("Invalid reset link");
 
-            // check token
-            if (user.ResetToken != dto.Token || user.ResetTokenExpiry < DateTime.UtcNow)
-                return BadRequest("Invalid or expired token.");
+            if (string.IsNullOrEmpty(user.ResetToken))
+                return BadRequest("Invalid reset link");
 
-            // set new password
-            user.Password = dto.NewPassword;
+            if (user.ResetTokenExpiry < DateTime.UtcNow)
+                return BadRequest("Reset link expired");
+
+            // hash incoming token
+            var incomingHash = Convert.ToHexString(
+                SHA256.HashData(Encoding.UTF8.GetBytes(dto.Token))
+            );
+
+            if (incomingHash != user.ResetToken)
+                return BadRequest("Invalid reset link");
+
+            // update password
+            user.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
 
             // clear token
             user.ResetToken = null;
@@ -114,18 +153,23 @@ namespace Authservice.Controllers
 
             await _userService.UpdateUserAsync(user);
 
-            return Ok("Password reset successful.");
+            return Ok("Password reset successful");
         }
+
+        // ================= REFRESH TOKEN =================
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] LoginResponseDTO dto)
         {
             var user = await _userService.GetUserByRefreshTokenAsync(dto.RefreshToken);
 
             if (user == null || user.RefreshTokenExpiryTime < DateTime.UtcNow)
-                return Unauthorized("Invalid or expired refresh token.");
+                return Unauthorized("Invalid or expired refresh token");
 
             var newToken = _jwtService.GenerateToken(user);
-            var newRefreshToken = Guid.NewGuid().ToString();
+
+            var newRefreshToken = Convert.ToBase64String(
+                RandomNumberGenerator.GetBytes(64)
+            );
 
             user.RefreshToken = newRefreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
@@ -134,8 +178,8 @@ namespace Authservice.Controllers
 
             return Ok(new
             {
-                Token = newToken,
-                RefreshToken = newRefreshToken
+                token = newToken,
+                refreshToken = newRefreshToken
             });
         }
     }

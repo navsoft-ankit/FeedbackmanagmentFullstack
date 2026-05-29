@@ -6,4 +6,5 @@ public class QuestionDTO
     public List<string> Options { get; set; }
     public string? Note { get; set; }
     public string? MetadataJson {get; set;}
+    public bool IsRequired { get; set; }  
 }

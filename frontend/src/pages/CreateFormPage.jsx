@@ -1,37 +1,26 @@
 import { useState } from "react";
-
 import api from "../api/axios";
-
 import { useNavigate } from "react-router-dom";
-
 import "../styles/forms.css";
 
 export default function CreateFormPage() {
+  const navigate = useNavigate();
 
-  const navigate =
-    useNavigate();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-  const [title, setTitle] =
-    useState("");
-
-  const [description, setDescription] =
-    useState("");
-
-  const [questions, setQuestions] =
-    useState([
-      {
-        text: "",
-        type: "Text",
-        options: []
-      }
-    ]);
+  const [questions, setQuestions] = useState([
+    {
+      text: "",
+      type: "Text",
+      options: []
+    }
+  ]);
 
   // =========================
   // ADD QUESTION
   // =========================
-
   const addQuestion = () => {
-
     setQuestions([
       ...questions,
       {
@@ -45,36 +34,22 @@ export default function CreateFormPage() {
   // =========================
   // UPDATE QUESTION
   // =========================
-
-  const updateQuestion = (
-    index,
-    field,
-    value
-  ) => {
-
-    const updated =
-      [...questions];
-
-    updated[index][field] =
-      value;
-
+  const updateQuestion = (index, field, value) => {
+    const updated = [...questions];
+    updated[index][field] = value;
     setQuestions(updated);
   };
 
   // =========================
   // UPDATE OPTIONS
   // =========================
+  const updateOptions = (index, value) => {
+    const updated = [...questions];
 
-  const updateOptions = (
-    index,
-    value
-  ) => {
-
-    const updated =
-      [...questions];
-
-    updated[index].options =
-      value.split(",");
+    updated[index].options = value
+      .split(",")
+      .map((o) => o.trim())
+      .filter((o) => o !== "");
 
     setQuestions(updated);
   };
@@ -82,78 +57,56 @@ export default function CreateFormPage() {
   // =========================
   // SUBMIT FORM
   // =========================
+  const submitForm = async () => {
+    try {
+      const payload = {
+        title: title,
+        description: description,
+        questions: questions.map((q) => ({
+          text: q.text,
 
-  const submitForm =
-    async () => {
+          // 🔥 FIX ONLY HERE (ENUM MATCH BACKEND)
+          type:
+            q.type === "Text"
+              ? 0
+              : q.type === "MCQ"
+              ? 1
+              : 2,
 
-      try {
+          options:
+            q.type === "Text"
+              ? []
+              : q.options
+        }))
+      };
 
-        const payload = {
+      console.log("FINAL PAYLOAD:", payload);
 
-          title,
+      await api.post("/forms/create", payload);
 
-          description,
+      navigate("/dashboard");
+    } catch (err) {
+      console.log(err?.response?.data || err.message);
 
-          questions:
-            questions.map((q) => ({
-
-              text: q.text,
-
-              type:
-                q.type === "MCQ"
-                  ? 0
-                  : q.type ===
-                    "Dropdown"
-                  ? 1
-                  : 2,
-
-              options:
-                q.options
-
-            }))
-        };
-
-        await api.post(
-          "/forms/create",
-          payload
-        );
-
-        // =========================
-        // REDIRECT
-        // =========================
-
-        navigate("/dashboard");
-
-      } catch (err) {
-
-        console.log(err);
-
-        alert(
+      alert(
+        err?.response?.data?.message ||
           "Create Form Failed"
-        );
-      }
-    };
+      );
+    }
+  };
 
   return (
-
     <div className="form-page">
 
       {/* HEADER */}
-
       <div className="form-header">
 
         <div>
-
-          <h1>
-            Create New Form
-          </h1>
+          <h1>Create New Form</h1>
 
           <p>
-            Create feedback forms
-            and add questions
-            easily.
+            Create feedback forms and add questions easily.
           </p>
-
         </div>
 
         <button
@@ -166,69 +119,46 @@ export default function CreateFormPage() {
       </div>
 
       {/* FORM DETAILS */}
-
       <div className="form-box">
 
-        <h2>
-          Form Details
-        </h2>
+        <h2>Form Details</h2>
 
         <div className="form-grid">
 
-          {/* TITLE */}
-
           <div>
-
-            <label>
-              Form Title
-            </label>
+            <label>Form Title</label>
 
             <input
               type="text"
               placeholder="Enter form title"
               value={title}
               onChange={(e) =>
-                setTitle(
-                  e.target.value
-                )
+                setTitle(e.target.value)
               }
             />
-
           </div>
 
-          {/* DESCRIPTION */}
-
           <div>
-
-            <label>
-              Description
-            </label>
+            <label>Description</label>
 
             <textarea
               placeholder="Enter form description"
               value={description}
               onChange={(e) =>
-                setDescription(
-                  e.target.value
-                )
+                setDescription(e.target.value)
               }
             />
-
           </div>
 
         </div>
-
       </div>
 
       {/* QUESTIONS */}
-
       <div className="form-box">
 
         <div className="question-top">
 
-          <h2>
-            Questions
-          </h2>
+          <h2>Questions</h2>
 
           <button
             className="add-btn"
@@ -240,19 +170,10 @@ export default function CreateFormPage() {
         </div>
 
         {questions.map((q, i) => (
-
-          <div
-            key={i}
-            className="question-card"
-          >
-
-            {/* QUESTION */}
+          <div key={i} className="question-card">
 
             <div className="question-input">
-
-              <label>
-                Question
-              </label>
+              <label>Question</label>
 
               <input
                 type="text"
@@ -266,16 +187,10 @@ export default function CreateFormPage() {
                   )
                 }
               />
-
             </div>
 
-            {/* TYPE */}
-
             <div className="type-input">
-
-              <label>
-                Type
-              </label>
+              <label>Type</label>
 
               <select
                 value={q.type}
@@ -287,35 +202,16 @@ export default function CreateFormPage() {
                   )
                 }
               >
-
-                <option value="Text">
-                  Text
-                </option>
-
-                <option value="Dropdown">
-                  Dropdown
-                </option>
-
-                <option value="MCQ">
-                  MCQ
-                </option>
-
+                <option value="Text">Text</option>
+                <option value="Dropdown">Dropdown</option>
+                <option value="MCQ">MCQ</option>
               </select>
-
             </div>
 
-            {/* OPTIONS */}
-
-            {(q.type ===
-              "Dropdown" ||
-              q.type ===
-              "MCQ") && (
-
+            {(q.type === "Dropdown" ||
+              q.type === "MCQ") && (
               <div className="option-input">
-
-                <label>
-                  Options
-                </label>
+                <label>Options</label>
 
                 <input
                   type="text"
@@ -327,7 +223,6 @@ export default function CreateFormPage() {
                     )
                   }
                 />
-
               </div>
             )}
 

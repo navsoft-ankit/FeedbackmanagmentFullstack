@@ -109,6 +109,27 @@ export default function FeedbackPage() {
   };
 
   // =========================
+  // DELETE FEEDBACK
+  // =========================
+
+  const deleteFeedback =
+    async (feedbackId) => {
+
+      try {
+
+        await api.delete(
+          `/feedback/${feedbackId}`
+        );
+
+        fetchFeedbacks();
+
+      } catch (err) {
+
+        console.log(err);
+      }
+    };
+
+  // =========================
   // UPDATE ANSWER
   // =========================
 
@@ -505,6 +526,19 @@ export default function FeedbackPage() {
                   </p>
 
                 </div>
+
+                {/* DELETE BUTTON */}
+
+                <button
+                  className="delete-feedback-btn"
+                  onClick={() =>
+                    deleteFeedback(
+                      fb.id
+                    )
+                  }
+                >
+                  Delete Feedback
+                </button>
 
               </div>
 

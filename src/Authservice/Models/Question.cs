@@ -21,4 +21,5 @@ public class Question
     public string? Note { get; set; }
 
     public string? MetadataJson { get; set; }
+    public bool IsRequired { get; set; }
 }
