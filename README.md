@@ -13,7 +13,7 @@ Update and delete forms
 Clean layered architecture (Controller → Service → Data)
 DTO-based API design (no direct entity exposure)
 Entity Framework Core integration
-🛠️ Tech Stack
+Tech Stack
 ASP.NET Core Web API (.NET 8)
 Entity Framework Core
 SQL Server
@@ -21,15 +21,21 @@ C#
 Postman
 Setup Instructions
 1. Clone the repository
+
 **git clone https://github.com/navsoft-ankit/FeedbackmanagmentFullstack.git**
 2. Navigate to backend project
 cd src/Authservice
 3. Install dependencies
-  **dotnet restore**
+ 
+ **dotnet restore**
 4. Install EF tool (if not installed)
-  1.**dotnet tool install --global dotnet-ef**
+ 
+ 1.**dotnet tool install --global dotnet-ef**
 5. Run migrations
-  2.**dotnet ef migrations add InitialCreate**
-  3.**dotnet ef database update**
+ 
+ 2.**dotnet ef migrations add InitialCreate**
+ 
+ 3.**dotnet ef database update**
 6. Run the project
-  4.**dotnet run**
+ 
+ 4.**dotnet run**
