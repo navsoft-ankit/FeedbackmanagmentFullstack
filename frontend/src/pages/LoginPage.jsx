@@ -6,7 +6,9 @@ import {
   User,
   Mail,
   Lock,
-  ArrowRight
+  ArrowRight,
+  Eye,
+  EyeOff
 } from "lucide-react";
 
 import "../styles/auth.css";
@@ -20,6 +22,8 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   // LOGIN
 
@@ -168,6 +172,7 @@ export default function LoginPage() {
                 setName("");
                 setEmail("");
                 setPassword("");
+                setShowPassword(false);
 
               }}
             >
@@ -249,19 +254,42 @@ export default function LoginPage() {
 
             {/* PASSWORD FIELD */}
 
-            <div className="input-box">
+            <div
+              className="input-box"
+              style={{ position: "relative" }}
+            >
 
               <Lock size={18} />
 
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) =>
                   setPassword(e.target.value)
                 }
                 required
+                style={{ paddingRight: "45px" }}
               />
+
+              <span
+                onClick={() =>
+                  setShowPassword(!showPassword)
+                }
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                {showPassword ? (
+                  <EyeOff size={18} />
+                ) : (
+                  <Eye size={18} />
+                )}
+              </span>
 
             </div>
 
