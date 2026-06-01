@@ -1,6 +1,5 @@
 using Authservice.Models;
 using Authservice.Repository;
-
 namespace Authservice.Service
 {
     public class UserService : IUserService
@@ -47,8 +46,8 @@ namespace Authservice.Service
             return await _userRepository.GetUserByRefreshTokenAsync(refreshToken);
         }
         public async Task<int> GetUsersCountAsync()
-{
-    return await _userRepository.GetUsersCountAsync();
-}
+        {
+            return await _userRepository.GetUsersCountAsync();
+        }
     }
 }

@@ -82,8 +82,8 @@ namespace Authservice.Controllers
             });
         }
 
-               // ================= FORGOT PASSWORD =================
-       [HttpPost("forgot-password")]
+        // ================= FORGOT PASSWORD =================
+        [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDTO dto)
         {
             var user = await _userService.GetUserByEmailAsync(dto.Email);
@@ -183,10 +183,10 @@ namespace Authservice.Controllers
             });
         }
         [HttpGet("active-users-count")]
-public async Task<IActionResult> GetActiveUsersCount()
-{
-    var count = await _userService.GetUsersCountAsync();
-    return Ok(new { activeUsers = count });
-}
+        public async Task<IActionResult> GetActiveUsersCount()
+        {
+            var count = await _userService.GetUsersCountAsync();
+            return Ok(new { activeUsers = count });
+        }
     }
 }

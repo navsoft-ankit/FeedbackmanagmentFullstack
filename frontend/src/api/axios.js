@@ -5,18 +5,15 @@ const api = axios.create({
 
   headers: {
     "X-Api-Key": "mvc-api-secret-key-2026",
-  }
+  },
 });
 
 // AUTO JWT TOKEN
 api.interceptors.request.use((config) => {
-
   const token = localStorage.getItem("token");
 
   if (token) {
-
-    config.headers.Authorization =
-      `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;

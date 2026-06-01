@@ -62,25 +62,25 @@ namespace Authservice.Repository
     DateTime fromDate,
     DateTime toDate
 )
-{
-    // include full end day
+        {
+            // include full end day
 
-    toDate = toDate.Date
-        .AddDays(1)
-        .AddTicks(-1);
+            toDate = toDate.Date
+                .AddDays(1)
+                .AddTicks(-1);
 
-    return await _context.Answers
+            return await _context.Answers
 
-        .Include(a => a.Question)
+                .Include(a => a.Question)
 
-        .Include(a => a.Feedback)
+                .Include(a => a.Feedback)
 
-        .Where(a =>
-            a.CreatedAt >= fromDate.Date &&
-            a.CreatedAt <= toDate
-        )
+                .Where(a =>
+                    a.CreatedAt >= fromDate.Date &&
+                    a.CreatedAt <= toDate
+                )
 
-        .ToListAsync();
-}
+                .ToListAsync();
+        }
     }
 }
