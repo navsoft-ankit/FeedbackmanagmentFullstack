@@ -146,31 +146,31 @@ export default function AdminFeedbacksPage() {
 
             {/* ANSWERS */}
 
-           {/* ANSWERS */}
+            {/* ANSWERS */}
 
-<div className="answers-box">
+            <div className="answers-box">
 
-  {(f.answers || []).map(
-    (a, index) => (
+              {(f.answers || []).map(
+                (a, index) => (
 
-      <div
-        className="answer-item"
-        key={index}
-      >
+                  <div
+                    className="answer-item"
+                    key={index}
+                  >
 
-        <h4>
-          {a.question}
-        </h4>
+                    <h4>
+                      {a.question}
+                    </h4>
 
-        <p>
-          {a.answer}
-        </p>
+                    <p>
+                      {a.answer}
+                    </p>
 
-      </div>
-    )
-  )}
+                  </div>
+                )
+              )}
 
-</div>
+            </div>
 
             {/* FINAL NOTE */}
 

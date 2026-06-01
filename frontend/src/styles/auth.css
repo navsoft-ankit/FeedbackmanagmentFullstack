@@ -39,7 +39,7 @@ body {
   width: 1000px;
   min-height: 600px;
 
-  background: #8d4c51;
+  background: linear-gradient( #3f2076, #630f2b);
 
   border-radius: 30px;
 
@@ -61,7 +61,7 @@ body {
   width: 45%;
   height: 100%;
 
-  background: linear-gradient(135deg, #16117c, #ed3a76);
+  background: linear-gradient( #3f2076, #630f2b);
 
   color: #fff;
 
@@ -287,7 +287,7 @@ body {
   border: none;
   border-radius: 15px;
 
-  background: linear-gradient(135deg, #b45755, #364c80);
+  background: linear-gradient( #3f2076, #630f2b);
 
   color: white;
 

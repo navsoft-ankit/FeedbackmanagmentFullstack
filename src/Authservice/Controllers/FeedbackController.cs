@@ -77,10 +77,11 @@ public class FeedbackController : ControllerBase
         // =========================
         // CREATE FEEDBACK
         // =========================
-
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var feedback = new Feedback
         {
             FormId = dto.FormId,
+            // UserId = Guid.Parse(userId),
 
             Name = name,
 

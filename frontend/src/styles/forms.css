@@ -49,12 +49,7 @@ body{
 .add-btn{
   border:none;
 
-  background:
-    linear-gradient(
-      90deg,
-      #c24a4a,
-      #8b5cf6
-    );
+background: linear-gradient( #3f2076, #630f2b);
 
   color:white;
 
@@ -317,12 +312,7 @@ textarea{
   width:100%;
   height:6px;
 
-  background:
-    linear-gradient(
-      90deg,
-      #f16363,
-      #5147d7
-    );
+background: linear-gradient( #3f2076, #630f2b);
 }
 
 .form-card:hover{
@@ -416,8 +406,8 @@ textarea{
   background:
     linear-gradient(
       90deg,
-      #f16363,
-      #8b5cf6
+      #3f2076,
+      #630f2b
     );
 
   color:white;
@@ -566,12 +556,7 @@ textarea{
 
   justify-content:center;
 
-  background:
-    linear-gradient(
-      135deg,
-      #f75240,
-      #8b5cf6
-    );
+  background: linear-gradient( #3f2076, #630f2b);
 
   color:white;
 
@@ -626,8 +611,7 @@ textarea{
   background:
     linear-gradient(
       90deg,
-      #f55151,
-      #8b5cf6
+      #3f2076, #630f2b
     );
 
   color:white;
@@ -741,8 +725,7 @@ textarea{
   background:
     linear-gradient(
       135deg,
-      #f16363,
-      #8b5cf6
+  #3f2076, #630f2b
     );
 
   display:flex;

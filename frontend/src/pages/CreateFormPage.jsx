@@ -70,8 +70,8 @@ export default function CreateFormPage() {
             q.type === "Text"
               ? 0
               : q.type === "MCQ"
-              ? 1
-              : 2,
+                ? 1
+                : 2,
 
           options:
             q.type === "Text"
@@ -90,7 +90,7 @@ export default function CreateFormPage() {
 
       alert(
         err?.response?.data?.message ||
-          "Create Form Failed"
+        "Create Form Failed"
       );
     }
   };
@@ -210,21 +210,21 @@ export default function CreateFormPage() {
 
             {(q.type === "Dropdown" ||
               q.type === "MCQ") && (
-              <div className="option-input">
-                <label>Options</label>
+                <div className="option-input">
+                  <label>Options</label>
 
-                <input
-                  type="text"
-                  placeholder="Option1, Option2"
-                  onChange={(e) =>
-                    updateOptions(
-                      i,
-                      e.target.value
-                    )
-                  }
-                />
-              </div>
-            )}
+                  <input
+                    type="text"
+                    placeholder="Option1, Option2"
+                    onChange={(e) =>
+                      updateOptions(
+                        i,
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+              )}
 
           </div>
         ))}
