@@ -29,8 +29,15 @@ export default function DashboardPage() {
 
   const [activeUsers, setActiveUsers] = useState(0);
 
-  // ✔ NEW STATE ADDED
+  // ✔ ADDED (profile state)
   const [showProfile, setShowProfile] = useState(false);
+
+  // ✔ ADDED (theme support fix)
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   useEffect(() => {
     if (email) {
@@ -67,7 +74,6 @@ export default function DashboardPage() {
     }
   };
 
-  // ✔ NEW FUNCTION ADDED
   const toggleProfile = () => {
     setShowProfile(!showProfile);
   };
@@ -78,7 +84,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className={`dashboard-container ${theme}`}>
       {/* SIDEBAR */}
       <div className="sidebar">
         <div>
@@ -144,6 +150,11 @@ export default function DashboardPage() {
           )}
         </div>
 
+        {/* ✔ ADDED THEME BUTTON */}
+        <button onClick={toggleTheme}>
+          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+        </button>
+
         <button className="logout-btn" onClick={logout}>
           <LogOut size={16} />
           <span>Logout</span>
@@ -169,7 +180,6 @@ export default function DashboardPage() {
               <Bell size={18} />
             </div>
 
-            {/* ✔ UPDATED PROFILE BOX */}
             <div
               className="profile-box"
               onClick={toggleProfile}
@@ -180,7 +190,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ✔ PROFILE POPUP ADDED */}
+        {/* PROFILE POPUP */}
         {showProfile && (
           <div className="profile-popup">
             <div className="profile-card">
@@ -194,11 +204,7 @@ export default function DashboardPage() {
                 <b>Name:</b> {email?.split("@")[0]}
               </p>
               <p>
-                <b>Email:</b> {email}
-              </p>
-              {/* <p>
-                <b>Role:</b> {role}
-              </p> */}
+                <b>Email:</b> {email}</p>
 
               <button onClick={toggleProfile}>
                 Close

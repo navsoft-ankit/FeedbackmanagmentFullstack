@@ -405,3 +405,24 @@
   color: white;
   border-radius: 5px;
 }
+.light {
+  background: #f5f6fa;
+  color: #111;
+}
+
+.dark {
+  background: #121212;
+  color: #fff;
+}
+
+.dark .sidebar {
+  background: #1e1e1e;
+}
+
+.dark .card {
+  background: #2a2a2a;
+}
+
+.dark .topbar {
+  background: #1a1a1a;
+}

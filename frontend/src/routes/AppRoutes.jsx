@@ -9,36 +9,30 @@ import CreateFormPage from "../pages/CreateFormPage";
 import FeedbackPage from "../pages/FeedbackPage";
 import ExportPage from "../pages/ExportPage";
 import SubmittedFormsPage from "../pages/SubmittedFormsPage";
-import AdminFeedbackDetailsPage
-from "../pages/AdminFeedbackDetailsPage";
+import AdminFeedbackDetailsPage from "../pages/AdminFeedbackDetailsPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 
-export default function AppRoutes() {
+export default function AppRoutes({ theme, toggleTheme }) {
   return (
     <Routes>
 
       {/* AUTH */}
-      <Route
-        path="/"
-        element={<LoginPage />}
-      />
-
-      <Route
-        path="/register"
-        element={<RegisterPage />}
-      />
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
       {/* DASHBOARD */}
       <Route
         path="/dashboard"
-        element={<DashboardPage />}
+        element={
+          <DashboardPage
+            theme={theme}
+            toggleTheme={toggleTheme}
+          />
+        }
       />
 
       {/* FORMS */}
-      <Route
-        path="/forms"
-        element={<FormsPage />}
-      />
+      <Route path="/forms" element={<FormsPage />} />
 
       <Route
         path="/create-form"
@@ -52,25 +46,22 @@ export default function AppRoutes() {
       />
 
       {/* EXPORT */}
+      <Route path="/export" element={<ExportPage />} />
+
       <Route
-        path="/export"
-        element={<ExportPage />}
+        path="/submitted-forms"
+        element={<SubmittedFormsPage />}
       />
 
       <Route
-  path="/submitted-forms"
-  element={<SubmittedFormsPage />}
-/>
+        path="/admin-feedbacks/:formId"
+        element={<AdminFeedbackDetailsPage />}
+      />
 
-<Route
-  path="/admin-feedbacks/:formId"
-  element={
-    <AdminFeedbackDetailsPage />
-  }
-/>
-
-<Route path="/reset-password" element={<ResetPasswordPage />} />
-
+      <Route
+        path="/reset-password"
+        element={<ResetPasswordPage />}
+      />
     </Routes>
   );
 }
