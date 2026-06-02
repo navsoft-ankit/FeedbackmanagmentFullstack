@@ -24,15 +24,14 @@ public class FormService : IFormService
             Id = Guid.NewGuid(),
             Title = dto.Title,
             Description = dto.Description,
-            CreatedAt = DateTime.UtcNow,
-            Questions = new List<Question>()
+            CreatedAt = DateTime.UtcNow
         };
 
-        form.Questions = dto.Questions.Select(q => new Question
+        var questions = dto.Questions.Select(q => new Question
         {
             Id = Guid.NewGuid(),
             Text = q.Text,
-            Type = ParseQuestionType(q.Type),
+            Type = q.Type,
             FeedbackFormId = form.Id,
             Options = q.Options?.Select(o => new Option
             {
@@ -41,105 +40,12 @@ public class FormService : IFormService
             }).ToList()
         }).ToList();
 
+        form.Questions = questions;
+
         _context.FeedbackForms.Add(form);
         await _context.SaveChangesAsync();
 
         return MapToResponse(form);
-    }
-
-    // =========================
-    // AVAILABLE FORMS (USER)
-    // =========================
-    public async Task<List<FormResponseDTO>> GetAvailableFormsAsync(string email)
-    {
-        var filledFormIds = await _context.Feedbacks
-            .Where(f => f.Email == email)
-            .Select(f => f.FormId)
-            .ToListAsync();
-
-        var forms = await _context.FeedbackForms
-            .Include(f => f.Questions)
-            .ThenInclude(q => q.Options)
-            .Where(f => !filledFormIds.Contains(f.Id))
-            .ToListAsync();
-
-        return forms.Select(MapToResponse).ToList();
-    }
-
-    // =========================
-    // FILLED FORMS (USER)
-    // =========================
-    public async Task<List<FormResponseDTO>> GetFilledFormsAsync(string email)
-    {
-        var filledFormIds = await _context.Feedbacks
-            .Where(f => f.Email == email)
-            .Select(f => f.FormId)
-            .ToListAsync();
-
-        var forms = await _context.FeedbackForms
-            .Include(f => f.Questions)
-            .ThenInclude(q => q.Options)
-            .Where(f => filledFormIds.Contains(f.Id))
-            .ToListAsync();
-
-        return forms.Select(MapToResponse).ToList();
-    }
-
-    // =========================
-    // USER STATS
-    // =========================
-    public async Task<object> GetUserStatsAsync(string email)
-    {
-        var filled = await _context.Feedbacks
-            .Where(f => f.Email == email)
-            .Select(f => f.FormId)
-            .Distinct()
-            .ToListAsync();
-
-        var available = await _context.FeedbackForms
-            .CountAsync(f => !filled.Contains(f.Id));
-
-        return new
-        {
-            availableForms = available,
-            submittedForms = filled.Count
-        };
-    }
-
-    // =========================
-    // DELETE FORM
-    // =========================
-    public async Task<bool> DeleteFormAsync(Guid id)
-    {
-        var feedbacks = await _context.Feedbacks
-            .Where(f => f.FormId == id)
-            .ToListAsync();
-
-        _context.Feedbacks.RemoveRange(feedbacks);
-
-        var form = await _context.FeedbackForms
-            .FirstOrDefaultAsync(f => f.Id == id);
-
-        if (form == null)
-            return false;
-
-        _context.FeedbackForms.Remove(form);
-        await _context.SaveChangesAsync();
-
-        return true;
-    }
-
-    // =========================
-    // GET ALL FORMS
-    // =========================
-    public async Task<List<FormResponseDTO>> GetAllFormsAsync()
-    {
-        var forms = await _context.FeedbackForms
-            .Include(f => f.Questions)
-            .ThenInclude(q => q.Options)
-            .ToListAsync();
-
-        return forms.Select(MapToResponse).ToList();
     }
 
     // =========================
@@ -156,23 +62,169 @@ public class FormService : IFormService
     }
 
     // =========================
-    // UPDATE FORM
+    // GET ALL FORMS
+    // =========================
+    public async Task<List<FormResponseDTO>> GetAllFormsAsync()
+    {
+        var forms = await _context.FeedbackForms
+            .Include(f => f.Questions)
+            .ThenInclude(q => q.Options)
+            .ToListAsync();
+
+        return forms.Select(MapToResponse).ToList();
+    }
+
+    // =========================
+    // DELETE FORM
+    // =========================
+    public async Task<bool> DeleteFormAsync(Guid id)
+    {
+        var form = await _context.FeedbackForms
+            .FirstOrDefaultAsync(f => f.Id == id);
+
+        if (form == null) return false;
+
+        var questions = await _context.Questions
+            .Where(q => q.FeedbackFormId == id)
+            .ToListAsync();
+
+        var questionIds = questions.Select(q => q.Id).ToList();
+
+        var options = await _context.Options
+            .Where(o => questionIds.Contains(o.QuestionId))
+            .ToListAsync();
+
+        _context.Options.RemoveRange(options);
+        _context.Questions.RemoveRange(questions);
+        _context.FeedbackForms.Remove(form);
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+    // =========================
+    // UPDATE FORM (FIXED)
     // =========================
     public async Task<FormResponseDTO?> UpdateFormAsync(Guid id, UpdateFormDTO dto)
     {
         var form = await _context.FeedbackForms
             .FirstOrDefaultAsync(f => f.Id == id);
 
-        if (form == null)
-            return null;
+        if (form == null) return null;
 
         form.Title = dto.Title;
         form.Description = dto.Description;
 
+        // -----------------------------
+        // SAFE DELETE OLD DATA
+        // -----------------------------
+        var questions = await _context.Questions
+            .Where(q => q.FeedbackFormId == id)
+            .ToListAsync();
+
+        var questionIds = questions.Select(q => q.Id).ToList();
+
+        var options = await _context.Options
+            .Where(o => questionIds.Contains(o.QuestionId))
+            .ToListAsync();
+
+        _context.Options.RemoveRange(options);
+        _context.Questions.RemoveRange(questions);
+
         await _context.SaveChangesAsync();
 
-        return MapToResponse(form);
+        // -----------------------------
+        // ADD NEW QUESTIONS
+        // -----------------------------
+        var newQuestions = dto.Questions?.Select(q => new Question
+        {
+            Id = Guid.NewGuid(),
+            Text = q.Text,
+            Type = q.Type,
+            FeedbackFormId = id,
+            Options = q.Options?.Select(o => new Option
+            {
+                Id = Guid.NewGuid(),
+                Value = o
+            }).ToList()
+        }).ToList();
+
+        if (newQuestions != null)
+        {
+            _context.Questions.AddRange(newQuestions);
+        }
+
+        await _context.SaveChangesAsync();
+
+        // reload
+        var updated = await _context.FeedbackForms
+            .Include(f => f.Questions)
+            .ThenInclude(q => q.Options)
+            .FirstOrDefaultAsync(f => f.Id == id);
+
+        return MapToResponse(updated);
     }
+
+    // =========================
+// GET AVAILABLE FORMS (USER)
+// =========================
+public async Task<List<FormResponseDTO>> GetAvailableFormsAsync(string email)
+{
+    var filledFormIds = await _context.Feedbacks
+        .Where(f => f.Email == email)
+        .Select(f => f.FormId)
+        .ToListAsync();
+
+    var forms = await _context.FeedbackForms
+        .Include(f => f.Questions)
+        .ThenInclude(q => q.Options)
+        .Where(f => !filledFormIds.Contains(f.Id))
+        .ToListAsync();
+
+    return forms.Select(MapToResponse).ToList();
+}
+
+// =========================
+// GET FILLED FORMS (USER)
+// =========================
+public async Task<List<FormResponseDTO>> GetFilledFormsAsync(string email)
+{
+    var filledFormIds = await _context.Feedbacks
+        .Where(f => f.Email == email)
+        .Select(f => f.FormId)
+        .ToListAsync();
+
+    var forms = await _context.FeedbackForms
+        .Include(f => f.Questions)
+        .ThenInclude(q => q.Options)
+        .Where(f => filledFormIds.Contains(f.Id))
+        .ToListAsync();
+
+    return forms.Select(MapToResponse).ToList();
+}
+
+// =========================
+// GET USER DASHBOARD STATS
+// =========================
+public async Task<object> GetUserStatsAsync(string email)
+{
+    var filled = await _context.Feedbacks
+        .Where(f => f.Email == email)
+        .Select(f => f.FormId)
+        .Distinct()
+        .ToListAsync();
+
+    var available = await _context.FeedbackForms
+        .CountAsync(f => !filled.Contains(f.Id));
+
+    return new
+    {
+        availableForms = available,
+        submittedForms = filled.Count
+    };
+}
+    
 
     // =========================
     // MAPPER
@@ -192,12 +244,5 @@ public class FormService : IFormService
                 Options = q.Options?.Select(o => o.Value).ToList()
             }).ToList()
         };
-    }
-
-    private QuestionType ParseQuestionType(object type)
-    {
-        return Enum.TryParse<QuestionType>(type.ToString(), true, out var result)
-            ? result
-            : QuestionType.Text;
     }
 }

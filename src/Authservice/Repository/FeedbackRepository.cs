@@ -38,10 +38,20 @@ namespace Authservice.Repository
         }
 
         public async Task UpdateFeedbackAsync(Feedback feedback)
-        {
-            _context.Feedbacks.Update(feedback);
-            await _context.SaveChangesAsync();
-        }
+{
+    var existing = await _context.Feedbacks
+        .FirstOrDefaultAsync(f => f.Id == feedback.Id);
+
+    if (existing == null)
+        return;
+
+    existing.Name = feedback.Name;
+    existing.Email = feedback.Email;
+    existing.Designation = feedback.Designation;
+    existing.FinalNote = feedback.FinalNote;
+
+    await _context.SaveChangesAsync();
+}
 
         public async Task DeleteFeedbackAsync(Guid id)
         {

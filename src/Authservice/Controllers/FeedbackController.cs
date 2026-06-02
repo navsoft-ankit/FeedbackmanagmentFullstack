@@ -404,4 +404,23 @@ GetAvailableForms()
                 "Feedback deleted successfully"
         });
     }
+    [Authorize(Roles = "Admin")]
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAllFeedbacks()
+    {
+        var feedbacks = await _context.Feedbacks
+            .Include(f => f.Form)
+            .Select(f => new
+            {
+                id = f.Id,
+                formId = f.FormId,
+                name = f.Name,
+                email = f.Email,
+                designation = f.Designation,
+                formTitle = f.Form.Title
+            })
+            .ToListAsync();
+
+        return Ok(feedbacks);
+    }
 }

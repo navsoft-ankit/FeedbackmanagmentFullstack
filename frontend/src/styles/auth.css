@@ -246,7 +246,7 @@ body {
 }
 
 .input-box:focus-within {
-  border: 2px solid #6366f1;
+  /* border: 2px solid #6366f1; */
   background: #111827;
 
   transform: scale(1.01);

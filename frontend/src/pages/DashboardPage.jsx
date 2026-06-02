@@ -10,6 +10,7 @@ import {
   Bell,
   BarChart3,
   ChevronRight,
+  MessageSquare,
 } from "lucide-react";
 import "../styles/dashboard.css";
 
@@ -28,20 +29,30 @@ export default function DashboardPage() {
   });
 
   const [activeUsers, setActiveUsers] = useState(0);
+  const [recentResponses, setRecentResponses] = useState([]);
 
-  // ✔ ADDED (profile state)
   const [showProfile, setShowProfile] = useState(false);
-
-  // ✔ ADDED (theme support fix)
   const [theme, setTheme] = useState("light");
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   useEffect(() => {
     if (email) {
       fetchStats();
+      if (role === "admin") {
+        fetchRecentResponses();
+      }
     }
   }, [email]);
 
@@ -60,10 +71,7 @@ export default function DashboardPage() {
 
         setActiveUsers(usersRes.data.activeUsers || 0);
       } else {
-        const statsRes = await api.get(
-          `/forms/user-stats?email=${email}`
-        );
-
+        const statsRes = await api.get(`/forms/user-stats?email=${email}`);
         setStats({
           totalForms: statsRes.data.availableForms,
           totalFeedbacks: statsRes.data.submittedForms,
@@ -74,13 +82,13 @@ export default function DashboardPage() {
     }
   };
 
-  const toggleProfile = () => {
-    setShowProfile(!showProfile);
-  };
-
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
+  const fetchRecentResponses = async () => {
+    try {
+      const res = await api.get("/feedback/all");
+      setRecentResponses(res.data.slice(0, 5));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -95,34 +103,27 @@ export default function DashboardPage() {
 
           {role === "admin" && (
             <>
-              <div
-                className="menu-item active"
-                onClick={() => navigate("/dashboard")}
-              >
+              <div className="menu-item active" onClick={() => navigate("/dashboard")}>
                 <LayoutDashboard size={18} />
                 <span>Dashboard</span>
               </div>
 
-              <div
-                className="menu-item"
-                onClick={() => navigate("/create-form")}
-              >
+              <div className="menu-item" onClick={() => navigate("/create-form")}>
                 <FilePlus size={18} />
                 <span>Create Form</span>
               </div>
 
-              <div
-                className="menu-item"
-                onClick={() => navigate("/forms")}
-              >
+              <div className="menu-item" onClick={() => navigate("/forms")}>
                 <FileText size={18} />
                 <span>Manage Forms</span>
               </div>
 
-              <div
-                className="menu-item"
-                onClick={() => navigate("/export")}
-              >
+              <div className="menu-item" onClick={() => navigate("/responses")}>
+                <MessageSquare size={18} />
+                <span>Responses</span>
+              </div>
+
+              <div className="menu-item" onClick={() => navigate("/export")}>
                 <Download size={18} />
                 <span>Export CSV</span>
               </div>
@@ -131,18 +132,12 @@ export default function DashboardPage() {
 
           {role === "user" && (
             <>
-              <div
-                className="menu-item active"
-                onClick={() => navigate("/forms")}
-              >
+              <div className="menu-item active" onClick={() => navigate("/forms")}>
                 <FileText size={18} />
                 <span>Fill Forms</span>
               </div>
 
-              <div
-                className="menu-item"
-                onClick={() => navigate("/submitted-forms")}
-              >
+              <div className="menu-item" onClick={() => navigate("/submitted-forms")}>
                 <BarChart3 size={18} />
                 <span>Submitted Forms</span>
               </div>
@@ -150,7 +145,6 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* ✔ ADDED THEME BUTTON */}
         <button onClick={toggleTheme}>
           {theme === "light" ? "🌙 Dark" : "☀️ Light"}
         </button>
@@ -166,12 +160,7 @@ export default function DashboardPage() {
         {/* TOPBAR */}
         <div className="topbar">
           <div>
-            <h1>
-              {role === "admin"
-                ? "Admin Dashboard"
-                : "User Dashboard"}
-            </h1>
-
+            <h1>{role === "admin" ? "Admin Dashboard" : "User Dashboard"}</h1>
             <p>Welcome back, {email}</p>
           </div>
 
@@ -180,11 +169,7 @@ export default function DashboardPage() {
               <Bell size={18} />
             </div>
 
-            <div
-              className="profile-box"
-              onClick={toggleProfile}
-              style={{ cursor: "pointer" }}
-            >
+            <div className="profile-box" onClick={toggleProfile} style={{ cursor: "pointer" }}>
               {email?.charAt(0).toUpperCase()}
             </div>
           </div>
@@ -194,21 +179,14 @@ export default function DashboardPage() {
         {showProfile && (
           <div className="profile-popup">
             <div className="profile-card">
-              <h3>
-                {role === "admin"
-                  ? "Admin Profile"
-                  : "User Profile"}
-              </h3>
-
+              <h3>{role === "admin" ? "Admin Profile" : "User Profile"}</h3>
               <p>
                 <b>Name:</b> {email?.split("@")[0]}
               </p>
               <p>
-                <b>Email:</b> {email}</p>
-
-              <button onClick={toggleProfile}>
-                Close
-              </button>
+                <b>Email:</b> {email}
+              </p>
+              <button onClick={toggleProfile}>Close</button>
             </div>
           </div>
         )}
@@ -236,85 +214,66 @@ export default function DashboardPage() {
             <div className="hero-card">
               <div>
                 <h2>Manage Feedback Efficiently</h2>
-
-                <p>
-                  Create forms, monitor responses, export
-                  reports and manage everything from one
-                  powerful dashboard.
-                </p>
-
-                <button
-                  onClick={() =>
-                    navigate("/create-form")
-                  }
-                >
-                  Create New Form
-                </button>
+                <p>Create forms, monitor responses, export reports and manage everything from one powerful dashboard.</p>
+                <button onClick={() => navigate("/create-form")}>Create New Form</button>
               </div>
             </div>
 
             <div className="details-section">
+              {/* Recent Activities */}
               <div className="details-card">
                 <h3>Recent Activities</h3>
-
-                <div className="activity-item">
-                  New feedback submitted
-                </div>
-
-                <div className="activity-item">
-                  New form created
-                </div>
-
-                <div className="activity-item">
-                  CSV exported successfully
-                </div>
+                <div className="activity-item">New feedback submitted</div>
+                <div className="activity-item">New form created</div>
+                <div className="activity-item">Check User Response</div>
+                <div className="activity-item">CSV exported successfully</div>
               </div>
 
+              {/* Quick Actions */}
               <div className="details-card">
                 <h3>Quick Actions</h3>
-
-                <button
-                  className="action-btn"
-                  onClick={() =>
-                    navigate("/create-form")
-                  }
-                >
-                  <FilePlus size={15} />
-                  Create Form
-                  <ChevronRight
-                    style={{ marginLeft: "auto" }}
-                    size={14}
-                  />
+                <button className="action-btn" onClick={() => navigate("/create-form")}>
+                  <FilePlus size={15} /> Create Form
+                  <ChevronRight style={{ marginLeft: "auto" }} size={14} />
                 </button>
 
-                <button
-                  className="action-btn"
-                  onClick={() =>
-                    navigate("/forms")
-                  }
-                >
-                  <FileText size={15} />
-                  Manage Forms
-                  <ChevronRight
-                    style={{ marginLeft: "auto" }}
-                    size={14}
-                  />
+                <button className="action-btn" onClick={() => navigate("/forms")}>
+                  <FileText size={15} /> Manage Forms
+                  <ChevronRight style={{ marginLeft: "auto" }} size={14} />
                 </button>
 
-                <button
-                  className="action-btn"
-                  onClick={() =>
-                    navigate("/export")
-                  }
-                >
-                  <Download size={15} />
-                  Export CSV
-                  <ChevronRight
-                    style={{ marginLeft: "auto" }}
-                    size={14}
-                  />
+                <button className="action-btn" onClick={() => navigate("/responses")}>
+                  <MessageSquare size={15} /> Responses
+                  <ChevronRight style={{ marginLeft: "auto" }} size={14} />
+                </button>
+
+                <button className="action-btn" onClick={() => navigate("/export")}>
+                  <Download size={15} /> Export CSV
+                  <ChevronRight style={{ marginLeft: "auto" }} size={14} />
                 </button>
               </div>
+            </div>
+
+            {/* Recent Responses */}
+            <div className="details-card" style={{ marginTop: 20 }}>
+              <h3>Recent Responses</h3>
+              {recentResponses.length === 0 ? (
+                <p>No responses found</p>
+              ) : (
+                recentResponses.map((r) => (
+                  <div
+                    key={r.id}
+                    className="activity-item"
+                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                  >
+                    <div>
+                      <strong>{r.name}</strong>
+                      <p>{r.formTitle}</p>
+                    </div>
+                    <button onClick={() => navigate(`/admin-feedbacks/${r.formId}`)}>View</button>
+                  </div>
+                ))
+              )}
             </div>
           </>
         )}
@@ -331,9 +290,7 @@ export default function DashboardPage() {
                   quickly using the smart system.
                 </p>
 
-                <button
-                  onClick={() => navigate("/forms")}
-                >
+                <button onClick={() => navigate("/forms")}>
                   Fill Forms
                 </button>
               </div>
