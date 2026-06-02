@@ -225,7 +225,6 @@ export default function DashboardPage() {
                 <h3>Recent Activities</h3>
                 <div className="activity-item">New feedback submitted</div>
                 <div className="activity-item">New form created</div>
-                <div className="activity-item">Check User Response</div>
                 <div className="activity-item">CSV exported successfully</div>
               </div>
 
@@ -279,36 +278,36 @@ export default function DashboardPage() {
         )}
 
         {/* USER VIEW */}
-        {role === "user" && (
-          <>
-            <div className="hero-card">
-              <div>
-                <h2>Welcome User</h2>
+{role === "user" && (
+  <>
+    <div className="hero-card">
+      <div>
+        <h2>Welcome User</h2>
 
-                <p>
-                  Fill feedback forms and submit responses
-                  quickly using the smart system.
-                </p>
+        <p>
+          Fill feedback forms and submit responses
+          quickly using the smart system.
+        </p>
 
-                <button onClick={() => navigate("/forms")}>
-                  Fill Forms
-                </button>
-              </div>
-            </div>
+        <button onClick={() => navigate("/forms")}>
+          Fill Forms
+        </button>
+      </div>
+    </div>
 
-            <div className="cards">
-              <div className="card">
-                <h2>{stats.totalForms}</h2>
-                <p>Available Forms</p>
-              </div>
+    <div className="cards">
+      <div className="card">
+        <h2>{stats.totalForms}</h2>
+        <p>Available Forms</p>
+      </div>
 
-              <div className="card">
-                <h2>{stats.totalFeedbacks}</h2>
-                <p>Submitted Forms</p>
-              </div>
-            </div>
-          </>
-        )}
+      <div className="card">
+        <h2>{stats.totalFeedbacks}</h2>
+        <p>Submitted Forms</p>
+      </div>
+    </div>
+  </>
+)}
       </div>
     </div>
   );

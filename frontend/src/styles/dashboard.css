@@ -1,7 +1,18 @@
+/* ========================= */
+/* GLOBAL */
+/* ========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  background: #8282dc;
+  background: linear-gradient(135deg, #0d1b3d, #1a1040);
+  font-family: Arial, sans-serif;
 }
 
 /* ========================= */
@@ -17,28 +28,23 @@
   justify-content: space-between;
   position: fixed;
   height: 100vh;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 4px 0 20px rgba(0,0,0,0.25);
 }
-
-/* LOGO */
 
 .logo {
   padding: 30px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 
 .logo h1 {
   font-size: 28px;
-  font-weight: 700;
-  color: white;
 }
 
 .logo p {
   margin-top: 8px;
-  color: rgba(255, 255, 255, 0.8);
   font-size: 12px;
-  letter-spacing: 1px;
+  color: rgba(255,255,255,0.8);
 }
 
 /* ========================= */
@@ -57,104 +63,59 @@
   padding: 14px 18px;
   border-radius: 14px;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.85);
   transition: 0.3s;
-  font-size: 15px;
-  font-weight: 500;
+  color: rgba(255,255,255,0.85);
 }
 
 .menu-item:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+  background: rgba(255,255,255,0.15);
   transform: translateX(4px);
 }
 
 .menu-item.active {
   background: linear-gradient(90deg, #ed3a76, #7c3aed);
   color: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* ========================= */
-/* LOGOUT BUTTON */
+/* LOGOUT */
 /* ========================= */
 
 .logout-btn {
   margin: 20px 14px;
   padding: 14px;
-
   border: none;
   border-radius: 14px;
-
   width: calc(100% - 28px);
-
   cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-
-  font-size: 15px;
-  font-weight: 600;
-
   color: white;
-
+  font-weight: 600;
   background: linear-gradient(135deg, #1f1c6b, #7c3aed, #ed3a76);
-
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-
-  transition: all 0.3s ease;
-
-  position: relative;
-  overflow: hidden;
+  transition: 0.3s;
 }
 
 .logout-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  background: linear-gradient(135deg, #ed3a76, #7c3aed, #3f39dc);
-  box-shadow: 0 10px 25px rgba(237, 58, 118, 0.4);
+  transform: translateY(-3px);
 }
 
-.logout-btn:active {
-  transform: scale(0.97);
-}
-
-/* shine effect */
-.logout-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.25),
-    transparent
-  );
-  transition: 0.5s;
-}
-
-.logout-btn:hover::before {
-  left: 100%;
-}
-/* MAIN */
+/* ========================= */
+/* MAIN CONTENT */
+/* ========================= */
 
 .main-content {
   flex: 1;
   margin-left: 260px;
   padding: 30px;
-  background: #0b0b0f;
   min-height: 100vh;
 }
 
+/* ========================= */
 /* TOPBAR */
+/* ========================= */
 
 .topbar {
-  background: #151821;
-  border: 1px solid #362626;
+  background: rgba(21, 24, 33, 0.95);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 20px;
   padding: 28px;
   display: flex;
@@ -164,14 +125,12 @@
 }
 
 .topbar h1 {
-  font-size: 34px;
   color: white;
-  margin-bottom: 8px;
+  font-size: 34px;
 }
 
 .topbar p {
   color: #9ca3af;
-  font-size: 15px;
 }
 
 .top-icons {
@@ -185,7 +144,6 @@
   height: 45px;
   border-radius: 14px;
   background: linear-gradient(#3f2076, #630f2b);
-  border: 1px solid #2b3445;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -197,153 +155,168 @@
   width: 45px;
   height: 45px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #f00202, #8b5cf6);
-
+  background: linear-gradient(135deg, #ff004c, #8b5cf6);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   color: white;
-  font-weight: 700;
+  font-weight: bold;
 }
 
+/* ========================= */
 /* CARDS */
+/* ========================= */
 
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
   gap: 20px;
   margin-bottom: 28px;
 }
 
 .card {
-  background: #151821;
-  border: 1px solid #262a36;
+  background: linear-gradient(135deg, #3f2076, #630f2b);
   border-radius: 20px;
   padding: 30px;
+  color: white;
   transition: 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  transform: translateY(-5px);
 }
 
 .card h2 {
   font-size: 48px;
-  color: #8b5cf6;
-  margin-bottom: 12px;
+  color: #c4b5fd;
+  margin-bottom: 10px;
 }
 
 .card p {
-  color: #9ca3af;
-  font-size: 14px;
-  letter-spacing: 1px;
+  color: rgba(255,255,255,0.8);
 }
 
+/* ========================= */
 /* HERO */
+/* ========================= */
 
 .hero-card {
   background: linear-gradient(135deg, #312e81, #951d25);
-
   border-radius: 24px;
   padding: 40px;
-  margin-bottom: 28px;
   text-align: center;
+  margin-bottom: 28px;
 }
 
 .hero-card h2 {
-  font-size: 38px;
   color: white;
-  margin-bottom: 16px;
+  font-size: 38px;
+  margin-bottom: 15px;
 }
 
 .hero-card p {
   color: #ddd6fe;
   line-height: 1.7;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .hero-card button {
   border: none;
   background: white;
-  color: #ee0b0b;
+  color: #e11d48;
   padding: 14px 24px;
   border-radius: 14px;
-  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: bold;
 }
 
-.hero-card button:hover {
-  transform: translateY(-2px);
-}
-
+/* ========================= */
 /* DETAILS */
+/* ========================= */
 
 .details-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-
   gap: 20px;
 }
 
 .details-card {
-  background: linear-gradient(#3f2076, #630f2b);
-  border: 1px solid #262a36;
+  background: linear-gradient(135deg, #3f2076, #630f2b);
   border-radius: 20px;
   padding: 28px;
+  color: white;
 }
 
 .details-card h3 {
-  color: white;
   margin-bottom: 20px;
-  font-size: 18px;
 }
 
+/* ========================= */
 /* ACTIVITY */
+/* ========================= */
 
 .activity-item {
   padding: 14px 0;
-  border-bottom: 1px solid #362626;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   color: #d1d5db;
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .activity-item:last-child {
   border-bottom: none;
 }
 
-.activity-item::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #130f0f;
-}
-
+/* ========================= */
 /* ACTION BUTTON */
+/* ========================= */
 
 .action-btn {
   width: 100%;
   background: #1d2330;
-  border: 1px solid #2b3445;
   color: white;
+  border: 1px solid #2b3445;
   padding: 14px;
   border-radius: 14px;
   margin-bottom: 12px;
   cursor: pointer;
-  transition: 0.3s;
-  text-align: left;
 }
 
 .action-btn:hover {
   background: linear-gradient(#3f2076, #630f2b);
 }
 
+/* ========================= */
+/* PROFILE POPUP */
+/* ========================= */
+
+.profile-popup {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  z-index: 999;
+}
+
+.profile-card {
+  width: 220px;
+  padding: 15px;
+  border-radius: 12px;
+  background: linear-gradient(#3f2076, #630f2b);
+  color: white;
+}
+
+.profile-card button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: #111;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ========================= */
 /* MOBILE */
+/* ========================= */
 
 @media (max-width: 768px) {
   .sidebar {
@@ -371,58 +344,4 @@
   .hero-card h2 {
     font-size: 28px;
   }
-}
-.profile-popup {
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  z-index: 999;
-}
-
-.profile-card {
-  background: linear-gradient(#3f2076, #630f2b);
-  padding: 15px;
-  border-radius: 10px;
-  width: 220px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-}
-
-.profile-card h3 {
-  margin-bottom: 10px;
-}
-
-.profile-card p {
-  margin: 5px 0;
-}
-
-.profile-card button {
-  margin-top: 10px;
-  width: 100%;
-  padding: 6px;
-  cursor: pointer;
-  border: none;
-  background: #111;
-  color: white;
-  border-radius: 5px;
-}
-.light {
-  background: #f5f6fa;
-  color: #111;
-}
-
-.dark {
-  background: #121212;
-  color: #fff;
-}
-
-.dark .sidebar {
-  background: #1e1e1e;
-}
-
-.dark .card {
-  background: #2a2a2a;
-}
-
-.dark .topbar {
-  background: #1a1a1a;
 }
