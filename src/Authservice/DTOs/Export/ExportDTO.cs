@@ -6,5 +6,6 @@ namespace Authservice.DTOs.Export
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public ExportFormat Format { get; set; }
+          public string Email { get; set; }
     }
 }

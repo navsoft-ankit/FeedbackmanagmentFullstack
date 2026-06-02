@@ -167,64 +167,64 @@ public class FormService : IFormService
     }
 
     // =========================
-// GET AVAILABLE FORMS (USER)
-// =========================
-public async Task<List<FormResponseDTO>> GetAvailableFormsAsync(string email)
-{
-    var filledFormIds = await _context.Feedbacks
-        .Where(f => f.Email == email)
-        .Select(f => f.FormId)
-        .ToListAsync();
-
-    var forms = await _context.FeedbackForms
-        .Include(f => f.Questions)
-        .ThenInclude(q => q.Options)
-        .Where(f => !filledFormIds.Contains(f.Id))
-        .ToListAsync();
-
-    return forms.Select(MapToResponse).ToList();
-}
-
-// =========================
-// GET FILLED FORMS (USER)
-// =========================
-public async Task<List<FormResponseDTO>> GetFilledFormsAsync(string email)
-{
-    var filledFormIds = await _context.Feedbacks
-        .Where(f => f.Email == email)
-        .Select(f => f.FormId)
-        .ToListAsync();
-
-    var forms = await _context.FeedbackForms
-        .Include(f => f.Questions)
-        .ThenInclude(q => q.Options)
-        .Where(f => filledFormIds.Contains(f.Id))
-        .ToListAsync();
-
-    return forms.Select(MapToResponse).ToList();
-}
-
-// =========================
-// GET USER DASHBOARD STATS
-// =========================
-public async Task<object> GetUserStatsAsync(string email)
-{
-    var filled = await _context.Feedbacks
-        .Where(f => f.Email == email)
-        .Select(f => f.FormId)
-        .Distinct()
-        .ToListAsync();
-
-    var available = await _context.FeedbackForms
-        .CountAsync(f => !filled.Contains(f.Id));
-
-    return new
+    // GET AVAILABLE FORMS (USER)
+    // =========================
+    public async Task<List<FormResponseDTO>> GetAvailableFormsAsync(string email)
     {
-        availableForms = available,
-        submittedForms = filled.Count
-    };
-}
-    
+        var filledFormIds = await _context.Feedbacks
+            .Where(f => f.Email == email)
+            .Select(f => f.FormId)
+            .ToListAsync();
+
+        var forms = await _context.FeedbackForms
+            .Include(f => f.Questions)
+            .ThenInclude(q => q.Options)
+            .Where(f => !filledFormIds.Contains(f.Id))
+            .ToListAsync();
+
+        return forms.Select(MapToResponse).ToList();
+    }
+
+    // =========================
+    // GET FILLED FORMS (USER)
+    // =========================
+    public async Task<List<FormResponseDTO>> GetFilledFormsAsync(string email)
+    {
+        var filledFormIds = await _context.Feedbacks
+            .Where(f => f.Email == email)
+            .Select(f => f.FormId)
+            .ToListAsync();
+
+        var forms = await _context.FeedbackForms
+            .Include(f => f.Questions)
+            .ThenInclude(q => q.Options)
+            .Where(f => filledFormIds.Contains(f.Id))
+            .ToListAsync();
+
+        return forms.Select(MapToResponse).ToList();
+    }
+
+    // =========================
+    // GET USER DASHBOARD STATS
+    // =========================
+    public async Task<object> GetUserStatsAsync(string email)
+    {
+        var filled = await _context.Feedbacks
+            .Where(f => f.Email == email)
+            .Select(f => f.FormId)
+            .Distinct()
+            .ToListAsync();
+
+        var available = await _context.FeedbackForms
+            .CountAsync(f => !filled.Contains(f.Id));
+
+        return new
+        {
+            availableForms = available,
+            submittedForms = filled.Count
+        };
+    }
+
 
     // =========================
     // MAPPER

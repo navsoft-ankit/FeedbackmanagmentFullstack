@@ -38,20 +38,10 @@ namespace Authservice.Repository
         }
 
         public async Task UpdateFeedbackAsync(Feedback feedback)
-{
-    var existing = await _context.Feedbacks
-        .FirstOrDefaultAsync(f => f.Id == feedback.Id);
-
-    if (existing == null)
-        return;
-
-    existing.Name = feedback.Name;
-    existing.Email = feedback.Email;
-    existing.Designation = feedback.Designation;
-    existing.FinalNote = feedback.FinalNote;
-
-    await _context.SaveChangesAsync();
-}
+        {
+            _context.Feedbacks.Update(feedback);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task DeleteFeedbackAsync(Guid id)
         {
@@ -65,32 +55,56 @@ namespace Authservice.Repository
         }
 
         // =========================
-        // EXPORT ANSWERS
+        // EXPORT: DATE RANGE ONLY
         // =========================
-
         public async Task<List<Answer>> GetAnswersByDateAsync(
-    DateTime fromDate,
-    DateTime toDate
-)
+            DateTime fromDate,
+            DateTime toDate
+        )
         {
-            // include full end day
-
             toDate = toDate.Date
                 .AddDays(1)
                 .AddTicks(-1);
 
             return await _context.Answers
-
                 .Include(a => a.Question)
-
                 .Include(a => a.Feedback)
-
                 .Where(a =>
                     a.CreatedAt >= fromDate.Date &&
                     a.CreatedAt <= toDate
                 )
-
                 .ToListAsync();
+        }
+
+        // =========================
+        // NEW: DATE + EMAIL FILTER
+        // =========================
+        public async Task<List<Answer>> GetAnswersByDateAndEmailAsync(
+            DateTime fromDate,
+            DateTime toDate,
+            string email
+        )
+        {
+            toDate = toDate.Date
+                .AddDays(1)
+                .AddTicks(-1);
+
+            var query = _context.Answers
+                .Include(a => a.Question)
+                .Include(a => a.Feedback)
+                .Where(a =>
+                    a.CreatedAt >= fromDate.Date &&
+                    a.CreatedAt <= toDate
+                );
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(a =>
+                    a.Feedback.Email == email
+                );
+            }
+
+            return await query.ToListAsync();
         }
     }
 }
