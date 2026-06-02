@@ -16,6 +16,7 @@ import AdminFormViewPage from "../pages/AdminFormViewPage";
 // FEEDBACK
 import FeedbackPage from "../pages/FeedbackPage";
 import ResponsesPage from "../pages/ResponsesPage";
+import FormResponsesPage from "../pages/FormResponsesPage";
 
 // ADMIN
 import AdminFeedbackDetailsPage from "../pages/AdminFeedbackDetailsPage";
@@ -50,6 +51,10 @@ export default function AppRoutes({ theme, toggleTheme }) {
       <Route
         path="/admin-feedbacks/:formId"
         element={<AdminFeedbackDetailsPage />}
+      />
+      <Route
+        path="/admin-feedbacks/:formId/responses"
+        element={<FormResponsesPage />}
       />
 
       {/* SUBMITTED FORMS & EXPORT */}
