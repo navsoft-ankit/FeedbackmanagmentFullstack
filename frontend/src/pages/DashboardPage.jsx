@@ -14,8 +14,7 @@ import {
 } from "lucide-react";
 import "../styles/dashboard.css";
 
-export default function DashboardPage() 
-{
+export default function DashboardPage() {
   const navigate = useNavigate();
 
   const role = (localStorage.getItem("role") || "")
@@ -34,6 +33,8 @@ export default function DashboardPage()
 
   const [showProfile, setShowProfile] = useState(false);
   const [theme, setTheme] = useState("light");
+  const [searchTerm, setSearchTerm] = useState("");
+const [forms, setForms] = useState([]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -51,11 +52,25 @@ export default function DashboardPage()
   useEffect(() => {
     if (email) {
       fetchStats();
+         fetchForms();
       if (role === "admin") {
         fetchRecentResponses();
+};
       }
-    }
-  }, [email]);
+    }, [email]);
+
+const fetchForms = async () => {
+  try {
+   const res = await api.get("/forms/all-public");
+
+    console.log("Forms API Response:", res);
+    console.log("Forms API Data:", res.data);
+
+    setForms(res.data);
+  } catch (err) {
+    console.error("Fetch forms error:", err);
+  }
+};
 
   const fetchStats = async () => {
     try {
@@ -91,318 +106,344 @@ export default function DashboardPage()
       console.log(err);
     }
   };
-return (
-  <div className="dashboard-container">
-    {/* Sidebar */}
-    <aside className="sidebar">
-      <div>
-        <div className="logo">
-          <h2>N</h2>
+  const filteredForms = forms.filter((form) =>
+  (form.title || "")
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase())
+);
+console.log("Forms:", forms);
+
+  return (
+    <div className="dashboard-container">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <div>
+          <div className="logo">
+            <h2>N</h2>
+          </div>
+
+          {role === "admin" ? (
+            <>
+              <div
+                className="nav-item active"
+                onClick={() => navigate("/dashboard")}
+              >
+                <LayoutDashboard size={20} />
+              </div>
+
+              <div
+                className="nav-item"
+                onClick={() => navigate("/create-form")}
+              >
+                <FilePlus size={20} />
+              </div>
+
+              <div
+                className="nav-item"
+                onClick={() => navigate("/forms")}
+              >
+                <FileText size={20} />
+              </div>
+
+              <div
+                className="nav-item"
+                onClick={() => navigate("/responses")}
+              >
+                <MessageSquare size={20} />
+              </div>
+
+              <div
+                className="nav-item"
+                onClick={() => navigate("/export")}
+              >
+                <Download size={20} />
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                className="nav-item active"
+                onClick={() => navigate("/forms")}
+              >
+                <FileText size={20} />
+              </div>
+
+              <div
+                className="nav-item"
+                onClick={() => navigate("/submitted-forms")}
+              >
+                <BarChart3 size={20} />
+              </div>
+            </>
+          )}
         </div>
 
-        {role === "admin" ? (
-          <>
-            <div
-              className="nav-item active"
-              onClick={() => navigate("/dashboard")}
-            >
-              <LayoutDashboard size={20} />
-            </div>
+        <button className="logout-btn" onClick={logout}>
+          <LogOut size={18} />
+        </button>
+      </aside>
 
-            <div
-              className="nav-item"
-              onClick={() => navigate("/create-form")}
-            >
-              <FilePlus size={20} />
-            </div>
+      <div className="dashboard-layout">
+        <div className="dashboard-main">
 
-            <div
-              className="nav-item"
-              onClick={() => navigate("/forms")}
-            >
-              <FileText size={20} />
-            </div>
-
-            <div
-              className="nav-item"
-              onClick={() => navigate("/responses")}
-            >
-              <MessageSquare size={20} />
-            </div>
-
-            <div
-              className="nav-item"
-              onClick={() => navigate("/export")}
-            >
-              <Download size={20} />
-            </div>
-          </>
-        ) : (
-          <>
-            <div
-              className="nav-item active"
-              onClick={() => navigate("/forms")}
-            >
-              <FileText size={20} />
-            </div>
-
-            <div
-              className="nav-item"
-              onClick={() => navigate("/submitted-forms")}
-            >
-              <BarChart3 size={20} />
-            </div>
-          </>
-        )}
-      </div>
-
-      <button className="logout-btn" onClick={logout}>
-        <LogOut size={18} />
-      </button>
-    </aside>
-
-    <div className="dashboard-layout">
-      <div className="dashboard-main">
-
-{/* TOPBAR */}
-<div className="topbar">
-  <div>
-    <h1>
-      {role === "admin"
-        ? "Admin Dashboard"
-        : "User Dashboard"}
-    </h1>
-
-    <p>{email}</p>
-  </div>
-
-  <div className="top-right">
-
-    {/* Search Box */}
-    <div
-      className="search-box"
-      onClick={toggleProfile}
-      style={{ cursor: "pointer" }}
-    >
-      <input
-        type="text"
-        placeholder="Search..."
-        readOnly
-      />
-    </div>
-
-    <Bell size={18} />
-
-    {/* Avatar */}
-    <div className="profile-wrapper">
-      <div
-        className="profile-avatar"
-        onClick={toggleProfile}
-        style={{ cursor: "pointer" }}
-      >
-        {email?.charAt(0).toUpperCase()}
-      </div>
-
-      {showProfile && (
-        <div className="profile-dropdown">
-          <div className="profile-dropdown-header">
-            <div className="avatar-big">
-              {email?.charAt(0).toUpperCase()}
-            </div>
-
+          {/* TOPBAR */}
+          <div className="topbar">
             <div>
-              <h4>{email?.split("@")[0]}</h4>
+              <h1>
+                {role === "admin"
+                  ? "Admin Dashboard"
+                  : "User Dashboard"}
+              </h1>
+
               <p>{email}</p>
             </div>
-          </div>
 
-          <div className="profile-role">
-            {role === "admin"
-              ? "Administrator"
-              : "User"}
-          </div>
+            <div className="top-right">
 
-          <button
-            className="profile-logout"
-            onClick={logout}
+              {/* Search Box */}
+<div className="search-container">
+  <div className="search-box">
+    <input
+      type="text"
+      placeholder="Search forms..."
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+  </div>
+
+  {searchTerm && (
+    <div className="search-results">
+      {filteredForms.length > 0 ? (
+        filteredForms.slice(0, 5).map((form) => (
+          <div
+            key={form.id}
+            className="search-item"
+            onClick={() => navigate("/forms")}
           >
-            Logout
-          </button>
+            {form.title}
+          </div>
+        ))
+      ) : (
+        <div className="search-item">
+          No forms found
         </div>
       )}
     </div>
-  </div>
-</div>
-
-        {/* GLASS DASHBOARD */}
-        <div className="glass-dashboard">
-
-          {/* LEFT */}
-          <div className="glass-left">
-
-            <div className="glass-card activity-card">
-              <h3>Feedback Activity</h3>
-
-              <div className="activity-bars">
-                <div className="bar" style={{height:"40%"}} />
-                <div className="bar" style={{height:"75%"}} />
-                <div className="bar" style={{height:"55%"}} />
-                <div className="bar" style={{height:"90%"}} />
-                <div className="bar" style={{height:"65%"}} />
-                <div className="bar" style={{height:"80%"}} />
-              </div>
-            </div>
-
-<div className="glass-card challenge-card">
-  <h3>
-    {role === "admin"
-      ? "Quick Actions"
-      : "My Actions"}
-  </h3>
-
-  {role === "admin" ? (
-    <>
-      <div className="challenge-item">
-        <span>Create Form</span>
-        <button onClick={() => navigate("/create-form")}>
-          Open
-        </button>
-      </div>
-
-      <div className="challenge-item">
-        <span>Manage Forms</span>
-        <button onClick={() => navigate("/forms")}>
-          Open
-        </button>
-      </div>
-
-      <div className="challenge-item">
-        <span>Responses</span>
-        <button onClick={() => navigate("/responses")}>
-          Open
-        </button>
-      </div>
-
-      <div className="challenge-item">
-        <span>Export CSV</span>
-        <button onClick={() => navigate("/export")}>
-          Open
-        </button>
-      </div>
-    </>
-  ) : (
-    <>
-      <div className="challenge-item">
-        <span>Fill Forms</span>
-        <button onClick={() => navigate("/forms")}>
-          Fill
-        </button>
-      </div>
-
-      <div className="challenge-item">
-        <span>Submitted Forms</span>
-        <button
-          onClick={() =>
-            navigate("/submitted-forms")
-          }
-        >
-          View
-        </button>
-      </div>
-    </>
   )}
 </div>
-          </div>
 
-          {/* CENTER */}
-          <div className="glass-center">
+              <Bell size={18} />
 
-            <div className="small-glass-card">
-              <h4>
-                {role === "admin"
-                  ? "Total Forms"
-                  : "Available Forms"}
-              </h4>
+              {/* Avatar */}
+              <div className="profile-wrapper">
+                <div
+                  className="profile-avatar"
+                  onClick={toggleProfile}
+                  style={{ cursor: "pointer" }}
+                >
+                  {email?.charAt(0).toUpperCase()}
+                </div>
 
-              <h2>{stats.totalForms}</h2>
-            </div>
-
-            <div className="small-glass-card">
-              <h4>
-                {role === "admin"
-                  ? "Total Feedbacks"
-                  : "Submitted Forms"}
-              </h4>
-
-              <h2>{stats.totalFeedbacks}</h2>
-            </div>
-
-            {role === "admin" && (
-              <div className="small-glass-card">
-                <h4>Active Users</h4>
-                <h2>{activeUsers}</h2>
-              </div>
-            )}
-
-          </div>
-
-          {/* RIGHT */}
-          <div className="glass-right">
-
-            <div className="glass-card profile-card">
-              <div className="avatar-big">
-                {email?.charAt(0).toUpperCase()}
-              </div>
-
-              <h3>{email?.split("@")[0]}</h3>
-
-              <p>
-                {role === "admin"
-                  ? "Administrator"
-                  : "User"}
-              </p>
-            </div>
-
-            <div className="glass-card progress-card">
-              <h3>Overview</h3>
-
-              <div className="circle">
-                <span>75%</span>
-              </div>
-
-              <p>Completion Rate</p>
-            </div>
-
-            {role === "admin" && (
-              <div className="glass-card calendar-card">
-                <h3>Recent Responses</h3>
-
-                {recentResponses.length === 0 ? (
-                  <p>No Responses</p>
-                ) : (
-                  recentResponses
-                    .slice(0, 4)
-                    .map((r) => (
-                      <div
-                        key={r.id}
-                        className="response-row"
-                      >
-                        <strong>{r.name}</strong>
-
-                        <span>
-                          {r.formTitle}
-                        </span>
+                {showProfile && (
+                  <div className="profile-dropdown">
+                    <div className="profile-dropdown-header">
+                      <div className="avatar-big">
+                        {email?.charAt(0).toUpperCase()}
                       </div>
-                    ))
+
+                      <div>
+                        <h4>{email?.split("@")[0]}</h4>
+                        <p>{email}</p>
+                      </div>
+                    </div>
+
+                    <div className="profile-role">
+                      {role === "admin"
+                        ? "Administrator"
+                        : "User"}
+                    </div>
+
+                    <button
+                      className="profile-logout"
+                      onClick={logout}
+                    >
+                      Logout
+                    </button>
+                  </div>
                 )}
               </div>
-            )}
-
+            </div>
           </div>
 
+          {/* GLASS DASHBOARD */}
+          <div className="glass-dashboard">
+
+            {/* LEFT */}
+            <div className="glass-left">
+
+              <div className="glass-card activity-card">
+                <h3>Feedback Activity</h3>
+
+                <div className="activity-bars">
+                  <div className="bar" style={{ height: "40%" }} />
+                  <div className="bar" style={{ height: "75%" }} />
+                  <div className="bar" style={{ height: "55%" }} />
+                  <div className="bar" style={{ height: "90%" }} />
+                  <div className="bar" style={{ height: "65%" }} />
+                  <div className="bar" style={{ height: "80%" }} />
+                </div>
+              </div>
+
+              <div className="glass-card challenge-card">
+                <h3>
+                  {role === "admin"
+                    ? "Quick Actions"
+                    : "My Actions"}
+                </h3>
+
+                {role === "admin" ? (
+                  <>
+                    <div className="challenge-item">
+                      <span>Create Form</span>
+                      <button onClick={() => navigate("/create-form")}>
+                        Open
+                      </button>
+                    </div>
+
+                    <div className="challenge-item">
+                      <span>Manage Forms</span>
+                      <button onClick={() => navigate("/forms")}>
+                        Open
+                      </button>
+                    </div>
+
+                    <div className="challenge-item">
+                      <span>Responses</span>
+                      <button onClick={() => navigate("/responses")}>
+                        Open
+                      </button>
+                    </div>
+
+                    <div className="challenge-item">
+                      <span>Export CSV</span>
+                      <button onClick={() => navigate("/export")}>
+                        Open
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="challenge-item">
+                      <span>Fill Forms</span>
+                      <button onClick={() => navigate("/forms")}>
+                        Fill
+                      </button>
+                    </div>
+
+                    <div className="challenge-item">
+                      <span>Submitted Forms</span>
+                      <button
+                        onClick={() =>
+                          navigate("/submitted-forms")
+                        }
+                      >
+                        View
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* CENTER */}
+            <div className="glass-center">
+
+              <div className="small-glass-card">
+                <h4>
+                  {role === "admin"
+                    ? "Total Forms"
+                    : "Available Forms"}
+                </h4>
+
+                <h2>{stats.totalForms}</h2>
+              </div>
+
+              <div className="small-glass-card">
+                <h4>
+                  {role === "admin"
+                    ? "Total Feedbacks"
+                    : "Submitted Forms"}
+                </h4>
+
+                <h2>{stats.totalFeedbacks}</h2>
+              </div>
+
+              {role === "admin" && (
+                <div className="small-glass-card">
+                  <h4>Active Users</h4>
+                  <h2>{activeUsers}</h2>
+                </div>
+              )}
+
+            </div>
+
+            {/* RIGHT */}
+            <div className="glass-right">
+
+              <div className="glass-card profile-card">
+                <div className="avatar-big">
+                  {email?.charAt(0).toUpperCase()}
+                </div>
+
+                <h3>{email?.split("@")[0]}</h3>
+
+                <p>
+                  {role === "admin"
+                    ? "Administrator"
+                    : "User"}
+                </p>
+              </div>
+
+              <div className="glass-card progress-card">
+                <h3>Overview</h3>
+
+                <div className="circle">
+                  <span>75%</span>
+                </div>
+
+                <p>Completion Rate</p>
+              </div>
+
+              {role === "admin" && (
+                <div className="glass-card calendar-card">
+                  <h3>Recent Responses</h3>
+
+                  {recentResponses.length === 0 ? (
+                    <p>No Responses</p>
+                  ) : (
+                    recentResponses
+                      .slice(0, 4)
+                      .map((r) => (
+                        <div
+                          key={r.id}
+                          className="response-row"
+                        >
+                          <strong>{r.name}</strong>
+
+                          <span>
+                            {r.formTitle}
+                          </span>
+                        </div>
+                      ))
+                  )}
+                </div>
+              )}
+
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
-  </div>
-)
+  )
 }
