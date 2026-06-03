@@ -164,33 +164,75 @@ return (
     <div className="dashboard-layout">
       <div className="dashboard-main">
 
-        {/* TOPBAR */}
-        <div className="topbar">
-          <div>
-            <h1>
-              {role === "admin"
-                ? "Admin Dashboard"
-                : "User Dashboard"}
-            </h1>
+{/* TOPBAR */}
+<div className="topbar">
+  <div>
+    <h1>
+      {role === "admin"
+        ? "Admin Dashboard"
+        : "User Dashboard"}
+    </h1>
 
-            <p>{email}</p>
-          </div>
+    <p>{email}</p>
+  </div>
 
-          <div className="top-right">
-            <div className="search-box">
-              <input
-                type="text"
-                placeholder="Search..."
-              />
-            </div>
+  <div className="top-right">
 
-            <Bell size={18} />
+    {/* Search Box */}
+    <div
+      className="search-box"
+      onClick={toggleProfile}
+      style={{ cursor: "pointer" }}
+    >
+      <input
+        type="text"
+        placeholder="Search..."
+        readOnly
+      />
+    </div>
 
-            <div className="profile-avatar">
+    <Bell size={18} />
+
+    {/* Avatar */}
+    <div className="profile-wrapper">
+      <div
+        className="profile-avatar"
+        onClick={toggleProfile}
+        style={{ cursor: "pointer" }}
+      >
+        {email?.charAt(0).toUpperCase()}
+      </div>
+
+      {showProfile && (
+        <div className="profile-dropdown">
+          <div className="profile-dropdown-header">
+            <div className="avatar-big">
               {email?.charAt(0).toUpperCase()}
             </div>
+
+            <div>
+              <h4>{email?.split("@")[0]}</h4>
+              <p>{email}</p>
+            </div>
           </div>
+
+          <div className="profile-role">
+            {role === "admin"
+              ? "Administrator"
+              : "User"}
+          </div>
+
+          <button
+            className="profile-logout"
+            onClick={logout}
+          >
+            Logout
+          </button>
         </div>
+      )}
+    </div>
+  </div>
+</div>
 
         {/* GLASS DASHBOARD */}
         <div className="glass-dashboard">
