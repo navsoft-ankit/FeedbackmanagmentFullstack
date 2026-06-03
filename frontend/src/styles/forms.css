@@ -802,14 +802,21 @@ textarea::placeholder {
    FORMS PAGE
 ===================================== */
 
-/* =====================================
-   FORMS PAGE
-===================================== */
-
 .forms-page {
   min-height: 100vh;
   padding: 35px;
   color: white;
+
+  background:
+    linear-gradient(
+      rgba(8, 12, 20, .82),
+      rgba(8, 12, 20, .82)
+    ),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1920");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 /* HEADER */
@@ -821,30 +828,30 @@ textarea::placeholder {
 .forms-header h1 {
   font-size: 52px;
   font-weight: 800;
+  margin-bottom: 10px;
 }
 
 .forms-header p {
-  color: #d4d4d4;
-  margin-top: 8px;
+  color: rgba(255,255,255,.65);
 }
 
 /* GRID */
 
 .forms-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(auto-fill, minmax(470px, 1fr));
-
+  grid-template-columns: repeat(auto-fill,minmax(420px,1fr));
   gap: 24px;
-
-  width: 100%;
 }
 
 /* CARD */
 
 .form-card {
-  background: rgba(255,255,255,.07);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.03)
+    );
 
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
@@ -858,9 +865,9 @@ textarea::placeholder {
   min-height: 250px;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,.25);
+    0 15px 40px rgba(0,0,0,.25);
 
-  transition: .3s;
+  transition: .35s ease;
 }
 
 .form-card:hover {
@@ -870,7 +877,7 @@ textarea::placeholder {
     rgba(255,255,255,.15);
 
   box-shadow:
-    0 20px 45px rgba(0,0,0,.35);
+    0 25px 50px rgba(0,0,0,.35);
 }
 
 /* TITLE */
@@ -879,6 +886,7 @@ textarea::placeholder {
   font-size: 34px;
   font-weight: 700;
   margin-bottom: 16px;
+  color: white;
 }
 
 .form-card p {
@@ -891,53 +899,54 @@ textarea::placeholder {
 
 .action-group {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
 /* VIEW */
 
 .view-btn {
-  padding: 12px 20px;
-
+  padding: 12px 22px;
   border-radius: 14px;
-
   border: 1px solid rgba(59,130,246,.35);
 
-  background: rgba(59,130,246,.12);
+  background:
+    rgba(59,130,246,.12);
 
   color: #93c5fd;
+
+  transition: .3s;
 }
 
 /* EDIT */
 
 .edit-btn {
-  padding: 12px 20px;
-
+  padding: 12px 22px;
   border-radius: 14px;
-
   border: 1px solid rgba(168,85,247,.35);
 
-  background: rgba(168,85,247,.12);
+  background:
+    rgba(168,85,247,.12);
 
   color: #d8b4fe;
+
+  transition: .3s;
 }
 
 /* DELETE */
 
 .delete-btn {
-  padding: 12px 20px;
-
+  padding: 12px 22px;
   border-radius: 14px;
-
   border: 1px solid rgba(239,68,68,.35);
 
-  background: rgba(239,68,68,.12);
+  background:
+    rgba(239,68,68,.12);
 
   color: #fca5a5;
-}
 
-/* HOVER */
+  transition: .3s;
+}
 
 .view-btn:hover,
 .edit-btn:hover,
@@ -945,51 +954,31 @@ textarea::placeholder {
   transform: translateY(-2px);
 }
 
-/* EMPTY */
+/* EMPTY STATE */
 
 .empty-box {
   min-height: 350px;
 
   border-radius: 28px;
 
-  background: rgba(255,255,255,.07);
-
-  backdrop-filter: blur(25px);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.03)
+    );
 
   border: 1px solid rgba(255,255,255,.08);
+
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
 
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-}
 
-/* MOBILE */
-
-@media (max-width: 900px) {
-
-  .forms-page {
-    padding: 20px;
-  }
-
-  .forms-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .form-card {
-    min-height: auto;
-  }
-
-  .action-group {
-    flex-direction: column;
-  }
-
-  .view-btn,
-  .edit-btn,
-  .delete-btn {
-    width: 100%;
-    justify-content: center;
-  }
+  color: white;
 }
 /* ==========================================
    EXPORT PAGE
@@ -1224,5 +1213,574 @@ textarea::placeholder {
 
   .export-btn{
     width:100%;
+  }
+}
+/* ===================================
+   RESPONSE PAGE
+=================================== */
+
+.response-card {
+  min-height: auto;
+}
+
+.response-user {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 18px;
+  margin-bottom: 20px;
+
+  border-radius: 18px;
+
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.response-user p {
+  margin: 0;
+  color: rgba(255,255,255,.88);
+}
+
+.response-user b {
+  color: #d9f99d;
+}
+
+.answers-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.answers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.answer-card {
+  padding: 16px;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.05),
+      rgba(255,255,255,.02)
+    );
+
+  border: 1px solid rgba(255,255,255,.05);
+}
+
+.answer-question {
+  color: #bef264;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.answer-value {
+  color: rgba(255,255,255,.85);
+  line-height: 1.6;
+}
+
+.response-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.response-delete-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 18px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: rgba(239,68,68,.12);
+  border: 1px solid rgba(239,68,68,.35);
+
+  color: #fca5a5;
+
+  cursor: pointer;
+  transition: .3s;
+}
+
+.response-delete-btn:hover {
+  transform: translateY(-2px);
+
+  background: rgba(239,68,68,.18);
+
+  box-shadow:
+    0 10px 20px rgba(239,68,68,.15);
+}
+/* =========================
+   USER FEEDBACK PAGE
+========================= */
+
+.user-feedback-page {
+  min-height: 100vh;
+  padding: 50px 20px;
+  background:
+    linear-gradient(
+      rgba(5, 5, 15, 0.88),
+      rgba(5, 5, 15, 0.92)
+    ),
+    url("/office-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.feedback-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feedback-header {
+  margin-bottom: 40px;
+}
+
+.feedback-header h1 {
+  color: #fff;
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.feedback-header p {
+  color: #b8c0d4;
+  font-size: 18px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.feedback-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.feedback-section h3 {
+  color: #e8ff9d;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.feedback-input,
+.feedback-select,
+.feedback-textarea {
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(15px);
+  color: white;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.feedback-input:focus,
+.feedback-select:focus,
+.feedback-textarea:focus {
+  border-color: #8ab4ff;
+  box-shadow: 0 0 0 3px rgba(138,180,255,0.15);
+}
+
+.feedback-input::placeholder,
+.feedback-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.feedback-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* =========================
+   QUESTIONS
+========================= */
+
+.question-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.question-block label {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* =========================
+   MCQ
+========================= */
+
+.mcq-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mcq-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 15px;
+
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.05);
+
+  color: white;
+
+  cursor: pointer;
+}
+
+.mcq-option input {
+  cursor: pointer;
+}
+
+/* =========================
+   SUBMIT BUTTON
+========================= */
+
+.feedback-submit {
+  margin-top: 25px;
+  padding: 16px 35px;
+
+  border: none;
+  border-radius: 14px;
+
+ background: #bef264;
+
+  color:black;
+
+  color: rgb(11, 11, 11);
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  width: fit-content;
+}
+
+.feedback-submit:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(37,99,235,0.4);
+}
+
+.feedback-submit:active {
+  transform: scale(0.98);
+}
+
+/* =========================
+   ADMIN FEEDBACKS
+========================= */
+
+.feedback-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.feedback-card {
+  background: rgba(255,255,255,0.05);
+
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  border-radius: 20px;
+
+  padding: 24px;
+
+  color: white;
+}
+
+.user-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+
+  background: #bdeb25;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.answers-box {
+  margin-top: 20px;
+}
+
+.answer-item {
+  background: rgba(255,255,255,0.04);
+
+  border-radius: 12px;
+
+  padding: 12px;
+
+  margin-bottom: 10px;
+}
+
+.final-note {
+  margin-top: 20px;
+}
+
+.delete-feedback-btn {
+  margin-top: 20px;
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #dc2626;
+
+  color: white;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.delete-feedback-btn:hover {
+  background: #b91c1c;
+}
+.feedback-submit {
+  display: block;
+  margin: 30px auto 0;
+}
+.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 20px;
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #bdeb25;
+
+  color: rgb(5, 5, 5);
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.4);
+
+    background: #bdeb25;
+}
+/* =========================
+   SUBMITTED FORMS PAGE
+========================= */
+
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.empty-text {
+  text-align: center;
+  color: #bdbdbd;
+  font-size: 1rem;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 20px;
+
+  padding: 25px;
+  margin-bottom: 25px;
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35);
+
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(168, 255, 96, 0.4);
+
+  box-shadow:
+    0 12px 35px rgba(168, 255, 96, 0.12);
+}
+
+/* =========================
+   FORM TITLE
+========================= */
+
+.form-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+
+  color: #ffffff;
+
+  margin-bottom: 20px;
+}
+
+/* =========================
+   USER INFO
+========================= */
+
+.user-info {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 12px;
+
+  margin-bottom: 25px;
+}
+
+.user-info p {
+  margin: 0;
+
+  color: #d4d4d4;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  padding: 12px 16px;
+
+  border-radius: 12px;
+}
+
+/* =========================
+   ANSWERS
+========================= */
+
+.answers-section {
+  display: flex;
+  flex-direction: column;
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+.answer-box {
+  background: rgba(255, 255, 255, 0.05);
+
+  border-left: 4px solid #a8ff60;
+
+  border-radius: 12px;
+
+  padding: 16px;
+}
+
+.answer-box p {
+  margin: 6px 0;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+/* =========================
+   FINAL NOTE
+========================= */
+
+.final-note {
+  background: rgba(168, 255, 96, 0.08);
+
+  border: 1px solid rgba(168, 255, 96, 0.25);
+
+  border-radius: 12px;
+
+  padding: 18px;
+}
+
+.final-note p {
+  margin: 0;
+  color: #ffffff;
+  line-height: 1.7;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .form-title {
+    font-size: 1.3rem;
   }
 }

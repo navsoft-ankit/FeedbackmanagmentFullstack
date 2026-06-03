@@ -77,32 +77,69 @@ public class FormService : IFormService
     // =========================
     // DELETE FORM
     // =========================
-    public async Task<bool> DeleteFormAsync(Guid id)
-    {
-        var form = await _context.FeedbackForms
-            .FirstOrDefaultAsync(f => f.Id == id);
+   public async Task<bool> DeleteFormAsync(Guid id)
+{
+    var form = await _context.FeedbackForms
+        .FirstOrDefaultAsync(f => f.Id == id);
 
-        if (form == null) return false;
+    if (form == null)
+        return false;
 
-        var questions = await _context.Questions
-            .Where(q => q.FeedbackFormId == id)
-            .ToListAsync();
+    // -------------------------
+    // Delete Feedback Answers
+    // -------------------------
 
-        var questionIds = questions.Select(q => q.Id).ToList();
+    var feedbacks = await _context.Feedbacks
+        .Where(f => f.FormId == id)
+        .Include(f => f.Answers)
+        .ToListAsync();
 
-        var options = await _context.Options
-            .Where(o => questionIds.Contains(o.QuestionId))
-            .ToListAsync();
+    var answers = feedbacks
+        .SelectMany(f => f.Answers)
+        .ToList();
 
-        _context.Options.RemoveRange(options);
-        _context.Questions.RemoveRange(questions);
-        _context.FeedbackForms.Remove(form);
+    _context.Answers.RemoveRange(answers);
 
-        await _context.SaveChangesAsync();
+    // -------------------------
+    // Delete Feedbacks
+    // -------------------------
 
-        return true;
-    }
+    _context.Feedbacks.RemoveRange(feedbacks);
 
+    // -------------------------
+    // Delete Options
+    // -------------------------
+
+    var questions = await _context.Questions
+        .Where(q => q.FeedbackFormId == id)
+        .ToListAsync();
+
+    var questionIds = questions
+        .Select(q => q.Id)
+        .ToList();
+
+    var options = await _context.Options
+        .Where(o => questionIds.Contains(o.QuestionId))
+        .ToListAsync();
+
+    _context.Options.RemoveRange(options);
+
+    // -------------------------
+    // Delete Questions
+    // -------------------------
+
+    _context.Questions.RemoveRange(questions);
+
+    // -------------------------
+    // Delete Form
+    // -------------------------
+
+    _context.FeedbackForms.Remove(form);
+
+    await _context.SaveChangesAsync();
+
+    return true;
+}
     // =========================
     // UPDATE FORM (FIXED)
     // =========================
