@@ -138,182 +138,143 @@ export default function LoginPage() {
   };
 
   return (
+  <div className="auth-container">
+    <div className="auth-wrapper">
 
-    <div className="auth-container">
+      {/* LEFT SIDE */}
 
-      <div className={`auth-wrapper ${!isLogin ? "active" : ""}`}>
+      <div className="left-panel">
+        <div className="overlay-content">
 
-        {/* LEFT SLIDING PANEL */}
+          <h1 className="brand-title">
+            Navsoft Feedback
+          </h1>
 
-        <div className="left-panel">
+          <h2>
+            Feedback Management System
+          </h2>
 
-          <div className="overlay-content">
+          <p>
+            {isLogin
+              ? "Manage forms, responses and analytics from one powerful dashboard."
+              : "Create your account and start collecting feedback."}
+          </p>
 
-            <h1 className="brand-title">
-              Navsoft
-            </h1>
+          <button
+            className="switch-btn"
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setName("");
+              setEmail("");
+              setPassword("");
+            }}
+          >
+            {isLogin
+              ? "Create Account"
+              : "Back To Login"}
+          </button>
 
-            <h2>
-              Feedback Management System
-            </h2>
+        </div>
+      </div>
 
-            <p>
-              {isLogin
-                ? "Manage feedback smartly and securely."
-                : "Create your account and start your journey."}
-            </p>
+      {/* RIGHT SIDE */}
 
-            <button
-              className="switch-btn"
-              onClick={() => {
+      <div className="right-panel">
 
-                setIsLogin(!isLogin);
+        <form
+          className="auth-form"
+          onSubmit={
+            isLogin
+              ? handleLogin
+              : handleRegister
+          }
+        >
 
-                setName("");
-                setEmail("");
-                setPassword("");
-                setShowPassword(false);
+          <h1>
+            {isLogin
+              ? "Welcome Back"
+              : "Create Account"}
+          </h1>
 
-              }}
-            >
+          <p>
+            {isLogin
+              ? "Sign in to continue"
+              : "Register your account"}
+          </p>
 
-              {isLogin
-                ? "Create Account"
-                : "Back to Login"}
+          {!isLogin && (
+            <div className="input-box">
+              <User size={18} />
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) =>
+                  setName(e.target.value)
+                }
+                required
+              />
+            </div>
+          )}
 
-            </button>
-
+          <div className="input-box">
+            <Mail size={18} />
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              required
+            />
           </div>
 
-        </div>
+          <div className="input-box password-box">
+            <Lock size={18} />
 
-        {/* RIGHT PANEL */}
+            <input
+              type={
+                showPassword
+                  ? "text"
+                  : "password"
+              }
+              placeholder="Password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+              required
+            />
 
-        <div className="right-panel">
+            <span
+              className="password-toggle"
+              onClick={() =>
+                setShowPassword(!showPassword)
+              }
+            >
+              {showPassword
+                ? <EyeOff size={18}/>
+                : <Eye size={18}/>}
+            </span>
+          </div>
 
-          <form
-            className="auth-form"
-            onSubmit={
-              isLogin
-                ? handleLogin
-                : handleRegister
-            }
+          <button
+            type="submit"
+            className="submit-btn"
           >
+            {isLogin
+              ? "Login"
+              : "Register"}
 
-            <h1>
-              {isLogin
-                ? "Login"
-                : "Register"}
-            </h1>
+            <ArrowRight size={18}/>
+          </button>
 
-            <p>
-              {isLogin
-                ? "Sign in to your account"
-                : "Create a new account"}
-            </p>
-
-            {/* NAME FIELD */}
-
-            {!isLogin && (
-
-              <div className="input-box">
-
-                <User size={18} />
-
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  value={name}
-                  onChange={(e) =>
-                    setName(e.target.value)
-                  }
-                  required
-                />
-
-              </div>
-
-            )}
-
-            {/* EMAIL FIELD */}
-
-            <div className="input-box">
-
-              <Mail size={18} />
-
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) =>
-                  setEmail(e.target.value)
-                }
-                required
-              />
-
-            </div>
-
-            {/* PASSWORD FIELD */}
-
-            <div
-              className="input-box"
-              style={{ position: "relative" }}
-            >
-
-              <Lock size={18} />
-
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) =>
-                  setPassword(e.target.value)
-                }
-                required
-                style={{ paddingRight: "45px" }}
-              />
-
-              <span
-                onClick={() =>
-                  setShowPassword(!showPassword)
-                }
-                style={{
-                  position: "absolute",
-                  right: "15px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center"
-                }}
-              >
-                {showPassword ? (
-                  <EyeOff size={18} />
-                ) : (
-                  <Eye size={18} />
-                )}
-              </span>
-
-            </div>
-
-            {/* SUBMIT BUTTON */}
-
-            <button
-              type="submit"
-              className="submit-btn"
-            >
-
-              {isLogin
-                ? "Login"
-                : "Register"}
-
-              <ArrowRight size={18} />
-
-            </button>
-
-          </form>
-
-        </div>
+        </form>
 
       </div>
 
     </div>
-  );
+  </div>
+);
 }

@@ -14,7 +14,8 @@ import {
 } from "lucide-react";
 import "../styles/dashboard.css";
 
-export default function DashboardPage() {
+export default function DashboardPage() 
+{
   const navigate = useNavigate();
 
   const role = (localStorage.getItem("role") || "")
@@ -90,225 +91,276 @@ export default function DashboardPage() {
       console.log(err);
     }
   };
-
-  return (
-    <div className={`dashboard-container ${theme}`}>
-      {/* SIDEBAR */}
-      <div className="sidebar">
-        <div>
-          <div className="logo">
-            <h1>Navsoft</h1>
-            <p>Feedback System</p>
-          </div>
-
-          {role === "admin" && (
-            <>
-              <div className="menu-item active" onClick={() => navigate("/dashboard")}>
-                <LayoutDashboard size={18} />
-                <span>Dashboard</span>
-              </div>
-
-              <div className="menu-item" onClick={() => navigate("/create-form")}>
-                <FilePlus size={18} />
-                <span>Create Form</span>
-              </div>
-
-              <div className="menu-item" onClick={() => navigate("/forms")}>
-                <FileText size={18} />
-                <span>Manage Forms</span>
-              </div>
-
-              <div className="menu-item" onClick={() => navigate("/responses")}>
-                <MessageSquare size={18} />
-                <span>Responses</span>
-              </div>
-
-              <div className="menu-item" onClick={() => navigate("/export")}>
-                <Download size={18} />
-                <span>Export CSV</span>
-              </div>
-            </>
-          )}
-
-          {role === "user" && (
-            <>
-              <div className="menu-item active" onClick={() => navigate("/forms")}>
-                <FileText size={18} />
-                <span>Fill Forms</span>
-              </div>
-
-              <div className="menu-item" onClick={() => navigate("/submitted-forms")}>
-                <BarChart3 size={18} />
-                <span>Submitted Forms</span>
-              </div>
-            </>
-          )}
+return (
+  <div className="dashboard-container">
+    {/* Sidebar */}
+    <aside className="sidebar">
+      <div>
+        <div className="logo">
+          <h2>N</h2>
         </div>
 
-        <button onClick={toggleTheme}>
-          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-        </button>
+        {role === "admin" ? (
+          <>
+            <div
+              className="nav-item active"
+              onClick={() => navigate("/dashboard")}
+            >
+              <LayoutDashboard size={20} />
+            </div>
 
-        <button className="logout-btn" onClick={logout}>
-          <LogOut size={16} />
-          <span>Logout</span>
-        </button>
+            <div
+              className="nav-item"
+              onClick={() => navigate("/create-form")}
+            >
+              <FilePlus size={20} />
+            </div>
+
+            <div
+              className="nav-item"
+              onClick={() => navigate("/forms")}
+            >
+              <FileText size={20} />
+            </div>
+
+            <div
+              className="nav-item"
+              onClick={() => navigate("/responses")}
+            >
+              <MessageSquare size={20} />
+            </div>
+
+            <div
+              className="nav-item"
+              onClick={() => navigate("/export")}
+            >
+              <Download size={20} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              className="nav-item active"
+              onClick={() => navigate("/forms")}
+            >
+              <FileText size={20} />
+            </div>
+
+            <div
+              className="nav-item"
+              onClick={() => navigate("/submitted-forms")}
+            >
+              <BarChart3 size={20} />
+            </div>
+          </>
+        )}
       </div>
 
-      {/* MAIN CONTENT */}
-      <div className="main-content">
+      <button className="logout-btn" onClick={logout}>
+        <LogOut size={18} />
+      </button>
+    </aside>
+
+    <div className="dashboard-layout">
+      <div className="dashboard-main">
+
         {/* TOPBAR */}
         <div className="topbar">
           <div>
-            <h1>{role === "admin" ? "Admin Dashboard" : "User Dashboard"}</h1>
-            <p>Welcome back, {email}</p>
+            <h1>
+              {role === "admin"
+                ? "Admin Dashboard"
+                : "User Dashboard"}
+            </h1>
+
+            <p>{email}</p>
           </div>
 
-          <div className="top-icons">
-            <div className="icon-box">
-              <Bell size={18} />
+          <div className="top-right">
+            <div className="search-box">
+              <input
+                type="text"
+                placeholder="Search..."
+              />
             </div>
 
-            <div className="profile-box" onClick={toggleProfile} style={{ cursor: "pointer" }}>
+            <Bell size={18} />
+
+            <div className="profile-avatar">
               {email?.charAt(0).toUpperCase()}
             </div>
           </div>
         </div>
 
-        {/* PROFILE POPUP */}
-        {showProfile && (
-          <div className="profile-popup">
-            <div className="profile-card">
-              <h3>{role === "admin" ? "Admin Profile" : "User Profile"}</h3>
-              <p>
-                <b>Name:</b> {email?.split("@")[0]}
-              </p>
-              <p>
-                <b>Email:</b> {email}
-              </p>
-              <button onClick={toggleProfile}>Close</button>
-            </div>
-          </div>
-        )}
+        {/* GLASS DASHBOARD */}
+        <div className="glass-dashboard">
 
-        {/* ADMIN VIEW */}
-        {role === "admin" && (
-          <>
-            <div className="cards">
-              <div className="card">
-                <h2>{stats.totalForms}</h2>
-                <p>Total Forms</p>
-              </div>
+          {/* LEFT */}
+          <div className="glass-left">
 
-              <div className="card">
-                <h2>{stats.totalFeedbacks}</h2>
-                <p>Total Feedbacks</p>
-              </div>
+            <div className="glass-card activity-card">
+              <h3>Feedback Activity</h3>
 
-              <div className="card">
-                <h2>{activeUsers}</h2>
-                <p>Active Users</p>
+              <div className="activity-bars">
+                <div className="bar" style={{height:"40%"}} />
+                <div className="bar" style={{height:"75%"}} />
+                <div className="bar" style={{height:"55%"}} />
+                <div className="bar" style={{height:"90%"}} />
+                <div className="bar" style={{height:"65%"}} />
+                <div className="bar" style={{height:"80%"}} />
               </div>
             </div>
 
-            <div className="hero-card">
-              <div>
-                <h2>Manage Feedback Efficiently</h2>
-                <p>Create forms, monitor responses, export reports and manage everything from one powerful dashboard.</p>
-                <button onClick={() => navigate("/create-form")}>Create New Form</button>
-              </div>
-            </div>
+<div className="glass-card challenge-card">
+  <h3>
+    {role === "admin"
+      ? "Quick Actions"
+      : "My Actions"}
+  </h3>
 
-            <div className="details-section">
-              {/* Recent Activities */}
-              <div className="details-card">
-                <h3>Recent Activities</h3>
-                <div className="activity-item">New feedback submitted</div>
-                <div className="activity-item">New form created</div>
-                <div className="activity-item">CSV exported successfully</div>
-              </div>
-
-              {/* Quick Actions */}
-              <div className="details-card">
-                <h3>Quick Actions</h3>
-                <button className="action-btn" onClick={() => navigate("/create-form")}>
-                  <FilePlus size={15} /> Create Form
-                  <ChevronRight style={{ marginLeft: "auto" }} size={14} />
-                </button>
-
-                <button className="action-btn" onClick={() => navigate("/forms")}>
-                  <FileText size={15} /> Manage Forms
-                  <ChevronRight style={{ marginLeft: "auto" }} size={14} />
-                </button>
-
-                <button className="action-btn" onClick={() => navigate("/responses")}>
-                  <MessageSquare size={15} /> Responses
-                  <ChevronRight style={{ marginLeft: "auto" }} size={14} />
-                </button>
-
-                <button className="action-btn" onClick={() => navigate("/export")}>
-                  <Download size={15} /> Export CSV
-                  <ChevronRight style={{ marginLeft: "auto" }} size={14} />
-                </button>
-              </div>
-            </div>
-
-            {/* Recent Responses */}
-            <div className="details-card" style={{ marginTop: 20 }}>
-              <h3>Recent Responses</h3>
-              {recentResponses.length === 0 ? (
-                <p>No responses found</p>
-              ) : (
-                recentResponses.map((r) => (
-                  <div
-                    key={r.id}
-                    className="activity-item"
-                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-                  >
-                    <div>
-                      <strong>{r.name}</strong>
-                      <p>{r.formTitle}</p>
-                    </div>
-                    <button onClick={() => navigate(`/admin-feedbacks/${r.formId}`)}>View</button>
-                  </div>
-                ))
-              )}
-            </div>
-          </>
-        )}
-
-        {/* USER VIEW */}
-{role === "user" && (
-  <>
-    <div className="hero-card">
-      <div>
-        <h2>Welcome User</h2>
-
-        <p>
-          Fill feedback forms and submit responses
-          quickly using the smart system.
-        </p>
-
-        <button onClick={() => navigate("/forms")}>
-          Fill Forms
+  {role === "admin" ? (
+    <>
+      <div className="challenge-item">
+        <span>Create Form</span>
+        <button onClick={() => navigate("/create-form")}>
+          Open
         </button>
       </div>
-    </div>
 
-    <div className="cards">
-      <div className="card">
-        <h2>{stats.totalForms}</h2>
-        <p>Available Forms</p>
+      <div className="challenge-item">
+        <span>Manage Forms</span>
+        <button onClick={() => navigate("/forms")}>
+          Open
+        </button>
       </div>
 
-      <div className="card">
-        <h2>{stats.totalFeedbacks}</h2>
-        <p>Submitted Forms</p>
+      <div className="challenge-item">
+        <span>Responses</span>
+        <button onClick={() => navigate("/responses")}>
+          Open
+        </button>
+      </div>
+
+      <div className="challenge-item">
+        <span>Export CSV</span>
+        <button onClick={() => navigate("/export")}>
+          Open
+        </button>
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="challenge-item">
+        <span>Fill Forms</span>
+        <button onClick={() => navigate("/forms")}>
+          Fill
+        </button>
+      </div>
+
+      <div className="challenge-item">
+        <span>Submitted Forms</span>
+        <button
+          onClick={() =>
+            navigate("/submitted-forms")
+          }
+        >
+          View
+        </button>
+      </div>
+    </>
+  )}
+</div>
+          </div>
+
+          {/* CENTER */}
+          <div className="glass-center">
+
+            <div className="small-glass-card">
+              <h4>
+                {role === "admin"
+                  ? "Total Forms"
+                  : "Available Forms"}
+              </h4>
+
+              <h2>{stats.totalForms}</h2>
+            </div>
+
+            <div className="small-glass-card">
+              <h4>
+                {role === "admin"
+                  ? "Total Feedbacks"
+                  : "Submitted Forms"}
+              </h4>
+
+              <h2>{stats.totalFeedbacks}</h2>
+            </div>
+
+            {role === "admin" && (
+              <div className="small-glass-card">
+                <h4>Active Users</h4>
+                <h2>{activeUsers}</h2>
+              </div>
+            )}
+
+          </div>
+
+          {/* RIGHT */}
+          <div className="glass-right">
+
+            <div className="glass-card profile-card">
+              <div className="avatar-big">
+                {email?.charAt(0).toUpperCase()}
+              </div>
+
+              <h3>{email?.split("@")[0]}</h3>
+
+              <p>
+                {role === "admin"
+                  ? "Administrator"
+                  : "User"}
+              </p>
+            </div>
+
+            <div className="glass-card progress-card">
+              <h3>Overview</h3>
+
+              <div className="circle">
+                <span>75%</span>
+              </div>
+
+              <p>Completion Rate</p>
+            </div>
+
+            {role === "admin" && (
+              <div className="glass-card calendar-card">
+                <h3>Recent Responses</h3>
+
+                {recentResponses.length === 0 ? (
+                  <p>No Responses</p>
+                ) : (
+                  recentResponses
+                    .slice(0, 4)
+                    .map((r) => (
+                      <div
+                        key={r.id}
+                        className="response-row"
+                      >
+                        <strong>{r.name}</strong>
+
+                        <span>
+                          {r.formTitle}
+                        </span>
+                      </div>
+                    ))
+                )}
+              </div>
+            )}
+
+          </div>
+
+        </div>
       </div>
     </div>
-  </>
-)}
-      </div>
-    </div>
-  );
+  </div>
+)
 }
