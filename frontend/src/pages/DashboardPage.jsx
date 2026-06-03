@@ -34,7 +34,7 @@ export default function DashboardPage() {
   const [showProfile, setShowProfile] = useState(false);
   const [theme, setTheme] = useState("light");
   const [searchTerm, setSearchTerm] = useState("");
-const [forms, setForms] = useState([]);
+  const [forms, setForms] = useState([]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -52,25 +52,25 @@ const [forms, setForms] = useState([]);
   useEffect(() => {
     if (email) {
       fetchStats();
-         fetchForms();
+      fetchForms();
       if (role === "admin") {
         fetchRecentResponses();
-};
-      }
-    }, [email]);
+      };
+    }
+  }, [email]);
 
-const fetchForms = async () => {
-  try {
-   const res = await api.get("/forms/all-public");
+  const fetchForms = async () => {
+    try {
+      const res = await api.get("/forms/all-public");
 
-    console.log("Forms API Response:", res);
-    console.log("Forms API Data:", res.data);
+      console.log("Forms API Response:", res);
+      console.log("Forms API Data:", res.data);
 
-    setForms(res.data);
-  } catch (err) {
-    console.error("Fetch forms error:", err);
-  }
-};
+      setForms(res.data);
+    } catch (err) {
+      console.error("Fetch forms error:", err);
+    }
+  };
 
   const fetchStats = async () => {
     try {
@@ -107,11 +107,11 @@ const fetchForms = async () => {
     }
   };
   const filteredForms = forms.filter((form) =>
-  (form.title || "")
-    .toLowerCase()
-    .includes(searchTerm.toLowerCase())
-);
-console.log("Forms:", forms);
+    (form.title || "")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+  console.log("Forms:", forms);
 
   return (
     <div className="dashboard-container">
@@ -201,36 +201,36 @@ console.log("Forms:", forms);
             <div className="top-right">
 
               {/* Search Box */}
-<div className="search-container">
-  <div className="search-box">
-    <input
-      type="text"
-      placeholder="Search forms..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-    />
-  </div>
+              <div className="search-container">
+                <div className="search-box">
+                  <input
+                    type="text"
+                    placeholder="Search forms..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
 
-  {searchTerm && (
-    <div className="search-results">
-      {filteredForms.length > 0 ? (
-        filteredForms.slice(0, 5).map((form) => (
-          <div
-            key={form.id}
-            className="search-item"
-            onClick={() => navigate("/forms")}
-          >
-            {form.title}
-          </div>
-        ))
-      ) : (
-        <div className="search-item">
-          No forms found
-        </div>
-      )}
-    </div>
-  )}
-</div>
+                {searchTerm && (
+                  <div className="search-results">
+                    {filteredForms.length > 0 ? (
+                      filteredForms.slice(0, 5).map((form) => (
+                        <div
+                          key={form.id}
+                          className="search-item"
+                          onClick={() => navigate("/forms")}
+                        >
+                          {form.title}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="search-item">
+                        No forms found
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               <Bell size={18} />
 
