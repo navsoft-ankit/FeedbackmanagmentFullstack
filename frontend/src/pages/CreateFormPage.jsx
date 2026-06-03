@@ -260,18 +260,29 @@ export default function CreateFormPage() {
                     <button type="button" className="delete-option-btn" onClick={() => deleteOption(i, optIndex)}>✕</button>
                   </div>
                 ))}
-                <button type="button" className="add-option-btn" onClick={() => addOption(i)}>+ Add Option</button>
-              </div>
-            )}
+                <div className="question-actions">
+                  <button
+                    type="button"
+                    className="add-option-btn"
+                    onClick={() => addOption(i)}
+                  >
+                    + Add Option
+                  </button>
 
-            {questions.length > 1 && (
-              <button className="delete-btn" onClick={() => deleteQuestion(i)}>Delete Question</button>
+                  {questions.length > 1 && (
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteQuestion(i)}
+                    >
+                      Delete Question
+                    </button>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         ))}
       </div>
-
-      {error && <p className="error-msg">{error}</p>}
     </div>
   );
 }
