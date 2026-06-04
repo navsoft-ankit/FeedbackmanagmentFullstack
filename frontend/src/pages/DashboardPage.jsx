@@ -28,7 +28,7 @@ export default function DashboardPage() {
     totalForms: 0,
     totalFeedbacks: 0,
   });
-  const hasLoaded = useRef(false);
+
 
   const [activeUsers, setActiveUsers] = useState(0);
   const [recentResponses, setRecentResponses] = useState([]);
@@ -56,19 +56,24 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!email || !role) return;
-    if (hasLoaded.current) return;
 
-    hasLoaded.current = true;
+    const load = async () => {
+      await fetchStats();
+      await fetchForms();
+      await fetchActivity();
 
-    fetchStats();
-    fetchForms();
-    fetchActivity();
-    fetchRecentResponses();
+      if (role === "admin") {
+        await fetchFeedbacks();
+      }
+    };
 
-    if (role === "admin") {
-      
-      fetchFeedbacks();
-    }
+    load();
+
+    const interval = setInterval(() => {
+      load(); // always fresh call
+    }, 5000); // 10s না, test এর জন্য 5s
+
+    return () => clearInterval(interval);
   }, [email, role]);
 
   const fetchForms = async () => {
@@ -88,9 +93,11 @@ export default function DashboardPage() {
     try {
       if (role === "admin") {
         const [statsRes, usersRes] = await Promise.all([
-          api.get("/dashboard/stats"),
+          api.get("/dashboard/stats?ts=" + new Date().getTime()),
+
           api.get("/auth/active-users-count"),
         ]);
+
 
         setStats({
           totalForms: statsRes.data.totalForms,
@@ -110,12 +117,14 @@ export default function DashboardPage() {
     }
   };
 
-  const fetchRecentResponses = async () => {
+  const fetchFeedbacks = async () => {
     try {
       const res = await api.get("/feedback/all");
-      setRecentResponses(res.data.slice(0, 5));
+
+      setFeedbacks(res.data);
+      setRecentResponses(res.data.slice(0, 5)); // ADD THIS
     } catch (err) {
-      console.log(err);
+      console.error("Fetch feedbacks error:", err);
     }
   };
   const fetchActivity = async () => {
@@ -127,14 +136,6 @@ export default function DashboardPage() {
       console.error(err);
     }
   };
-  const fetchFeedbacks = async () => {
-    try {
-      const res = await api.get("/feedback/all");
-      setFeedbacks(res.data);
-    } catch (err) {
-      console.error("Fetch feedbacks error:", err);
-    }
-  };
   const filteredForms = forms.filter((form) =>
     (form.title || "")
       .toLowerCase()
@@ -142,40 +143,40 @@ export default function DashboardPage() {
   );
   console.log("Forms:", forms);
 
- // =========================
-// USER COMPLETION RATE
-// =========================
-const uniqueSubmittedForms = new Set(
-  feedbacks.map((f) => f.formId)
-).size;
+  // =========================
+  // USER COMPLETION RATE
+  // =========================
+  const uniqueSubmittedForms = new Set(
+    feedbacks.map((f) => f.formId)
+  ).size;
 
-const userCompletionRate =
-  stats.totalForms > 0
-    ? Math.min(
+  const userCompletionRate =
+    stats.totalForms > 0
+      ? Math.min(
         100,
         Math.round((uniqueSubmittedForms / stats.totalForms) * 100)
       )
-    : 0;
-// =========================
-// ADMIN COMPLETION RATE (FIXED)
-// =========================
+      : 0;
+  // =========================
+  // ADMIN COMPLETION RATE (FIXED)
+  // =========================
 
-// unique users who submitted at least 1 form
-const uniqueUsers = new Set(
-  feedbacks.map((f) => f.email)
-).size;
+  // unique users who submitted at least 1 form
+  const uniqueUsers = new Set(
+    feedbacks.map((f) => f.email)
+  ).size;
 
-// safe division
-const adminCompletionRate =
-  activeUsers > 0
-    ? Math.min(
+  // safe division
+  const adminCompletionRate =
+    activeUsers > 0
+      ? Math.min(
         100,
         Math.round((uniqueUsers / activeUsers) * 100)
       )
-    : 0;
+      : 0;
 
-const completionRate =
-  role === "admin" ? adminCompletionRate : userCompletionRate;
+  const completionRate =
+    role === "admin" ? adminCompletionRate : userCompletionRate;
   return (
     <div className="dashboard-container">
       {/* Sidebar */}

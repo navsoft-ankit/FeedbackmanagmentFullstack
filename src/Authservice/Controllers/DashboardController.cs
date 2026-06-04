@@ -50,23 +50,30 @@ public class DashboardController : ControllerBase
 
         return Ok(result);
     }
-    [HttpGet("feedback-activity")]
-    public async Task<IActionResult> GetFeedbackActivity()
-    {
-        var feedbacks = await _context.Feedbacks.ToListAsync();
+   [HttpGet("feedback-activity")]
+public async Task<IActionResult> GetFeedbackActivity()
+{
+    var startDate = DateTime.UtcNow.Date.AddDays(-6);
 
-        var last7Days = Enumerable.Range(0, 7)
-            .Select(i => DateTime.UtcNow.Date.AddDays(-i))
-            .OrderBy(d => d)
-            .ToList();
+    var feedbacks = await _context.Feedbacks
+        .Where(f => f.CreatedAt >= startDate)
+        .ToListAsync();
 
-        var result = last7Days.Select(date => new
+    var result = Enumerable.Range(0, 7)
+        .Select(i =>
         {
-            day = date.ToString("ddd"),
-            count = feedbacks.Count(f => f.CreatedAt.Date == date)
+            var date = startDate.AddDays(i);
+
+            return new
+            {
+                day = date.ToString("ddd"),
+                count = feedbacks.Count(f =>
+                    f.CreatedAt.Date == date
+                )
+            };
         });
 
-        return Ok(result);
-    }
+    return Ok(result);
+}
 
 }
