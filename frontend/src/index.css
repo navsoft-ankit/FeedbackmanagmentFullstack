@@ -1,87 +1,87 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
 body,
-#root{
-  width:100%;
-  min-height:100vh;
+#root {
+  width: 100%;
+  min-height: 100vh;
 }
 
-body{
-  background:#0f0b0b;
-  font-family:"Inter",sans-serif;
-  color:white;
-  overflow-x:hidden;
+body {
+  background: #0f0b0b;
+  font-family: "Inter", sans-serif;
+  color: white;
+  overflow-x: hidden;
 }
 
 /* ROOT */
 
-#root{
-  width:100%;
-  min-height:100vh;
-  margin:0;
-  padding:0;
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 /* LINKS */
 
-a{
-  text-decoration:none;
-  color:inherit;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* BUTTON */
 
-button{
-  font-family:"Inter",sans-serif;
-  border:none;
-  outline:none;
+button {
+  font-family: "Inter", sans-serif;
+  border: none;
+  outline: none;
 }
 
 /* INPUT */
 
 input,
 textarea,
-select{
-  font-family:"Inter",sans-serif;
-  outline:none;
+select {
+  font-family: "Inter", sans-serif;
+  outline: none;
 }
 
 /* IMAGE */
 
-img{
-  max-width:100%;
-  display:block;
+img {
+  max-width: 100%;
+  display: block;
 }
 
 /* LIST */
 
 ul,
-ol{
-  list-style:none;
+ol {
+  list-style: none;
 }
 
 /* SCROLLBAR */
 
-::-webkit-scrollbar{
-  width:8px;
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-::-webkit-scrollbar-track{
-  background:#111827;
+::-webkit-scrollbar-track {
+  background: #111827;
 }
 
-::-webkit-scrollbar-thumb{
-  background:#374151;
-  border-radius:10px;
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover{
-  background:#4b5563;
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
 }

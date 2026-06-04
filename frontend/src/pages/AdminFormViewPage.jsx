@@ -44,7 +44,7 @@ export default function AdminFormViewPage() {
       <div className="form-grid">
         {form.questions.map((q) => (
           <div className="question-card" key={q.id}>
-            
+
             {/* QUESTION TEXT (WHITE) */}
             <h3 style={{ color: "white" }}>{q.text}</h3>
 
