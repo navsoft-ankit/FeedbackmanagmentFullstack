@@ -43,53 +43,53 @@ namespace Authservice.Service
             await _feedbackRepository.DeleteFeedbackAsync(id);
         }
 
-      public async Task<bool> SubmitFeedbackAsync(SubmitFeedbackDTO dto)
-{
-    var feedback = new Feedback
-    {
-        FormId = dto.FormId,
-        Name = dto.Name,
-        Email = dto.Email,
-        Designation = dto.Designation,
-        FinalNote = dto.FinalNote,
-
-        CreatedAt = DateTime.UtcNow, // ✅ FIX ADDED
-
-        Answers = new List<Answer>()
-    };
-
-    foreach (var a in dto.Answers)
-    {
-        feedback.Answers.Add(new Answer
+        public async Task<bool> SubmitFeedbackAsync(SubmitFeedbackDTO dto)
         {
-            QuestionId = a.QuestionId,
-            Response = a.Response,
-            Feedback = feedback,
-            CreatedAt = DateTime.UtcNow // (optional but good)
-        });
-    }
+            var feedback = new Feedback
+            {
+                FormId = dto.FormId,
+                Name = dto.Name,
+                Email = dto.Email,
+                Designation = dto.Designation,
+                FinalNote = dto.FinalNote,
 
-    await _feedbackRepository.AddFeedbackAsync(feedback);
+                CreatedAt = DateTime.UtcNow, // ✅ FIX ADDED
 
-    return true;
-}
+                Answers = new List<Answer>()
+            };
+
+            foreach (var a in dto.Answers)
+            {
+                feedback.Answers.Add(new Answer
+                {
+                    QuestionId = a.QuestionId,
+                    Response = a.Response,
+                    Feedback = feedback,
+                    CreatedAt = DateTime.UtcNow // (optional but good)
+                });
+            }
+
+            await _feedbackRepository.AddFeedbackAsync(feedback);
+
+            return true;
+        }
         public async Task<object> GetFeedbackActivityAsync()
-{
-    var feedbacks = await _feedbackRepository.GetAllFeedbacksAsync();
+        {
+            var feedbacks = await _feedbackRepository.GetAllFeedbacksAsync();
 
-    var last7Days = Enumerable.Range(0, 7)
-        .Select(i => DateTime.UtcNow.Date.AddDays(-i))
-        .OrderBy(d => d)
-        .ToList();
+            var last7Days = Enumerable.Range(0, 7)
+                .Select(i => DateTime.UtcNow.Date.AddDays(-i))
+                .OrderBy(d => d)
+                .ToList();
 
-    var result = last7Days.Select(date => new
-    {
-        day = date.ToString("ddd"),
-        count = feedbacks.Count(f => f.CreatedAt.Date == date)
-    });
+            var result = last7Days.Select(date => new
+            {
+                day = date.ToString("ddd"),
+                count = feedbacks.Count(f => f.CreatedAt.Date == date)
+            });
 
-    return result;
-}
-      
+            return result;
+        }
+
     }
 }

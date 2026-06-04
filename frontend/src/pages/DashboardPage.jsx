@@ -38,6 +38,8 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [forms, setForms] = useState([]);
   const [activity, setActivity] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
+
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -52,17 +54,22 @@ export default function DashboardPage() {
     navigate("/");
   };
 
-useEffect(() => {
-  if (!email || !role) return;
-  if (hasLoaded.current) return;
+  useEffect(() => {
+    if (!email || !role) return;
+    if (hasLoaded.current) return;
 
-  hasLoaded.current = true;
+    hasLoaded.current = true;
 
-  fetchStats();
-  fetchForms();
-  fetchActivity();
-  if (role === "admin") fetchRecentResponses();
-}, [email, role]);
+    fetchStats();
+    fetchForms();
+    fetchActivity();
+    fetchRecentResponses();
+
+    if (role === "admin") {
+      
+      fetchFeedbacks();
+    }
+  }, [email, role]);
 
   const fetchForms = async () => {
     try {
@@ -112,14 +119,22 @@ useEffect(() => {
     }
   };
   const fetchActivity = async () => {
-  try {
-    const res = await api.get("/dashboard/feedback-activity");
+    try {
+      const res = await api.get("/dashboard/feedback-activity");
       console.log("ACTIVITY API RESPONSE:", res.data);
-    setActivity(res.data);
-  } catch (err) {
-    console.error(err);
-  }
-};
+      setActivity(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const fetchFeedbacks = async () => {
+    try {
+      const res = await api.get("/feedback/all");
+      setFeedbacks(res.data);
+    } catch (err) {
+      console.error("Fetch feedbacks error:", err);
+    }
+  };
   const filteredForms = forms.filter((form) =>
     (form.title || "")
       .toLowerCase()
@@ -127,6 +142,40 @@ useEffect(() => {
   );
   console.log("Forms:", forms);
 
+ // =========================
+// USER COMPLETION RATE
+// =========================
+const uniqueSubmittedForms = new Set(
+  feedbacks.map((f) => f.formId)
+).size;
+
+const userCompletionRate =
+  stats.totalForms > 0
+    ? Math.min(
+        100,
+        Math.round((uniqueSubmittedForms / stats.totalForms) * 100)
+      )
+    : 0;
+// =========================
+// ADMIN COMPLETION RATE (FIXED)
+// =========================
+
+// unique users who submitted at least 1 form
+const uniqueUsers = new Set(
+  feedbacks.map((f) => f.email)
+).size;
+
+// safe division
+const adminCompletionRate =
+  activeUsers > 0
+    ? Math.min(
+        100,
+        Math.round((uniqueUsers / activeUsers) * 100)
+      )
+    : 0;
+
+const completionRate =
+  role === "admin" ? adminCompletionRate : userCompletionRate;
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
@@ -298,27 +347,27 @@ useEffect(() => {
               <div className="glass-card activity-card">
                 <h3>Feedback Activity</h3>
 
-<div className="activity-bars">
-{(activity || []).length > 0 &&
-  activity.map((item, index) => {
+                <div className="activity-bars">
+                  {(activity || []).length > 0 &&
+                    activity.map((item, index) => {
 
-    const max = Math.max(
-      ...activity.map(a => a.count || 0),
-      1
-    );
+                      const max = Math.max(
+                        ...activity.map(a => a.count || 0),
+                        1
+                      );
 
-    const height = (item.count / max) * 100;
+                      const height = (item.count / max) * 100;
 
-    return (
-      <div
-        key={index}
-        className="bar"
-        style={{ height: `${height}%` }}
-        title={`${item.day}: ${item.count}`}
-      />
-    );
-  })}
-</div>
+                      return (
+                        <div
+                          key={index}
+                          className="bar"
+                          style={{ height: `${height}%` }}
+                          title={`${item.day}: ${item.count}`}
+                        />
+                      );
+                    })}
+                </div>
               </div>
 
               <div className="glass-card challenge-card">
@@ -434,9 +483,20 @@ useEffect(() => {
               <div className="glass-card progress-card">
                 <h3>Overview</h3>
 
-                <div className="circle">
-                  <span>75%</span>
+                <div
+                  className="progress-ring"
+                  style={{ "--percent": completionRate }}
+                >
+                  <div className="progress-inner">
+                    <span>{completionRate}%</span>
+                  </div>
                 </div>
+
+                <p>
+                  {role === "admin"
+                    ? "Users who submitted forms"
+                    : "Your Completion Rate"}
+                </p>
 
                 <p>Completion Rate</p>
               </div>

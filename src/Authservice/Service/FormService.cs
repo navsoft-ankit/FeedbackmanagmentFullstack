@@ -77,69 +77,69 @@ public class FormService : IFormService
     // =========================
     // DELETE FORM
     // =========================
-   public async Task<bool> DeleteFormAsync(Guid id)
-{
-    var form = await _context.FeedbackForms
-        .FirstOrDefaultAsync(f => f.Id == id);
+    public async Task<bool> DeleteFormAsync(Guid id)
+    {
+        var form = await _context.FeedbackForms
+            .FirstOrDefaultAsync(f => f.Id == id);
 
-    if (form == null)
-        return false;
+        if (form == null)
+            return false;
 
-    // -------------------------
-    // Delete Feedback Answers
-    // -------------------------
+        // -------------------------
+        // Delete Feedback Answers
+        // -------------------------
 
-    var feedbacks = await _context.Feedbacks
-        .Where(f => f.FormId == id)
-        .Include(f => f.Answers)
-        .ToListAsync();
+        var feedbacks = await _context.Feedbacks
+            .Where(f => f.FormId == id)
+            .Include(f => f.Answers)
+            .ToListAsync();
 
-    var answers = feedbacks
-        .SelectMany(f => f.Answers)
-        .ToList();
+        var answers = feedbacks
+            .SelectMany(f => f.Answers)
+            .ToList();
 
-    _context.Answers.RemoveRange(answers);
+        _context.Answers.RemoveRange(answers);
 
-    // -------------------------
-    // Delete Feedbacks
-    // -------------------------
+        // -------------------------
+        // Delete Feedbacks
+        // -------------------------
 
-    _context.Feedbacks.RemoveRange(feedbacks);
+        _context.Feedbacks.RemoveRange(feedbacks);
 
-    // -------------------------
-    // Delete Options
-    // -------------------------
+        // -------------------------
+        // Delete Options
+        // -------------------------
 
-    var questions = await _context.Questions
-        .Where(q => q.FeedbackFormId == id)
-        .ToListAsync();
+        var questions = await _context.Questions
+            .Where(q => q.FeedbackFormId == id)
+            .ToListAsync();
 
-    var questionIds = questions
-        .Select(q => q.Id)
-        .ToList();
+        var questionIds = questions
+            .Select(q => q.Id)
+            .ToList();
 
-    var options = await _context.Options
-        .Where(o => questionIds.Contains(o.QuestionId))
-        .ToListAsync();
+        var options = await _context.Options
+            .Where(o => questionIds.Contains(o.QuestionId))
+            .ToListAsync();
 
-    _context.Options.RemoveRange(options);
+        _context.Options.RemoveRange(options);
 
-    // -------------------------
-    // Delete Questions
-    // -------------------------
+        // -------------------------
+        // Delete Questions
+        // -------------------------
 
-    _context.Questions.RemoveRange(questions);
+        _context.Questions.RemoveRange(questions);
 
-    // -------------------------
-    // Delete Form
-    // -------------------------
+        // -------------------------
+        // Delete Form
+        // -------------------------
 
-    _context.FeedbackForms.Remove(form);
+        _context.FeedbackForms.Remove(form);
 
-    await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
-    return true;
-}
+        return true;
+    }
     // =========================
     // UPDATE FORM (FIXED)
     // =========================
@@ -282,6 +282,6 @@ public class FormService : IFormService
             }).ToList()
         };
     }
-      
-    
+
+
 }
