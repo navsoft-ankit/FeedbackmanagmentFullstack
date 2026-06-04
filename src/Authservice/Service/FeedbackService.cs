@@ -43,33 +43,53 @@ namespace Authservice.Service
             await _feedbackRepository.DeleteFeedbackAsync(id);
         }
 
-        public async Task<bool> SubmitFeedbackAsync(SubmitFeedbackDTO dto)
+      public async Task<bool> SubmitFeedbackAsync(SubmitFeedbackDTO dto)
+{
+    var feedback = new Feedback
+    {
+        FormId = dto.FormId,
+        Name = dto.Name,
+        Email = dto.Email,
+        Designation = dto.Designation,
+        FinalNote = dto.FinalNote,
+
+        CreatedAt = DateTime.UtcNow, // ✅ FIX ADDED
+
+        Answers = new List<Answer>()
+    };
+
+    foreach (var a in dto.Answers)
+    {
+        feedback.Answers.Add(new Answer
         {
-            var feedback = new Feedback
-            {
-                FormId = dto.FormId,
-  
-                Name = dto.Name,
-                Email = dto.Email,
-                Designation = dto.Designation,
-                FinalNote = dto.FinalNote,
-                // Title = dto.Title,
-                Answers = new List<Answer>()
-            };
+            QuestionId = a.QuestionId,
+            Response = a.Response,
+            Feedback = feedback,
+            CreatedAt = DateTime.UtcNow // (optional but good)
+        });
+    }
 
-            foreach (var a in dto.Answers)
-            {
-                feedback.Answers.Add(new Answer
-                {
-                    QuestionId = a.QuestionId,
-                    Response = a.Response,
-                    Feedback = feedback   // 🔥 IMPORTANT FIX
-                });
-            }
+    await _feedbackRepository.AddFeedbackAsync(feedback);
 
-            await _feedbackRepository.AddFeedbackAsync(feedback);
+    return true;
+}
+        public async Task<object> GetFeedbackActivityAsync()
+{
+    var feedbacks = await _feedbackRepository.GetAllFeedbacksAsync();
 
-            return true;
-        }
+    var last7Days = Enumerable.Range(0, 7)
+        .Select(i => DateTime.UtcNow.Date.AddDays(-i))
+        .OrderBy(d => d)
+        .ToList();
+
+    var result = last7Days.Select(date => new
+    {
+        day = date.ToString("ddd"),
+        count = feedbacks.Count(f => f.CreatedAt.Date == date)
+    });
+
+    return result;
+}
+      
     }
 }

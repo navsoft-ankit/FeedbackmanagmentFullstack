@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import {
@@ -27,6 +28,7 @@ export default function DashboardPage() {
     totalForms: 0,
     totalFeedbacks: 0,
   });
+  const hasLoaded = useRef(false);
 
   const [activeUsers, setActiveUsers] = useState(0);
   const [recentResponses, setRecentResponses] = useState([]);
@@ -35,6 +37,7 @@ export default function DashboardPage() {
   const [theme, setTheme] = useState("light");
   const [searchTerm, setSearchTerm] = useState("");
   const [forms, setForms] = useState([]);
+  const [activity, setActivity] = useState([]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -49,15 +52,17 @@ export default function DashboardPage() {
     navigate("/");
   };
 
-  useEffect(() => {
-    if (email) {
-      fetchStats();
-      fetchForms();
-      if (role === "admin") {
-        fetchRecentResponses();
-      };
-    }
-  }, [email]);
+useEffect(() => {
+  if (!email || !role) return;
+  if (hasLoaded.current) return;
+
+  hasLoaded.current = true;
+
+  fetchStats();
+  fetchForms();
+  fetchActivity();
+  if (role === "admin") fetchRecentResponses();
+}, [email, role]);
 
   const fetchForms = async () => {
     try {
@@ -106,6 +111,15 @@ export default function DashboardPage() {
       console.log(err);
     }
   };
+  const fetchActivity = async () => {
+  try {
+    const res = await api.get("/dashboard/feedback-activity");
+      console.log("ACTIVITY API RESPONSE:", res.data);
+    setActivity(res.data);
+  } catch (err) {
+    console.error(err);
+  }
+};
   const filteredForms = forms.filter((form) =>
     (form.title || "")
       .toLowerCase()
@@ -284,14 +298,27 @@ export default function DashboardPage() {
               <div className="glass-card activity-card">
                 <h3>Feedback Activity</h3>
 
-                <div className="activity-bars">
-                  <div className="bar" style={{ height: "40%" }} />
-                  <div className="bar" style={{ height: "75%" }} />
-                  <div className="bar" style={{ height: "55%" }} />
-                  <div className="bar" style={{ height: "90%" }} />
-                  <div className="bar" style={{ height: "65%" }} />
-                  <div className="bar" style={{ height: "80%" }} />
-                </div>
+<div className="activity-bars">
+{(activity || []).length > 0 &&
+  activity.map((item, index) => {
+
+    const max = Math.max(
+      ...activity.map(a => a.count || 0),
+      1
+    );
+
+    const height = (item.count / max) * 100;
+
+    return (
+      <div
+        key={index}
+        className="bar"
+        style={{ height: `${height}%` }}
+        title={`${item.day}: ${item.count}`}
+      />
+    );
+  })}
+</div>
               </div>
 
               <div className="glass-card challenge-card">

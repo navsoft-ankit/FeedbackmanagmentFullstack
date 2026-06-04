@@ -18,4 +18,6 @@ public class Feedback
     public List<Answer> Answers { get; set; } = new();
 
     public string FinalNote { get; set; }
+            public DateTime CreatedAt { get; set; }
+
 }
