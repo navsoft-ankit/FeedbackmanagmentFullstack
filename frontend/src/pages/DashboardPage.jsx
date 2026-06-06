@@ -436,22 +436,12 @@ export default function DashboardPage() {
             <div className="glass-center">
 
               <div className="small-glass-card">
-                <h4>
-                  {role === "admin"
-                    ? "Total Forms"
-                    : "Available Forms"}
-                </h4>
-
+                <h4>{role === "admin" ? "Total Forms" : "Available Forms"}</h4>
                 <h2>{stats.totalForms}</h2>
               </div>
 
               <div className="small-glass-card">
-                <h4>
-                  {role === "admin"
-                    ? "Total Feedbacks"
-                    : "Submitted Forms"}
-                </h4>
-
+                <h4>{role === "admin" ? "Total Feedbacks" : "Submitted Forms"}</h4>
                 <h2>{stats.totalFeedbacks}</h2>
               </div>
 
@@ -461,6 +451,43 @@ export default function DashboardPage() {
                   <h2>{activeUsers}</h2>
                 </div>
               )}
+
+              {/* ✅ ADD IT HERE (THIS FIXES EVERYTHING) */}
+              <div className="glass-card trend-card">
+                <h3>Feedback Insights</h3>
+
+                <div className="trend-metrics">
+                  <div className="trend-item">
+                    <span>Avg per day</span>
+                    <strong>
+                      {activity.length
+                        ? Math.round(
+                          activity.reduce((sum, a) => sum + (a.count || 0), 0) /
+                          activity.length
+                        )
+                        : 0}
+                    </strong>
+                  </div>
+
+                  <div className="trend-item">
+                    <span>Peak Day</span>
+                    <strong>
+                      {activity.length
+                        ? activity.reduce((max, a) =>
+                          a.count > max.count ? a : max
+                        ).day
+                        : "-"}
+                    </strong>
+                  </div>
+
+                  <div className="trend-item">
+                    <span>Total Activity</span>
+                    <strong>
+                      {activity.reduce((sum, a) => sum + (a.count || 0), 0)}
+                    </strong>
+                  </div>
+                </div>
+              </div>
 
             </div>
 
