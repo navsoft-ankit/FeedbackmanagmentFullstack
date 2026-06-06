@@ -347,7 +347,6 @@ export default function DashboardPage() {
 
               <div className="glass-card activity-card">
                 <h3>Feedback Activity</h3>
-
                 <div className="activity-bars">
                   {(activity || []).length > 0 &&
                     activity.map((item, index) => {
@@ -360,12 +359,20 @@ export default function DashboardPage() {
                       const height = (item.count / max) * 100;
 
                       return (
-                        <div
-                          key={index}
-                          className="bar"
-                          style={{ height: `${height}%` }}
-                          title={`${item.day}: ${item.count}`}
-                        />
+                        <div key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+
+                          <div
+                            className="bar"
+                            style={{ height: `${height}%` }}
+                            title={`${item.day}: ${item.count}`}
+                          />
+
+                          {/* ✅ ADDED ONLY THIS */}
+                          <span className="bar-label">
+                            {item.day}
+                          </span>
+
+                        </div>
                       );
                     })}
                 </div>
