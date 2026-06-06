@@ -183,7 +183,7 @@ export default function DashboardPage() {
       <aside className="sidebar">
         <div>
           <div className="logo">
-            <h2>N</h2>
+            <h2>Voxify</h2>
           </div>
 
           {role === "admin" ? (

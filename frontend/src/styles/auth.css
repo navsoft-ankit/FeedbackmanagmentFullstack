@@ -63,7 +63,7 @@ body {
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 
-  color: white;
+  color: rgb(190, 179, 59);
 }
 
 .overlay-content {

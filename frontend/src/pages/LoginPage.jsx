@@ -147,7 +147,7 @@ export default function LoginPage() {
           <div className="overlay-content">
 
             <h1 className="brand-title">
-              Navsoft Feedback
+              Voxify
             </h1>
 
             <h2>
