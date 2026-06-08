@@ -354,14 +354,12 @@ textarea::placeholder {
 
 .option-section {
   margin-top: 15px;
-  
 }
 
 .option-row {
   display: flex;
   gap: 12px;
   margin-bottom: 12px;
-  
 }
 
 .option-input {
@@ -1820,6 +1818,7 @@ select option {
 
   cursor: pointer;
 
+  -webkit-user-select: none;
   user-select: none;
 
   /* 🔥 IMPORTANT FIX */
