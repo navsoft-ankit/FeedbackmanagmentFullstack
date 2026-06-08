@@ -31,6 +31,8 @@ export default function DashboardPage() {
 
   const [activeUsers, setActiveUsers] = useState(0);
   const [recentResponses, setRecentResponses] = useState([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [submittedUsers, setSubmittedUsers] = useState(0);
 
   const [showProfile, setShowProfile] = useState(false);
   const [theme, setTheme] = useState("light");
@@ -91,17 +93,22 @@ export default function DashboardPage() {
   const fetchStats = async () => {
     try {
       if (role === "admin") {
-        const [statsRes, usersRes] = await Promise.all([
+        const [statsRes, usersRes, totalUsersRes] = await Promise.all([
           api.get("/dashboard/stats?ts=" + new Date().getTime()),
-
           api.get("/auth/active-users-count"),
+          api.get("/auth/total-users")
         ]);
+
         setStats({
           totalForms: statsRes.data.totalForms,
           totalFeedbacks: statsRes.data.totalFeedbacks,
         });
 
         setActiveUsers(usersRes.data.activeUsers || 0);
+        setTotalUsers(totalUsersRes.data.totalUsers || 0);
+
+        // 🔥 THIS IS MISSING (IMPORTANT)
+        setSubmittedUsers(statsRes.data.totalFeedbacks || 0);
       } else {
         const statsRes = await api.get(`/forms/user-stats?email=${email}`);
         setStats({
@@ -161,14 +168,17 @@ export default function DashboardPage() {
   // =========================
   // ADMIN CIRCLE (ENGAGEMENT)
   // =========================
-  const adminCircleValue =
-    activeUsers > 0
+  const totalForms = stats.totalForms || 0;
+  const totalResponses = stats.totalFeedbacks || 0;
+
+  // total admin metric (utilization style)
+  const adminTotalKPI =
+    totalForms > 0
       ? Math.min(
-        100,
-        Math.round((uniqueUsers / activeUsers) * 100)
+        Math.round((totalResponses / totalForms) * 10),
+        100
       )
       : 0;
-
   // =========================
   // USER CIRCLE (COMPLETION)
   // FIX: better + correct logic
@@ -176,17 +186,18 @@ export default function DashboardPage() {
   const available = stats.totalForms || 0;
   const submitted = stats.totalFeedbacks || 0;
 
-  const userCircleValue =
-    available > 0
-      ? Math.min(100, Math.round((submitted / available) * 100))
-      : 0;
+  const totalFormsAll = available + submitted;
 
+  const userCircleValue =
+    totalFormsAll > 0
+      ? Math.round((submitted / totalFormsAll) * 100)
+      : 0;
   // =========================
   // FINAL VALUE (ROLE BASED)
   // =========================
   const completionRate =
     role === "admin"
-      ? adminCircleValue
+      ? adminTotalKPI
       : userCircleValue;
   return (
     <div className="dashboard-container">
@@ -358,35 +369,43 @@ export default function DashboardPage() {
 
               <div className="glass-card activity-card">
                 <h3>Feedback Activity</h3>
+
                 <div className="activity-bars">
-                  {(activity || []).length > 0 &&
-                    activity.map((item, index) => {
+                  {(() => {
+                    const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-                      const max = Math.max(
-                        ...activity.map(a => a.count || 0),
-                        1
-                      );
+                    const sortedActivity = [...(activity || [])].sort(
+                      (a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day)
+                    );
 
+                    const max = Math.max(
+                      ...sortedActivity.map(a => a.count || 0),
+                      1
+                    );
+
+                    return sortedActivity.map((item, index) => {
                       const height = (item.count / max) * 100;
 
                       return (
-                        <div key={index} style=
-                          {{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-
+                        <div
+                          key={index}
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
                           <div
                             className="bar"
                             style={{ height: `${height}%` }}
                             title={`${item.day}: ${item.count}`}
                           />
 
-                          {/* ✅ ADDED ONLY THIS */}
-                          <span className="bar-label">
-                            {item.day}
-                          </span>
-
+                          <span className="bar-label">{item.day}</span>
                         </div>
                       );
-                    })}
+                    });
+                  })()}
                 </div>
               </div>
 
@@ -472,41 +491,65 @@ export default function DashboardPage() {
               )}
 
               {/* ✅ ADD IT HERE (THIS FIXES EVERYTHING) */}
-              <div className="glass-card trend-card">
-                <h3>Feedback Insights</h3>
+<div className="glass-card trend-card">
+  <h3>Feedback Insights</h3>
 
-                <div className="trend-metrics">
-                  <div className="trend-item">
-                    <span>Avg per day</span>
-                    <strong>
-                      {activity.length
-                        ? Math.round(
-                          activity.reduce((sum, a) => sum + (a.count || 0), 0) /
-                          activity.length
-                        )
-                        : 0}
-                    </strong>
-                  </div>
+  {(() => {
+    const today = new Date().toLocaleDateString("en-US", {
+      weekday: "short",
+    });
 
-                  <div className="trend-item">
-                    <span>Peak Day</span>
-                    <strong>
-                      {activity.length
-                        ? activity.reduce((max, a) =>
-                          a.count > max.count ? a : max
-                        ).day
-                        : "-"}
-                    </strong>
-                  </div>
+    // normalize day format (Mon, Tue etc)
+    const normalizeDay = (d) => d.slice(0, 3);
 
-                  <div className="trend-item">
-                    <span>Total Activity</span>
-                    <strong>
-                      {activity.reduce((sum, a) => sum + (a.count || 0), 0)}
-                    </strong>
-                  </div>
-                </div>
-              </div>
+    const todayData = activity.find(
+      (a) => normalizeDay(a.day) === today
+    );
+
+    const todayCount = todayData?.count || 0;
+
+    const total = activity.reduce(
+      (sum, a) => sum + (a.count || 0),
+      0
+    );
+
+    const avg = activity.length
+      ? Math.round(total / activity.length)
+      : 0;
+
+    const peak = activity.reduce(
+      (max, a) =>
+        (a.count || 0) > (max.count || 0) ? a : max,
+      activity[0] || { day: "-", count: 0 }
+    );
+
+    return (
+      <div className="trend-metrics">
+
+        {/* TODAY */}
+        <div className="trend-item">
+          <span>Today Submit</span>
+          <strong>{todayCount}</strong>
+        </div>
+
+        {/* AVERAGE */}
+        <div className="trend-item">
+          <span>Avg per day</span>
+          <strong>{avg}</strong>
+        </div>
+
+        {/* PEAK */}
+        <div className="trend-item">
+          <span>Peak Form</span>
+          <strong>
+            {peak.day} ({peak.count})
+          </strong>
+        </div>
+
+      </div>
+    );
+  })()}
+</div>
 
             </div>
 

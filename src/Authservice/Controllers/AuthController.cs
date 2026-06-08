@@ -5,7 +5,8 @@ using Authservice.Service;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Cryptography;
 using System.Text;
-
+using Authservice.Data;
+using Microsoft.EntityFrameworkCore;
 namespace Authservice.Controllers
 {
     [ApiController]
@@ -15,15 +16,18 @@ namespace Authservice.Controllers
         private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
         private readonly IEmailService _emailService;
+        private readonly AppDbContext _context;
 
         public AuthController(
             IUserService userService,
             IJwtService jwtService,
-            IEmailService emailService)
+            IEmailService emailService,
+            AppDbContext context)
         {
             _userService = userService;
             _jwtService = jwtService;
             _emailService = emailService;
+            _context = context;
         }
 
         // ================= REGISTER =================
@@ -188,5 +192,11 @@ namespace Authservice.Controllers
             var count = await _userService.GetUsersCountAsync();
             return Ok(new { activeUsers = count });
         }
+        [HttpGet("total-users")]
+public async Task<IActionResult> GetTotalUsers()
+{
+    var count = await _context.Users.CountAsync();
+    return Ok(new { totalUsers = count });
+}
     }
 }

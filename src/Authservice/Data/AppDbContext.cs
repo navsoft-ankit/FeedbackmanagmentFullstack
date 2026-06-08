@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<FeedbackForm> FeedbackForms { get; set; }
     public DbSet<Feedback> Feedbacks { get; set; }
     public DbSet<Answer> Answers { get; set; }
+    
 
    protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
