@@ -538,21 +538,21 @@ export default function DashboardPage() {
 
               {role === "admin" && (
                 <div className="glass-card calendar-card">
-  <h3>Recent Responses</h3>
+                  <h3>Recent Responses</h3>
 
-<div className="recent-scroll">
-  {recentResponses.length === 0 ? (
-    <p>No Responses</p>
-  ) : (
-    recentResponses.map((r) => (
-      <div key={r.id} className="response-row">
-        <strong>{r.name}</strong>
-        <span>{r.formTitle}</span>
-      </div>
-    ))
-  )}
-</div>
-</div>
+                  <div className="recent-scroll">
+                    {recentResponses.length === 0 ? (
+                      <p>No Responses</p>
+                    ) : (
+                      recentResponses.map((r) => (
+                        <div key={r.id} className="response-row">
+                          <strong>{r.name}</strong>
+                          <span>{r.formTitle}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
               )}
 
             </div>

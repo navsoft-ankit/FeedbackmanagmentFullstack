@@ -63,7 +63,7 @@ body {
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 
-  color: rgb(59, 138, 190);
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 }
 
 .overlay-content {
@@ -94,7 +94,7 @@ body {
 
   border-radius: 50px;
 
-  background: #ffd400;
+  background: #00a6ff;
 
   color: black;
 
@@ -205,7 +205,7 @@ body {
 
   border-radius: 18px;
 
-  background: #ffd400;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
   color: black;
 

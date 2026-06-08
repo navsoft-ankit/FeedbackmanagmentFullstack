@@ -85,7 +85,7 @@ body {
 .progress-fill {
   height: 100%;
 
-  background: linear-gradient(90deg, #84cc16, #a3e635);
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
   transition: 0.4s;
 }
@@ -219,7 +219,7 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: #84cc16;
+  border-color: #5316cc46;
 
   box-shadow: 0 0 0 4px rgba(132, 204, 22, 0.18);
 }
@@ -245,9 +245,9 @@ textarea::placeholder {
 
   border-radius: 999px;
 
-  background: #b7e10c;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
-  color: #111;
+  color: #fffefe;
 
   font-weight: 700;
 
@@ -336,9 +336,9 @@ textarea::placeholder {
 
   border-radius: 999px;
 
-  background: rgba(183, 225, 12, 0.15);
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
-  color: #d9f99d;
+  color: #2a0669;
 
   margin-bottom: 18px;
 }
@@ -383,7 +383,7 @@ textarea::placeholder {
 
   border-radius: 12px;
 
-  background: #2563eb;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
   color: white;
 
@@ -688,7 +688,7 @@ textarea::placeholder {
   font-size: 14px;
   margin-bottom: 8px;
 
-  color: #a3e635;
+  color: #fefeffe5;
 }
 
 .answer-item p {
@@ -707,11 +707,11 @@ textarea::placeholder {
 
   background: rgba(163, 230, 53, 0.08);
 
-  border: 1px solid rgba(163, 230, 53, 0.15);
+  border: 1px solid rgba(41, 13, 224, 0.979);
 }
 
 .final-note h4 {
-  color: #bef264;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 
@@ -946,7 +946,7 @@ textarea::placeholder {
 .export-page {
   min-height: 100vh;
   padding: 35px;
-  color: white;
+  color: rgb(255, 255, 255);
 
   background:
     linear-gradient(rgba(8, 12, 20, 0.82), rgba(8, 12, 20, 0.82)),
@@ -1000,7 +1000,7 @@ textarea::placeholder {
 
   border: 1px solid rgba(255, 255, 255, 0.08);
 
-  color: #ffd400;
+  color: #0015ff;
 
   box-shadow: 0 10px 30px rgba(255, 212, 0, 0.15);
 }
@@ -1075,7 +1075,7 @@ textarea::placeholder {
 
   background: rgba(255, 255, 255, 0.05);
 
-  color: white;
+  color: rgb(255, 255, 255);
 
   outline: none;
 
@@ -1087,7 +1087,7 @@ textarea::placeholder {
 }
 
 .export-grid input:focus {
-  border-color: #ffd400;
+  border-color: #3d07c6;
 
   background: rgba(255, 255, 255, 0.08);
 
@@ -1112,9 +1112,9 @@ textarea::placeholder {
 
   border-radius: 30px;
 
-  background: #ffd400;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
-  color: #000;
+  color: #fefeff;
 
   font-size: 15px;
   font-weight: 700;
@@ -1127,7 +1127,7 @@ textarea::placeholder {
 .export-btn:hover {
   transform: translateY(-2px);
 
-  box-shadow: 0 10px 25px rgba(255, 212, 0, 0.35);
+  box-shadow: 0 10px 25px rgba(68, 0, 255, 0.35);
 }
 
 .export-btn svg {
@@ -1225,7 +1225,7 @@ textarea::placeholder {
 }
 
 .answer-question {
-  color: #bef264;
+  color: #7c64f2;
   font-weight: 600;
   margin-bottom: 8px;
 }
@@ -1418,7 +1418,7 @@ textarea::placeholder {
   border: none;
   border-radius: 14px;
 
-  background: #bef264;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
   color: black;
 
@@ -1481,7 +1481,7 @@ textarea::placeholder {
 
   border-radius: 50%;
 
-  background: #bdeb25;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
   display: flex;
   align-items: center;
@@ -1519,7 +1519,7 @@ textarea::placeholder {
   border: none;
   border-radius: 12px;
 
-  background: #dc2626;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
   color: white;
   font-weight: 600;
@@ -1547,7 +1547,7 @@ textarea::placeholder {
   border: none;
   border-radius: 12px;
 
-  background: #bdeb25;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 
   color: rgb(5, 5, 5);
   font-size: 14px;
@@ -1563,7 +1563,7 @@ textarea::placeholder {
 
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
 
-  background: #bdeb25;
+  background: linear-gradient(90deg, #2600ff, #5a1188);
 }
 /* =========================
    SUBMITTED FORMS PAGE
