@@ -75,29 +75,29 @@ namespace Authservice.Service
             return true;
         }
         public async Task<object> GetFeedbackActivityAsync()
-{
-    // STEP 1: get all feedbacks
-    var feedbacks = await _feedbackRepository.GetAllFeedbacksAsync();
-
-    // STEP 2: build last 7 days range
-    var last7Days = Enumerable.Range(0, 7)
-        .Select(i => DateTime.UtcNow.Date.AddDays(-i))
-        .OrderBy(d => d)
-        .ToList();
-
-    // STEP 3: calculate activity per day
-    var result = last7Days
-        .Select(date => new
         {
-            day = date.ToString("ddd"),
-            count = feedbacks.Count(f =>
-                EF.Functions.DateDiffDay(f.CreatedAt, date) == 0
-            )
-        })
-        .ToList();
+            // STEP 1: get all feedbacks
+            var feedbacks = await _feedbackRepository.GetAllFeedbacksAsync();
 
-    // STEP 4: return API response
-    return result;
-}
+            // STEP 2: build last 7 days range
+            var last7Days = Enumerable.Range(0, 7)
+                .Select(i => DateTime.UtcNow.Date.AddDays(-i))
+                .OrderBy(d => d)
+                .ToList();
+
+            // STEP 3: calculate activity per day
+            var result = last7Days
+                .Select(date => new
+                {
+                    day = date.ToString("ddd"),
+                    count = feedbacks.Count(f =>
+                        EF.Functions.DateDiffDay(f.CreatedAt, date) == 0
+                    )
+                })
+                .ToList();
+
+            // STEP 4: return API response
+            return result;
+        }
     }
 }

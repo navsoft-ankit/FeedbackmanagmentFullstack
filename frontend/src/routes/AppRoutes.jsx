@@ -41,6 +41,9 @@ export default function AppRoutes({ theme, toggleTheme }) {
       <Route path="/forms" element={<FormsPage />} />
       <Route path="/create-form" element={<CreateFormPage />} />
       <Route path="/edit-form/:id" element={<CreateFormPage />} />
+
+      {/* ✅ IMPORTANT FIX HERE */}
+      <Route path="/forms/:id" element={<AdminFormViewPage />} />
       <Route path="/admin/forms/view/:id" element={<AdminFormViewPage />} />
 
       {/* FEEDBACK */}

@@ -122,7 +122,12 @@ export default function DashboardPage() {
       const res = await api.get("/feedback/all");
 
       setFeedbacks(res.data);
-      setRecentResponses(res.data.slice(0, 5)); // ADD THIS
+      const sorted = [...res.data].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
+      setFeedbacks(sorted);
+      setRecentResponses(sorted.slice(0, 5));
     } catch (err) {
       console.error("Fetch feedbacks error:", err);
     }
@@ -282,7 +287,7 @@ export default function DashboardPage() {
                         <div
                           key={form.id}
                           className="search-item"
-                          onClick={() => navigate("/forms")}
+                          onClick={() => navigate(`/admin/forms/view/${form.id}`)}
                         >
                           {form.title}
                         </div>
@@ -359,7 +364,8 @@ export default function DashboardPage() {
                       const height = (item.count / max) * 100;
 
                       return (
-                        <div key={index} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <div key={index} style=
+                          {{ display: "flex", flexDirection: "column", alignItems: "center" }}>
 
                           <div
                             className="bar"

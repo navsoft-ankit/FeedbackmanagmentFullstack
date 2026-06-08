@@ -217,7 +217,7 @@ body {
   border-radius: 30px;
   padding: 8px 16px;
   background: linear-gradient(90deg, #2600ff, #5a1188);
-  color: black;
+  color: rgb(255, 255, 255);
   font-weight: 600;
 }
 
@@ -415,7 +415,7 @@ body {
   border: none;
   border-radius: 10px;
   background: linear-gradient(90deg, #2600ff, #5a1188);
-  color: black;
+  color: rgb(252, 252, 252);
   font-weight: 600;
   cursor: pointer;
 }
