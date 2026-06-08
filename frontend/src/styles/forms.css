@@ -1802,7 +1802,7 @@ select option {
 /* text stable */
 .mcq-text {
   color: white;
-  font-size: 15px;
+  /* font-size: 15px; */
   line-height: 1;
 }
 .mcq-option {
@@ -1842,4 +1842,5 @@ select option {
 .mcq-text {
   flex: 1;
   color: white;
+  
 }

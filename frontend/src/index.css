@@ -98,3 +98,7 @@ select:-webkit-autofill {
   border-radius: 18px;
   transition: background-color 9999s ease-in-out 0s;
 }
+input {
+  outline: none !important;
+  box-shadow: none !important;
+}

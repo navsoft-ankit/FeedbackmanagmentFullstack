@@ -396,28 +396,28 @@ export default function DashboardPage() {
                     <div className="challenge-item">
                       <span>Create Form</span>
                       <button onClick={() => navigate("/create-form")}>
-                        Open
+                        Create
                       </button>
                     </div>
 
                     <div className="challenge-item">
                       <span>Manage Forms</span>
                       <button onClick={() => navigate("/forms")}>
-                        Open
+                        Manage
                       </button>
                     </div>
 
                     <div className="challenge-item">
                       <span>Responses</span>
                       <button onClick={() => navigate("/responses")}>
-                        Open
+                        Response
                       </button>
                     </div>
 
                     <div className="challenge-item">
                       <span>Export CSV</span>
                       <button onClick={() => navigate("/export")}>
-                        Open
+                        Csv
                       </button>
                     </div>
                   </>
@@ -560,9 +560,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
               )}
-
             </div>
-
           </div>
         </div>
       </div>

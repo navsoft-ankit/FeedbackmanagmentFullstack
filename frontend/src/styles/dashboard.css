@@ -301,7 +301,6 @@ body {
   font-weight: 700;
 }
 
-
 .response-row span {
   display: block;
   color: #d4d4d4;
@@ -556,11 +555,13 @@ body {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
 }
+
 .bar-label {
   font-size: 11px;
   color: #cbd5e1;
   margin-top: 6px;
 }
+
 .activity-bars > div {
   display: flex;
   flex-direction: column;
@@ -569,6 +570,7 @@ body {
   flex: 1;
   height: 100%;
 }
+
 .activity-chart {
   display: flex;
   align-items: flex-end;
@@ -624,13 +626,11 @@ body {
   border-radius: 10px;
 }
 
-
-
 /* FIRST ITEM BIG (latest) */
 .response-row.highlight {
   padding: 14px;
   border-radius: 12px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   font-size: 15px;
 }
 
@@ -643,7 +643,7 @@ body {
 
 .calendar-card {
   padding: 20px;
-  height: 250px;   /* compact box */
+  height: 250px; /* compact box */
   display: flex;
   flex-direction: column;
 }
@@ -660,7 +660,7 @@ body {
 .response-row.highlight {
   padding: 12px;
   border-radius: 12px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* SCROLL AREA ONLY */
@@ -674,6 +674,6 @@ body {
 /* normal items */
 .response-row {
   padding: 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   font-size: 13px;
 }
