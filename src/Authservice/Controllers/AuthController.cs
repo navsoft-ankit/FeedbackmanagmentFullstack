@@ -34,7 +34,7 @@ namespace Authservice.Controllers
             var existingUser = await _userService.GetUserByEmailAsync(dto.Email);
 
             if (existingUser != null)
-                return BadRequest("Account already exists.");
+               return Conflict(new { message = "Email already exists" });
 
             var user = new User
             {

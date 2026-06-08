@@ -29,7 +29,6 @@ export default function DashboardPage() {
     totalFeedbacks: 0,
   });
 
-
   const [activeUsers, setActiveUsers] = useState(0);
   const [recentResponses, setRecentResponses] = useState([]);
 
@@ -97,8 +96,6 @@ export default function DashboardPage() {
 
           api.get("/auth/active-users-count"),
         ]);
-
-
         setStats({
           totalForms: statsRes.data.totalForms,
           totalFeedbacks: statsRes.data.totalFeedbacks,
@@ -146,33 +143,25 @@ export default function DashboardPage() {
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
-  console.log("Forms:", forms);
 
   // =========================
-  // USER COMPLETION RATE
+  // UNIQUE USERS (ADMIN)
+  // =========================
+  const uniqueUsers = new Set(
+    feedbacks.map((f) => f.email)
+  ).size;
+
+  // =========================
+  // UNIQUE SUBMITTED FORMS
   // =========================
   const uniqueSubmittedForms = new Set(
     feedbacks.map((f) => f.formId)
   ).size;
 
-  const userCompletionRate =
-    stats.totalForms > 0
-      ? Math.min(
-        100,
-        Math.round((uniqueSubmittedForms / stats.totalForms) * 100)
-      )
-      : 0;
   // =========================
-  // ADMIN COMPLETION RATE (FIXED)
+  // ADMIN CIRCLE (ENGAGEMENT)
   // =========================
-
-  // unique users who submitted at least 1 form
-  const uniqueUsers = new Set(
-    feedbacks.map((f) => f.email)
-  ).size;
-
-  // safe division
-  const adminCompletionRate =
+  const adminCircleValue =
     activeUsers > 0
       ? Math.min(
         100,
@@ -180,8 +169,25 @@ export default function DashboardPage() {
       )
       : 0;
 
+  // =========================
+  // USER CIRCLE (COMPLETION)
+  // FIX: better + correct logic
+  // =========================
+const available = stats.totalForms || 0;
+const submitted = stats.totalFeedbacks || 0;
+
+const userCircleValue =
+  available > 0
+    ? Math.min(100, Math.round((submitted / available) * 100))
+    : 0;
+
+  // =========================
+  // FINAL VALUE (ROLE BASED)
+  // =========================
   const completionRate =
-    role === "admin" ? adminCompletionRate : userCompletionRate;
+    role === "admin"
+      ? adminCircleValue
+      : userCircleValue;
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
@@ -536,7 +542,7 @@ export default function DashboardPage() {
                 <p>
                   {role === "admin"
                     ? "Users who submitted forms"
-                    : "Your Completion Rate"}
+                    : "Your form completion"}
                 </p>
 
                 <p>Completion Rate</p>

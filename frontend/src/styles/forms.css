@@ -1285,6 +1285,8 @@ textarea::placeholder {
 .feedback-container {
   max-width: 1200px;
   margin: 0 auto;
+
+  box-shadow: 0 12px 35px rgba(6, 9, 143, 0.12);
 }
 
 .feedback-header {
@@ -1311,12 +1313,15 @@ textarea::placeholder {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  box-shadow: 0 12px 35px rgba(6, 8, 143, 0.691);
 }
 
 .feedback-section {
   display: flex;
   flex-direction: column;
   gap: 15px;
+
+  box-shadow: 0 12px 35px rgba(6, 9, 143, 0.12);
 }
 
 .feedback-section h3 {
@@ -1612,9 +1617,9 @@ textarea::placeholder {
 .card:hover {
   transform: translateY(-4px);
 
-  border-color: rgba(168, 255, 96, 0.4);
+  border-color: rgba(178, 96, 255, 0.4);
 
-  box-shadow: 0 12px 35px rgba(168, 255, 96, 0.12);
+  box-shadow: 0 12px 35px rgba(6, 9, 143, 0.12);
 }
 
 /* =========================
@@ -1672,7 +1677,7 @@ textarea::placeholder {
 .answer-box {
   background: rgba(255, 255, 255, 0.05);
 
-  border-left: 4px solid #a8ff60;
+  border-left: 4px solid #8560ff;
 
   border-radius: 12px;
 
@@ -1690,9 +1695,9 @@ textarea::placeholder {
 ========================= */
 
 .final-note {
-  background: rgba(168, 255, 96, 0.08);
+  background: rgba(12, 29, 177, 0.08);
 
-  border: 1px solid rgba(168, 255, 96, 0.25);
+  border: 1px solid rgba(60, 50, 152, 0.25);
 
   border-radius: 12px;
 

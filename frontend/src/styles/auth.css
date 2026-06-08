@@ -94,9 +94,9 @@ body {
 
   border-radius: 50px;
 
-  background: #00a6ff;
+  background: linear-gradient(90deg, #efeef3, #003ec5);
 
-  color: rgb(247, 246, 246);
+  color: rgb(0, 0, 0);
 
   font-weight: 700;
 

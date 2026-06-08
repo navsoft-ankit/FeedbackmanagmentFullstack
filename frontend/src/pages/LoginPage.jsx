@@ -129,12 +129,15 @@ export default function LoginPage() {
       navigate("/dashboard");
 
     } catch (error) {
+  console.log(error);
 
-      console.log(error);
+  const message =
+    error.response?.data?.message ||
+    error.response?.data ||
+    "Registration Failed";
 
-      alert("Registration Failed");
-
-    }
+  alert(message);
+}
   };
 
   return (
