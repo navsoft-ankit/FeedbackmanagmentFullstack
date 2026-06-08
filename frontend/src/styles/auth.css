@@ -96,7 +96,7 @@ body {
 
   background: #00a6ff;
 
-  color: black;
+  color: rgb(247, 246, 246);
 
   font-weight: 700;
 
@@ -207,7 +207,7 @@ body {
 
   background: linear-gradient(90deg, #2600ff, #5a1188);
 
-  color: black;
+  color: rgb(253, 253, 253);
 
   font-size: 16px;
   font-weight: 700;
@@ -257,4 +257,12 @@ body {
   .auth-form h1 {
     font-size: 34px;
   }
+}
+.input-box {
+  transition: 0.2s ease;
+}
+
+.input-box:focus-within {
+  border: 1px solid rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }

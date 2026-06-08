@@ -203,7 +203,7 @@ select {
 
   padding: 14px 16px;
 
-  color: rgb(7, 7, 7);
+  color: rgb(255, 255, 255);
 
   border-radius: 16px;
 
@@ -354,16 +354,19 @@ textarea::placeholder {
 
 .option-section {
   margin-top: 15px;
+  
 }
 
 .option-row {
   display: flex;
   gap: 12px;
   margin-bottom: 12px;
+  
 }
 
 .option-input {
   flex: 1;
+  /* color : rgba(7, 0, 0, 0.85); */
 }
 
 /* ===================================
@@ -1194,7 +1197,7 @@ textarea::placeholder {
 }
 
 .response-user b {
-  color: #d9f99d;
+  color: #181ecf;
 }
 
 .answers-title {
@@ -1731,4 +1734,32 @@ textarea::placeholder {
   flex-direction: column;
   gap: 20px;
   margin-top: 20px;
+}
+/* =========================
+   FIX SELECT + OPTION TEXT
+========================= */
+
+select {
+  color: #000 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+option {
+  color: #000 !important;
+  background: #fff !important;
+}
+/* =========================
+   FIX DROPDOWN (KEEP DARK THEME)
+========================= */
+
+select {
+  background: rgba(255, 255, 255, 0.05) !important; /* same as input */
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* dropdown opened list */
+select option {
+  background: #1a2233;
+  color: white;
 }
