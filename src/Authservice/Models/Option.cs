@@ -5,4 +5,5 @@ public class Option
     public Guid QuestionId { get; set; }
     public Question Question { get; set; }   // ADD THIS
     public string Value { get; set; }
+    public int SortOrder { get; set; }
 }

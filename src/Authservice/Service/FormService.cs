@@ -33,10 +33,11 @@ public class FormService : IFormService
             Text = q.Text,
             Type = q.Type,
             FeedbackFormId = form.Id,
-            Options = q.Options?.Select(o => new Option
+            Options = q.Options?.Select((o, index) => new Option
             {
                 Id = Guid.NewGuid(),
-                Value = o
+                Value = o,
+                SortOrder = index   // ✅ FIX ADDED
             }).ToList()
         }).ToList();
 
@@ -85,10 +86,6 @@ public class FormService : IFormService
         if (form == null)
             return false;
 
-        // -------------------------
-        // Delete Feedback Answers
-        // -------------------------
-
         var feedbacks = await _context.Feedbacks
             .Where(f => f.FormId == id)
             .Include(f => f.Answers)
@@ -100,23 +97,13 @@ public class FormService : IFormService
 
         _context.Answers.RemoveRange(answers);
 
-        // -------------------------
-        // Delete Feedbacks
-        // -------------------------
-
         _context.Feedbacks.RemoveRange(feedbacks);
-
-        // -------------------------
-        // Delete Options
-        // -------------------------
 
         var questions = await _context.Questions
             .Where(q => q.FeedbackFormId == id)
             .ToListAsync();
 
-        var questionIds = questions
-            .Select(q => q.Id)
-            .ToList();
+        var questionIds = questions.Select(q => q.Id).ToList();
 
         var options = await _context.Options
             .Where(o => questionIds.Contains(o.QuestionId))
@@ -124,15 +111,7 @@ public class FormService : IFormService
 
         _context.Options.RemoveRange(options);
 
-        // -------------------------
-        // Delete Questions
-        // -------------------------
-
         _context.Questions.RemoveRange(questions);
-
-        // -------------------------
-        // Delete Form
-        // -------------------------
 
         _context.FeedbackForms.Remove(form);
 
@@ -140,8 +119,9 @@ public class FormService : IFormService
 
         return true;
     }
+
     // =========================
-    // UPDATE FORM (FIXED)
+    // UPDATE FORM
     // =========================
     public async Task<FormResponseDTO?> UpdateFormAsync(Guid id, UpdateFormDTO dto)
     {
@@ -153,9 +133,6 @@ public class FormService : IFormService
         form.Title = dto.Title;
         form.Description = dto.Description;
 
-        // -----------------------------
-        // SAFE DELETE OLD DATA
-        // -----------------------------
         var questions = await _context.Questions
             .Where(q => q.FeedbackFormId == id)
             .ToListAsync();
@@ -171,19 +148,17 @@ public class FormService : IFormService
 
         await _context.SaveChangesAsync();
 
-        // -----------------------------
-        // ADD NEW QUESTIONS
-        // -----------------------------
         var newQuestions = dto.Questions?.Select(q => new Question
         {
             Id = Guid.NewGuid(),
             Text = q.Text,
             Type = q.Type,
             FeedbackFormId = id,
-            Options = q.Options?.Select(o => new Option
+            Options = q.Options?.Select((o, index) => new Option
             {
                 Id = Guid.NewGuid(),
-                Value = o
+                Value = o,
+                SortOrder = index   // ✅ FIX ADDED
             }).ToList()
         }).ToList();
 
@@ -194,7 +169,6 @@ public class FormService : IFormService
 
         await _context.SaveChangesAsync();
 
-        // reload
         var updated = await _context.FeedbackForms
             .Include(f => f.Questions)
             .ThenInclude(q => q.Options)
@@ -204,7 +178,7 @@ public class FormService : IFormService
     }
 
     // =========================
-    // GET AVAILABLE FORMS (USER)
+    // GET AVAILABLE FORMS
     // =========================
     public async Task<List<FormResponseDTO>> GetAvailableFormsAsync(string email)
     {
@@ -223,7 +197,7 @@ public class FormService : IFormService
     }
 
     // =========================
-    // GET FILLED FORMS (USER)
+    // GET FILLED FORMS
     // =========================
     public async Task<List<FormResponseDTO>> GetFilledFormsAsync(string email)
     {
@@ -262,9 +236,8 @@ public class FormService : IFormService
         };
     }
 
-
     // =========================
-    // MAPPER
+    // MAPPER (ONLY FIX HERE)
     // =========================
     private FormResponseDTO MapToResponse(FeedbackForm form)
     {
@@ -278,10 +251,12 @@ public class FormService : IFormService
                 Id = q.Id.ToString(),
                 Text = q.Text,
                 Type = q.Type.ToString(),
-                Options = q.Options?.Select(o => o.Value).ToList()
+
+                Options = q.Options?
+                    .OrderBy(o => o.SortOrder)   // ✅ FIX ADDED
+                    .Select(o => o.Value)
+                    .ToList()
             }).ToList()
         };
     }
-
-
 }

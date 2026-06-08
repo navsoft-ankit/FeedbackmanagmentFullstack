@@ -1386,24 +1386,23 @@ textarea::placeholder {
 
 .mcq-options {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 12px;
 }
 
 .mcq-option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 10px;
 
-  padding: 10px 15px;
-
-  border-radius: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
 
   background: rgba(255, 255, 255, 0.05);
-
-  color: white;
-
   cursor: pointer;
+
+  transition: all 0.25s ease;
 }
 
 .mcq-option input {
@@ -1761,5 +1760,87 @@ select {
 /* dropdown opened list */
 select option {
   background: #1a2233;
+  color: white;
+}
+
+.mcq-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* IMPORTANT FIX */
+.mcq-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  cursor: pointer;
+
+  /* 🔥 REMOVE shake triggers */
+  transition: background 0.15s ease;
+  transform: none !important;
+}
+
+/* hover ONLY color change */
+.mcq-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* radio stable */
+.mcq-option input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* text stable */
+.mcq-text {
+  color: white;
+  font-size: 15px;
+  line-height: 1;
+}
+.mcq-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  cursor: pointer;
+
+  user-select: none;
+
+  /* 🔥 IMPORTANT FIX */
+  position: relative;
+  z-index: 1;
+}
+
+.mcq-option input {
+  pointer-events: auto;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #2600ff;
+}
+
+.mcq-option * {
+  pointer-events: auto;
+}
+
+.mcq-text {
+  flex: 1;
   color: white;
 }
