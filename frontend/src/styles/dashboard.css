@@ -345,7 +345,7 @@ body {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(90deg, #2600ff, #5a1188);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(12px);
   display: flex;

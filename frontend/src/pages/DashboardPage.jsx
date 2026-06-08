@@ -173,13 +173,13 @@ export default function DashboardPage() {
   // USER CIRCLE (COMPLETION)
   // FIX: better + correct logic
   // =========================
-const available = stats.totalForms || 0;
-const submitted = stats.totalFeedbacks || 0;
+  const available = stats.totalForms || 0;
+  const submitted = stats.totalFeedbacks || 0;
 
-const userCircleValue =
-  available > 0
-    ? Math.min(100, Math.round((submitted / available) * 100))
-    : 0;
+  const userCircleValue =
+    available > 0
+      ? Math.min(100, Math.round((submitted / available) * 100))
+      : 0;
 
   // =========================
   // FINAL VALUE (ROLE BASED)

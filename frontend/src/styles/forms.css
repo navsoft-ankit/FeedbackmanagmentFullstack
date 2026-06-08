@@ -1847,7 +1847,6 @@ select option {
 .mcq-text {
   flex: 1;
   color: white;
-  
 }
 /* FIX: keep everything inside a proper centered glass container */
 .user-feedback-page {
@@ -1973,7 +1972,13 @@ body {
 .form-box,
 .feedback-container,
 .preview-card {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background:
+    linear-gradient(rgba(8, 12, 20, 0.85), rgba(8, 12, 20, 0.85)),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2000");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* remove focus glow completely */
@@ -1996,4 +2001,17 @@ select:focus {
 .feedback-container::before,
 .feedback-container::after {
   display: none !important;
+}
+.form-page,
+.forms-page,
+.admin-feedback-page,
+.user-feedback-page,
+.export-page {
+  background:
+    linear-gradient(rgba(8, 12, 20, 0.85), rgba(8, 12, 20, 0.85)),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2000");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
