@@ -345,30 +345,30 @@ export default function FeedbackPage() {
 
                   )}
 
-{/* MCQ */}
-{q.type === "MCQ" && (
-  <div className="mcq-options">
-    {q.options?.map((opt, idx) => (
-      <label
-        key={idx}
-        className="mcq-option"
-        htmlFor={`${q.id}-${idx}`}
-      >
-        <input
-          id={`${q.id}-${idx}`}
-          type="radio"
-          name={q.id}
-          value={opt}
-          onChange={(e) =>
-            updateAnswer(i, e.target.value)
-          }
-        />
+                  {/* MCQ */}
+                  {q.type === "MCQ" && (
+                    <div className="mcq-options">
+                      {q.options?.map((opt, idx) => (
+                        <label
+                          key={idx}
+                          className="mcq-option"
+                          htmlFor={`${q.id}-${idx}`}
+                        >
+                          <input
+                            id={`${q.id}-${idx}`}
+                            type="radio"
+                            name={q.id}
+                            value={opt}
+                            onChange={(e) =>
+                              updateAnswer(i, e.target.value)
+                            }
+                          />
 
-        <span className="mcq-text">{opt}</span>
-      </label>
-    ))}
-  </div>
-)}             </div>
+                          <span className="mcq-text">{opt}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}             </div>
 
               </div>
 

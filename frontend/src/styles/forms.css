@@ -1425,9 +1425,9 @@ textarea::placeholder {
 
   background: linear-gradient(90deg, #2600ff, #5a1188);
 
-  color: black;
+  color: rgb(255, 255, 255);
 
-  color: rgb(11, 11, 11);
+  color: rgb(255, 252, 252);
   font-size: 16px;
   font-weight: 700;
 
@@ -1441,7 +1441,7 @@ textarea::placeholder {
 .feedback-submit:hover {
   transform: translateY(-2px);
 
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .feedback-submit:active {
@@ -1848,4 +1848,152 @@ select option {
   flex: 1;
   color: white;
   
+}
+/* FIX: keep everything inside a proper centered glass container */
+.user-feedback-page {
+  min-height: 100vh;
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* MAIN WRAPPER FIX */
+.feedback-container {
+  width: 100%;
+  max-width: 1100px;
+  padding: 30px;
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* HEADER CLEAN FIX */
+.feedback-header {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+/* REMOVE STRAY TEXT ISSUE AREA (like "dd") */
+.feedback-container > *:empty {
+  display: none;
+}
+
+/* INPUT ALIGNMENT FIX (prevents overflow look) */
+.feedback-input,
+.feedback-select,
+.feedback-textarea {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+/* MCQ FIX (prevents misalignment like in screenshot) */
+.mcq-option {
+  width: 100%;
+}
+
+/* OPTIONAL: better spacing between sections */
+.feedback-section {
+  margin-bottom: 25px;
+}
+/* =========================
+   REMOVE BLUE GLOW / SHADOW
+========================= */
+
+.feedback-container,
+.form-box,
+.preview-card,
+.feedback-card,
+.card,
+.export-card {
+  box-shadow: none !important;
+}
+
+/* remove blue focus glow */
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* remove any blue border tint */
+* {
+  outline-color: transparent !important;
+}
+body {
+  background: #080d18 !important;
+}
+.feedback-container,
+.form-box,
+.preview-card,
+.card,
+.feedback-card {
+  border: none !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* remove any hidden glow layers */
+.feedback-container::before,
+.feedback-container::after,
+.form-box::before,
+.form-box::after {
+  display: none !important;
+  content: none !important;
+}
+/* =========================
+   HARD REMOVE BLUE GLOW
+========================= */
+
+/* kill all shadows globally */
+* {
+  box-shadow: none !important;
+}
+
+/* remove blur edge glow */
+.form-box,
+.preview-card,
+.feedback-container,
+.feedback-card,
+.card,
+.export-card,
+.question-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* remove gradient “blue-ish” edge illusion */
+.form-box,
+.feedback-container,
+.preview-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* remove focus glow completely */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* remove radio/MCQ blue system highlight */
+.mcq-option input {
+  background: linear-gradient(90deg, #2600ff, #5a1188);
+}
+
+/* remove any pseudo element glow layers */
+.form-box::before,
+.form-box::after,
+.feedback-container::before,
+.feedback-container::after {
+  display: none !important;
 }
