@@ -16,7 +16,6 @@ import {
 import "../styles/dashboard.css";
 
 export default function DashboardPage() {
-  const navigate = useNavigate();
 
   const role = (localStorage.getItem("role") || "")
     .trim()
@@ -46,9 +45,11 @@ export default function DashboardPage() {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  const toggleProfile = () => {
-    setShowProfile(!showProfile);
-  };
+const navigate = useNavigate();
+
+const goProfile = () => {
+  navigate("/Profile");
+};
 
   const logout = () => {
     localStorage.clear();
@@ -107,7 +108,6 @@ export default function DashboardPage() {
         setActiveUsers(usersRes.data.activeUsers || 0);
         setTotalUsers(totalUsersRes.data.totalUsers || 0);
 
-        // 🔥 THIS IS MISSING (IMPORTANT)
         setSubmittedUsers(statsRes.data.totalFeedbacks || 0);
       } else {
         const statsRes = await api.get(`/forms/user-stats?email=${email}`);
@@ -324,7 +324,7 @@ export default function DashboardPage() {
               <div className="profile-wrapper">
                 <div
                   className="profile-avatar"
-                  onClick={toggleProfile}
+                  onClick={goProfile}
                   style={{ cursor: "pointer" }}
                 >
                   {email?.charAt(0).toUpperCase()}

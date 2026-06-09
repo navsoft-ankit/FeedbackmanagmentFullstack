@@ -23,8 +23,7 @@ body {
   background-position: center;
 }
 
-/* SIDEBAR */
-
+/* ============= SIDEBAR ============= */
 .sidebar {
   width: 90px;
   display: flex;
@@ -92,8 +91,7 @@ body {
   display: none;
 }
 
-/* MAIN */
-
+/* ============= MAIN ============= */
 .dashboard-layout {
   flex: 1;
   padding: 25px;
@@ -145,8 +143,7 @@ body {
   cursor: pointer;
 }
 
-/* GLASS DASHBOARD */
-
+/* ============= GLASS DASHBOARD ============= */
 .glass-dashboard {
   display: grid;
   grid-template-columns: 1.5fr 2fr 1.2fr;
@@ -165,8 +162,7 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
-/* LEFT */
-
+/* ============= LEFT ============= */
 .activity-card {
   padding: 25px;
   height: 320px;
@@ -221,8 +217,7 @@ body {
   font-weight: 600;
 }
 
-/* CENTER */
-
+/* ============= CENTER ============= */
 .glass-center {
   display: flex;
   flex-direction: column;
@@ -243,8 +238,7 @@ body {
   font-size: 34px;
 }
 
-/* RIGHT */
-
+/* ============= RIGHT ============= */
 .glass-right {
   display: flex;
   flex-direction: column;
@@ -314,7 +308,7 @@ body {
   padding-right: 6px;
 }
 
-/* MOBILE */
+/* ============= MOBILE ============= */
 
 @media (max-width: 1200px) {
   .glass-dashboard {
@@ -322,6 +316,7 @@ body {
   }
 }
 
+/* ============= MOBILE ============= */
 @media (max-width: 768px) {
   .sidebar {
     display: none;
@@ -422,6 +417,7 @@ body {
 .profile-logout:hover {
   opacity: 0.9;
 }
+/* ============= SEARCH ============= */
 .search-container {
   position: relative;
 }
@@ -459,10 +455,8 @@ body {
 .search-item:hover {
   background: rgba(255, 255, 255, 0.08);
 }
-/* =========================
-   PROGRESS RING (MODERN)
-========================= */
 
+/* ============= PROGRESS RING (MODERN) ============= */
 .progress-ring {
   width: 170px;
   height: 170px;
@@ -471,16 +465,16 @@ body {
   align-items: center;
   justify-content: center;
 
-  /* background ring */
+  /* ============= background ring ============= */
   background: conic-gradient(#2600ff calc(var(--percent) * 1%), #2b2f36 0);
 
   position: relative;
 
-  /* smooth animation */
+  /* ============= smooth animation ============= */
   animation: pop 0.6s ease-in-out;
 }
 
-/* inner cutout */
+/* ============= inner cutout ============= */
 .progress-ring::before {
   content: "";
   position: absolute;
@@ -490,7 +484,7 @@ body {
   border-radius: 50%;
 }
 
-/* center content */
+/* ============= center content ============= */
 .progress-inner {
   position: absolute;
   z-index: 2;
@@ -503,7 +497,7 @@ body {
   color: #ffffff;
 }
 
-/* animation */
+/* ============= animation ============= */
 @keyframes pop {
   from {
     transform: scale(0.8);
@@ -578,7 +572,7 @@ body {
   height: 220px;
 }
 
-/* LEFT NUMBERS */
+/* ============= LEFT NUMBERS ============= */
 .y-axis {
   display: flex;
   flex-direction: column;
@@ -589,9 +583,7 @@ body {
   padding-right: 8px;
 }
 
-/* BARS AREA */
-
-/* EACH BAR COLUMN */
+/* ============= EACH BAR COLUMN ============= */
 .bar-wrapper {
   display: flex;
   flex-direction: column;
@@ -616,7 +608,7 @@ body {
   padding-right: 10px;
 }
 
-/* nice scrollbar */
+/* ============= nice scrollbar ============= */
 .recent-scroll::-webkit-scrollbar {
   width: 6px;
 }
@@ -626,7 +618,7 @@ body {
   border-radius: 10px;
 }
 
-/* FIRST ITEM BIG (latest) */
+/* ============= FIRST ITEM BIG (latest) ============= */
 .response-row.highlight {
   padding: 14px;
   border-radius: 12px;
@@ -634,7 +626,7 @@ body {
   font-size: 15px;
 }
 
-/* SCROLL AREA SMALL */
+/* ============= SCROLL AREA SMALL ============= */
 .scroll-area {
   max-height: 120px;
   overflow-y: auto;
@@ -643,12 +635,12 @@ body {
 
 .calendar-card {
   padding: 20px;
-  height: 250px; /* compact box */
+  height: 250px; 
   display: flex;
   flex-direction: column;
 }
 
-/* main container */
+/* ============= main container ============= */
 .recent-scroll {
   display: flex;
   flex-direction: column;
@@ -656,14 +648,14 @@ body {
   flex: 1;
 }
 
-/* TOP ITEM (latest) */
+/* ============= TOP ITEM ============= */
 .response-row.highlight {
   padding: 12px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* SCROLL AREA ONLY */
+/* ============= SCROLL AREA ONLY ============= */
 .scroll-area {
   flex: 1;
   overflow-y: auto;
@@ -671,7 +663,7 @@ body {
   padding-right: 6px;
 }
 
-/* normal items */
+/* ============= normal items ============= */
 .response-row {
   padding: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);

@@ -7,6 +7,7 @@ import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 // DASHBOARD
 import DashboardPage from "../pages/DashboardPage";
+import ProfilePage from "../pages/ProfilePage";
 
 // FORMS
 import FormsPage from "../pages/FormsPage";
@@ -26,6 +27,7 @@ import FormResponsesPage from "../pages/FormResponsesPage";
 import AdminFeedbackDetailsPage from "../pages/AdminFeedbackDetailsPage";
 import SubmittedFormsPage from "../pages/SubmittedFormsPage";
 import ExportPage from "../pages/ExportPage";
+import ProfileSetup from "../pages/ProfileSetup";
 
 export default function AppRoutes({ theme, toggleTheme }) {
   return (
@@ -43,6 +45,7 @@ export default function AppRoutes({ theme, toggleTheme }) {
           <DashboardPage theme={theme} toggleTheme={toggleTheme} />
         }
       />
+      <Route path="/profile" element={<ProfilePage />} />
 
       {/* ================= FORMS ================= */}
       <Route path="/forms" element={<FormsPage />} />
@@ -77,10 +80,10 @@ export default function AppRoutes({ theme, toggleTheme }) {
       {/* ================= OTHER ================= */}
       <Route
         path="/submitted-forms"
-        element={<SubmittedFormsPage />}
-      />
+        element={<SubmittedFormsPage />} />
 
       <Route path="/export" element={<ExportPage />} />
+      <Route path="/profile-setup" element={<ProfileSetup />} />
 
     </Routes>
   );
