@@ -27,42 +27,87 @@ export default function AppRoutes({ theme, toggleTheme }) {
   return (
     <Routes>
       {/* AUTH */}
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route
+        path="/"
+        element={<LoginPage />}
+      />
+
+      <Route
+        path="/register"
+        element={<RegisterPage />}
+      />
+
+      <Route
+        path="/reset-password"
+        element={<ResetPasswordPage />}
+      />
 
       {/* DASHBOARD */}
       <Route
         path="/dashboard"
-        element={<DashboardPage theme={theme} toggleTheme={toggleTheme} />}
+        element={<DashboardPage 
+          theme={theme} toggleTheme={toggleTheme} />}
       />
 
       {/* FORMS */}
-      <Route path="/forms" element={<FormsPage />} />
-      <Route path="/create-form" element={<CreateFormPage />} />
-      <Route path="/edit-form/:id" element={<CreateFormPage />} />
+      <Route
+        path="/forms"
+        element={<FormsPage />}
+      />
 
-      {/* ✅ IMPORTANT FIX HERE */}
-      <Route path="/forms/:id" element={<AdminFormViewPage />} />
-      <Route path="/admin/forms/view/:id" element={<AdminFormViewPage />} />
+      <Route
+        path="/create-form"
+        element={<CreateFormPage />}
+      />
+
+      <Route
+        path="/edit-form/:id"
+        element={<CreateFormPage />}
+      />
+
+      {/* IMPORTANT FIX HERE */}
+      <Route
+        path="/forms/:id"
+        element={<AdminFormViewPage />}
+      />
+
+      <Route
+        path="/admin/forms/view/:id"
+        element={<AdminFormViewPage />}
+      />
 
       {/* FEEDBACK */}
-      <Route path="/feedback/:id" element={<FeedbackPage />} />
-      <Route path="/responses" element={<ResponsesPage />} />
+      <Route
+        path="/feedback/:id"
+        element={<FeedbackPage />}
+      />
+
+      <Route
+        path="/responses"
+        element={<ResponsesPage />}
+      />
 
       {/* ADMIN FEEDBACK DETAILS */}
       <Route
         path="/admin-feedbacks/:formId"
         element={<AdminFeedbackDetailsPage />}
       />
+
       <Route
         path="/admin-feedbacks/:formId/responses"
         element={<FormResponsesPage />}
       />
 
       {/* SUBMITTED FORMS & EXPORT */}
-      <Route path="/submitted-forms" element={<SubmittedFormsPage />} />
-      <Route path="/export" element={<ExportPage />} />
+      <Route
+        path="/submitted-forms"
+        element={<SubmittedFormsPage />}
+      />
+
+      <Route
+        path="/export"
+        element={<ExportPage />}
+      />
     </Routes>
   );
 }

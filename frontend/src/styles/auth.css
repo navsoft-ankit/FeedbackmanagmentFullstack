@@ -285,3 +285,72 @@ select:-webkit-autofill {
 input:-webkit-autofill::first-line {
   color: white !important;
 }
+.forgot-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.forgot-wrapper span {
+  font-size: 13px;
+  color: #7c3aed;
+  cursor: pointer;
+}
+
+.forgot-wrapper span:hover {
+  text-decoration: underline;
+}
+
+/* MODAL BACKDROP */
+.forgot-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* MODAL BOX */
+.forgot-box {
+  background: #111827;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.forgot-box input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #0f172a;
+  color: white;
+}
+
+.forgot-box button {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.forgot-box button[type="submit"] {
+  background: #7c3aed;
+  color: white;
+}
+
+.forgot-box button[type="button"] {
+  background: #374151;
+  color: white;
+}
+.forgot-wrap {
+  text-align: right;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #7c3aed;
+}

@@ -1,13 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-
 using Authservice.Data;
 using Authservice.Models;
 using Authservice.DTOs.Form;
-
 using Microsoft.EntityFrameworkCore;
-
 namespace Authservice.Controllers;
 
 [ApiController]
@@ -23,10 +20,7 @@ public class FeedbackController : ControllerBase
         _context = context;
     }
 
-    // =========================
-    // SUBMIT FEEDBACK
-    // =========================
-
+    // ================ SUBMIT FEEDBACK ================
     [Authorize]
     [HttpPost("submit")]
     public async Task<IActionResult>
@@ -35,10 +29,7 @@ public class FeedbackController : ControllerBase
         SubmitFeedbackDTO dto
     )
     {
-        // =========================
-        // GET LOGGED-IN USER
-        // =========================
-
+        // ================ GET LOGGED-IN USER ================
         var email =
             User.FindFirst(
                 ClaimTypes.Email
@@ -56,10 +47,7 @@ public class FeedbackController : ControllerBase
             );
         }
 
-        // =========================
-        // CHECK DUPLICATE
-        // =========================
-
+        // ================ CHECK DUPLICATE ================
         var alreadySubmitted =
             await _context.Feedbacks
             .AnyAsync(f =>
@@ -74,9 +62,7 @@ public class FeedbackController : ControllerBase
             );
         }
 
-        // =========================
-        // CREATE FEEDBACK
-        // =========================
+        // ================ CREATE FEEDBACK ================
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var feedback = new Feedback
         {
@@ -106,10 +92,7 @@ public class FeedbackController : ControllerBase
                 ).ToList()
         };
 
-        // =========================
-        // SAVE
-        // =========================
-
+        // ================ SAVE ================
         _context.Feedbacks.Add(
             feedback
         );
@@ -126,14 +109,10 @@ public class FeedbackController : ControllerBase
         });
     }
 
-    // =========================
-    // ADMIN: ALL FEEDBACKS
-    // =========================
-
+    // ================ ADMIN: ALL FEEDBACKS ================
     [Authorize(Roles = "Admin")]
     [HttpGet("forms/{formId:guid}")]
-    public async Task<IActionResult>
-    GetFeedbackForForm(Guid formId)
+    public async Task<IActionResult> GetFeedbackForForm(Guid formId)
     {
         var feedbacks =
             await _context.Feedbacks
@@ -185,14 +164,10 @@ public class FeedbackController : ControllerBase
         return Ok(feedbacks);
     }
 
-    // =========================
-    // SINGLE FEEDBACK
-    // =========================
-
+    // ================ SINGLE FEEDBACK ================
     [Authorize]
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult>
-    GetFeedback(Guid id)
+    public async Task<IActionResult> GetFeedback(Guid id)
     {
         var feedback =
             await _context.Feedbacks
@@ -249,14 +224,10 @@ public class FeedbackController : ControllerBase
         return Ok(feedback);
     }
 
-    // =========================
-    // USER SUBMITTED FORMS
-    // =========================
-
+    // ================ USER SUBMITTED FORMS ================
     [Authorize]
     [HttpGet("my-feedbacks")]
-    public async Task<IActionResult>
-GetUserFeedbacks()
+    public async Task<IActionResult> GetUserFeedbacks()
     {
         var email =
             User.FindFirst(
@@ -319,8 +290,7 @@ GetUserFeedbacks()
     }
     [Authorize]
     [HttpGet("available-forms")]
-    public async Task<IActionResult>
-GetAvailableForms()
+    public async Task<IActionResult> GetAvailableForms()
     {
         var email =
             User.FindFirst(
@@ -378,10 +348,11 @@ GetAvailableForms()
 
         return Ok(forms);
     }
+
+    // ================ DELETE FEEDBACK ================
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult>
-    DeleteFeedback(Guid id)
+    public async Task<IActionResult> DeleteFeedback(Guid id)
     {
         var feedback =
             await _context.Feedbacks
@@ -413,6 +384,8 @@ GetAvailableForms()
                 "Feedback deleted successfully"
         });
     }
+
+    // ================ ADMIN: ALL FEEDBACKS ================
     [Authorize(Roles = "Admin")]
     [HttpGet("all")]
     public async Task<IActionResult> GetAllFeedbacks()

@@ -491,65 +491,65 @@ export default function DashboardPage() {
               )}
 
               {/* ✅ ADD IT HERE (THIS FIXES EVERYTHING) */}
-<div className="glass-card trend-card">
-  <h3>Feedback Insights</h3>
+              <div className="glass-card trend-card">
+                <h3>Feedback Insights</h3>
 
-  {(() => {
-    const today = new Date().toLocaleDateString("en-US", {
-      weekday: "short",
-    });
+                {(() => {
+                  const today = new Date().toLocaleDateString("en-US", {
+                    weekday: "short",
+                  });
 
-    // normalize day format (Mon, Tue etc)
-    const normalizeDay = (d) => d.slice(0, 3);
+                  // normalize day format (Mon, Tue etc)
+                  const normalizeDay = (d) => d.slice(0, 3);
 
-    const todayData = activity.find(
-      (a) => normalizeDay(a.day) === today
-    );
+                  const todayData = activity.find(
+                    (a) => normalizeDay(a.day) === today
+                  );
 
-    const todayCount = todayData?.count || 0;
+                  const todayCount = todayData?.count || 0;
 
-    const total = activity.reduce(
-      (sum, a) => sum + (a.count || 0),
-      0
-    );
+                  const total = activity.reduce(
+                    (sum, a) => sum + (a.count || 0),
+                    0
+                  );
 
-    const avg = activity.length
-      ? Math.round(total / activity.length)
-      : 0;
+                  const avg = activity.length
+                    ? Math.round(total / activity.length)
+                    : 0;
 
-    const peak = activity.reduce(
-      (max, a) =>
-        (a.count || 0) > (max.count || 0) ? a : max,
-      activity[0] || { day: "-", count: 0 }
-    );
+                  const peak = activity.reduce(
+                    (max, a) =>
+                      (a.count || 0) > (max.count || 0) ? a : max,
+                    activity[0] || { day: "-", count: 0 }
+                  );
 
-    return (
-      <div className="trend-metrics">
+                  return (
+                    <div className="trend-metrics">
 
-        {/* TODAY */}
-        <div className="trend-item">
-          <span>Today Submit</span>
-          <strong>{todayCount}</strong>
-        </div>
+                      {/* TODAY */}
+                      <div className="trend-item">
+                        <span>Today Submit</span>
+                        <strong>{todayCount}</strong>
+                      </div>
 
-        {/* AVERAGE */}
-        <div className="trend-item">
-          <span>Avg per day</span>
-          <strong>{avg}</strong>
-        </div>
+                      {/* AVERAGE */}
+                      <div className="trend-item">
+                        <span>Avg per day</span>
+                        <strong>{avg}</strong>
+                      </div>
 
-        {/* PEAK */}
-        <div className="trend-item">
-          <span>Peak Form</span>
-          <strong>
-            {peak.day} ({peak.count})
-          </strong>
-        </div>
+                      {/* PEAK */}
+                      <div className="trend-item">
+                        <span>Peak Form</span>
+                        <strong>
+                          {peak.day} ({peak.count})
+                        </strong>
+                      </div>
 
-      </div>
-    );
-  })()}
-</div>
+                    </div>
+                  );
+                })()}
+              </div>
 
             </div>
 

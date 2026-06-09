@@ -14,9 +14,7 @@ public class FormService : IFormService
         _context = context;
     }
 
-    // =========================
-    // CREATE FORM
-    // =========================
+    // ================= CREATE FORM =================
     public async Task<FormResponseDTO> CreateFormAsync(CreateFormDTO dto)
     {
         var form = new FeedbackForm
@@ -37,7 +35,7 @@ public class FormService : IFormService
             {
                 Id = Guid.NewGuid(),
                 Value = o,
-                SortOrder = index   // ✅ FIX ADDED
+                SortOrder = index 
             }).ToList()
         }).ToList();
 
@@ -49,9 +47,7 @@ public class FormService : IFormService
         return MapToResponse(form);
     }
 
-    // =========================
-    // GET FORM
-    // =========================
+    // ================= GET FORM =================
     public async Task<FormResponseDTO?> GetFormAsync(Guid id)
     {
         var form = await _context.FeedbackForms
@@ -62,9 +58,7 @@ public class FormService : IFormService
         return form == null ? null : MapToResponse(form);
     }
 
-    // =========================
-    // GET ALL FORMS
-    // =========================
+    // ================= GET ALL FORMS =================
     public async Task<List<FormResponseDTO>> GetAllFormsAsync()
     {
         var forms = await _context.FeedbackForms
@@ -75,9 +69,7 @@ public class FormService : IFormService
         return forms.Select(MapToResponse).ToList();
     }
 
-    // =========================
-    // DELETE FORM
-    // =========================
+    // ================= DELETE FORM =================
     public async Task<bool> DeleteFormAsync(Guid id)
     {
         var form = await _context.FeedbackForms
@@ -120,9 +112,7 @@ public class FormService : IFormService
         return true;
     }
 
-    // =========================
-    // UPDATE FORM
-    // =========================
+    // ================= UPDATE FORM =================
     public async Task<FormResponseDTO?> UpdateFormAsync(Guid id, UpdateFormDTO dto)
     {
         var form = await _context.FeedbackForms
@@ -158,7 +148,7 @@ public class FormService : IFormService
             {
                 Id = Guid.NewGuid(),
                 Value = o,
-                SortOrder = index   // ✅ FIX ADDED
+                SortOrder = index
             }).ToList()
         }).ToList();
 
@@ -177,9 +167,7 @@ public class FormService : IFormService
         return MapToResponse(updated);
     }
 
-    // =========================
-    // GET AVAILABLE FORMS
-    // =========================
+    // ================= GET AVAILABLE FORMS =================
     public async Task<List<FormResponseDTO>> GetAvailableFormsAsync(string email)
     {
         var filledFormIds = await _context.Feedbacks
@@ -196,9 +184,7 @@ public class FormService : IFormService
         return forms.Select(MapToResponse).ToList();
     }
 
-    // =========================
-    // GET FILLED FORMS
-    // =========================
+    // ================= GET FILLED FORMS =================
     public async Task<List<FormResponseDTO>> GetFilledFormsAsync(string email)
     {
         var filledFormIds = await _context.Feedbacks
@@ -215,9 +201,7 @@ public class FormService : IFormService
         return forms.Select(MapToResponse).ToList();
     }
 
-    // =========================
-    // GET USER DASHBOARD STATS
-    // =========================
+    // ================= GET USER DASHBOARD STATS =================
     public async Task<object> GetUserStatsAsync(string email)
     {
         var filled = await _context.Feedbacks
@@ -236,9 +220,7 @@ public class FormService : IFormService
         };
     }
 
-    // =========================
-    // MAPPER (ONLY FIX HERE)
-    // =========================
+    // ================= MAPPER (ONLY FIX HERE) =================
     private FormResponseDTO MapToResponse(FeedbackForm form)
     {
         return new FormResponseDTO
@@ -253,7 +235,7 @@ public class FormService : IFormService
                 Type = q.Type.ToString(),
 
                 Options = q.Options?
-                    .OrderBy(o => o.SortOrder)   // ✅ FIX ADDED
+                    .OrderBy(o => o.SortOrder)
                     .Select(o => o.Value)
                     .ToList()
             }).ToList()

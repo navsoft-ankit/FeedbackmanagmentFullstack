@@ -54,9 +54,7 @@ namespace Authservice.Repository
             }
         }
 
-        // =========================
-        // EXPORT: DATE RANGE ONLY
-        // =========================
+        //================= EXPORT: DATE RANGE ONLY =================
         public async Task<List<Answer>> GetAnswersByDateAsync(
             DateTime fromDate,
             DateTime toDate
@@ -76,9 +74,7 @@ namespace Authservice.Repository
                 .ToListAsync();
         }
 
-        // =========================
-        // NEW: DATE + EMAIL FILTER
-        // =========================
+        //================= NEW: DATE + EMAIL FILTER =================
         public async Task<List<Answer>> GetAnswersByDateAndEmailAsync(
             DateTime fromDate,
             DateTime toDate,

@@ -22,122 +22,96 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
+  const [forgotMode, setForgotMode] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // LOGIN
 
+  // LOGIN
   const handleLogin = async (e) => {
-
     e.preventDefault();
 
     try {
-
       const response = await axios.post(
         "http://localhost:5091/api/auth/login",
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "X-Api-Key": "mvc-api-secret-key-2026",
-          },
-        }
+        { email, password },
+        { headers: { "X-Api-Key": "mvc-api-secret-key-2026" } }
       );
 
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
-
-      localStorage.setItem(
-        "role",
-        response.data.role
-      );
-
-      localStorage.setItem(
-        "email",
-        email
-      );
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.role);
+      localStorage.setItem("email", email);
 
       navigate("/dashboard");
 
     } catch (error) {
-
       console.log(error);
-
       alert("Invalid Email or Password");
-
     }
   };
 
-  // REGISTER + AUTO LOGIN
-
+  // REGISTER
   const handleRegister = async (e) => {
-
     e.preventDefault();
 
     try {
-
-      // REGISTER
-
       await axios.post(
         "http://localhost:5091/api/auth/register",
-        {
-          name,
-          email,
-          password,
-        },
-        {
-          headers: {
-            "X-Api-Key": "mvc-api-secret-key-2026",
-          },
-        }
+        { name, email, password },
+        { headers: { "X-Api-Key": "mvc-api-secret-key-2026" } }
       );
-
-      // AUTO LOGIN
 
       const loginResponse = await axios.post(
         "http://localhost:5091/api/auth/login",
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "X-Api-Key": "mvc-api-secret-key-2026",
-          },
-        }
+        { email, password },
+        { headers: { "X-Api-Key": "mvc-api-secret-key-2026" } }
       );
 
-      localStorage.setItem(
-        "token",
-        loginResponse.data.token
-      );
-
-      localStorage.setItem(
-        "role",
-        loginResponse.data.role
-      );
-
-      localStorage.setItem(
-        "email",
-        email
-      );
+      localStorage.setItem("token", loginResponse.data.token);
+      localStorage.setItem("role", loginResponse.data.role);
+      localStorage.setItem("email", email);
 
       navigate("/dashboard");
 
     } catch (error) {
-  console.log(error);
+      console.log(error);
 
-  const message =
-    error.response?.data?.message ||
-    error.response?.data ||
-    "Registration Failed";
+      const message =
+        error.response?.data?.message ||
+        error.response?.data ||
+        "Registration Failed";
 
-  alert(message);
-}
+      alert(message);
+    }
+  };
+
+
+  // FORGOT PASSWORD (SEPARATE)
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      await axios.post(
+        "http://localhost:5091/api/auth/forgot-password",
+        { email: forgotEmail },
+        { headers: { "X-Api-Key": "mvc-api-secret-key-2026" } }
+      );
+
+      alert("Reset link sent to your email");
+
+      setForgotMode(false);
+      setForgotEmail("");
+
+    } catch (error) {
+      console.log(error);
+      alert("Failed to send reset link");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -237,44 +211,41 @@ export default function LoginPage() {
               <Lock size={18} />
 
               <input
-                type={
-                  showPassword
-                    ? "text"
-                    : "password"
-                }
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
-                onChange={(e) =>
-                  setPassword(e.target.value)
-                }
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
 
               <span
                 className="password-toggle"
-                onClick={() =>
-                  setShowPassword(!showPassword)
-                }
+                onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword
-                  ? <EyeOff size={18} />
-                  : <Eye size={18} />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </span>
             </div>
 
-            <button
-              type="submit"
-              className="submit-btn"
-            >
-              {isLogin
-                ? "Login"
-                : "Register"}
-
-              <ArrowRight size={18} />
+            <button type="submit" className="submit-btn">
+              Login <ArrowRight size={18} />
             </button>
 
-          </form>
+            {isLogin && (
+              <div className="forgot-wrap">
+                <span
+                  onClick={() => navigate("/reset-password")}
+                  style={{
+                    color: "#7c3aed",
+                    fontSize: "13px",
+                    cursor: "pointer"
+                  }}
+                >
+                  Forgot Password?
+                </span>
+              </div>
+            )}
 
+          </form>
         </div>
 
       </div>

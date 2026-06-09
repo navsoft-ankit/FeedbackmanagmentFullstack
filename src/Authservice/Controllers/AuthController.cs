@@ -38,7 +38,7 @@ namespace Authservice.Controllers
             var existingUser = await _userService.GetUserByEmailAsync(dto.Email);
 
             if (existingUser != null)
-               return Conflict(new { message = "Email already exists" });
+                return Conflict(new { message = "Email already exists" });
 
             var user = new User
             {
@@ -95,7 +95,7 @@ namespace Authservice.Controllers
             if (user == null)
                 return Ok("If email exists, reset link sent.");
 
-            // ✅ SAFE TOKEN (HEX ONLY — NO URL ISSUES)
+            // SAFE TOKEN (HEX ONLY — NO URL ISSUES)
             var tokenBytes = RandomNumberGenerator.GetBytes(32);
             var token = Convert.ToHexString(tokenBytes);
 
@@ -109,7 +109,7 @@ namespace Authservice.Controllers
 
             await _userService.UpdateUserAsync(user);
 
-            // ✅ SAFE URL
+            // SAFE URL
             var resetLink =
                 $"http://localhost:5173/reset-password?email={Uri.EscapeDataString(user.Email)}&token={token}";
 
@@ -186,17 +186,21 @@ namespace Authservice.Controllers
                 refreshToken = newRefreshToken
             });
         }
+
+        // ================= TOTAL ACTIVE USER =================
         [HttpGet("active-users-count")]
         public async Task<IActionResult> GetActiveUsersCount()
         {
             var count = await _userService.GetUsersCountAsync();
             return Ok(new { activeUsers = count });
         }
+
+        // ================= TOTAL USERS =================
         [HttpGet("total-users")]
-public async Task<IActionResult> GetTotalUsers()
-{
-    var count = await _context.Users.CountAsync();
-    return Ok(new { totalUsers = count });
-}
+        public async Task<IActionResult> GetTotalUsers()
+        {
+            var count = await _context.Users.CountAsync();
+            return Ok(new { totalUsers = count });
+        }
     }
 }

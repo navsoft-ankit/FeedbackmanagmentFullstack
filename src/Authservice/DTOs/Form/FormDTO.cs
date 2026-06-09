@@ -1,4 +1,5 @@
 using Authservice.DTOs.Form;
+namespace Authservice.DTOs.Form;
 public class FormDTO
 {
     public Guid? Id { get; set; }

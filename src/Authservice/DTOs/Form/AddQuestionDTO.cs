@@ -1,4 +1,5 @@
 using Authservice.Models;
+namespace Authservice.DTOs.Form;
 public class AddQuestionDTO
 {
     public string Text { get; set; }

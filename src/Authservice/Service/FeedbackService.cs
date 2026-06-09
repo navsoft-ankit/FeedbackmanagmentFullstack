@@ -54,7 +54,7 @@ namespace Authservice.Service
                 Designation = dto.Designation,
                 FinalNote = dto.FinalNote,
 
-                CreatedAt = DateTime.UtcNow, // ✅ FIX ADDED
+                CreatedAt = DateTime.UtcNow,
 
                 Answers = new List<Answer>()
             };
@@ -66,7 +66,7 @@ namespace Authservice.Service
                     QuestionId = a.QuestionId,
                     Response = a.Response,
                     Feedback = feedback,
-                    CreatedAt = DateTime.UtcNow // (optional but good)
+                    CreatedAt = DateTime.UtcNow
                 });
             }
 

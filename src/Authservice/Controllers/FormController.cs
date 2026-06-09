@@ -17,9 +17,7 @@ public class FormController : ControllerBase
         _service = service;
     }
 
-    // =========================
-    // CREATE FORM
-    // =========================
+    // ================ CREATE FORM ================
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateFormDTO dto)
     {
@@ -34,9 +32,7 @@ public class FormController : ControllerBase
         }
     }
 
-    // =========================
-    // UPDATE FORM
-    // =========================
+    // ================ UPDATE FORM ================
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateFormDTO dto)
     {
@@ -55,9 +51,7 @@ public class FormController : ControllerBase
         }
     }
 
-    // =========================
-    // DELETE FORM
-    // =========================
+    // ================ DELETE FORM ================
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -69,9 +63,7 @@ public class FormController : ControllerBase
         return Ok(result);
     }
 
-    // =========================
-    // GET SINGLE FORM
-    // =========================
+    // ================ GET SINGLE FORM ================
     [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
@@ -84,9 +76,7 @@ public class FormController : ControllerBase
         return Ok(result);
     }
 
-    // =========================
-    // GET ALL FORMS (PUBLIC)
-    // =========================
+    // ================ GET ALL FORMS ================
     [AllowAnonymous]
     [HttpGet("all-public")]
     public async Task<IActionResult> GetAll()
@@ -95,9 +85,7 @@ public class FormController : ControllerBase
         return Ok(forms);
     }
 
-    // =========================
-    // 🔥 USER AVAILABLE FORMS
-    // =========================
+    // ================ GET USER AVAILABLE FORMS ================
     [HttpGet("available")]
     public async Task<IActionResult> GetAvailable([FromQuery] string email)
     {
@@ -112,9 +100,7 @@ public class FormController : ControllerBase
         }
     }
 
-    // =========================
-    // 🔥 USER FILLED FORMS
-    // =========================
+    // ================ GET USER FILLED FORMS ================
     [HttpGet("filled")]
     public async Task<IActionResult> GetFilled([FromQuery] string email)
     {
@@ -129,9 +115,7 @@ public class FormController : ControllerBase
         }
     }
 
-    // =========================
-    // 🔥 USER DASHBOARD STATS
-    // =========================
+    // ================ GET USER SUBMITTED FORMS ================
     [HttpGet("user-stats")]
     public async Task<IActionResult> GetUserStats([FromQuery] string email)
     {

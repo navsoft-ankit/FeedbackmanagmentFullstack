@@ -12,9 +12,7 @@ namespace Authservice.Repository
         Task DeleteFeedbackAsync(Guid id);
         Task<List<Answer>> GetAnswersByDateAsync(DateTime fromDate, DateTime toDate);
 
-        // ===============================
-        // NEW METHOD: Filter by email
-        // ===============================
+        // ================= NEW METHOD: Filter by email =================
         Task<List<Answer>> GetAnswersByDateAndEmailAsync(
             DateTime fromDate, 
             DateTime toDate, 
