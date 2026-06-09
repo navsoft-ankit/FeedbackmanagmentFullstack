@@ -1,0 +1,191 @@
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background:
+    
+    radial-gradient(circle at top left, rgba(99,102,241,0.25), transparent 40%),
+    radial-gradient(circle at top right, rgba(168,85,247,0.18), transparent 45%),
+    radial-gradient(circle at bottom, rgba(59,130,246,0.12), transparent 50%),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1920");
+  color: white;
+  min-height: 100vh;
+}
+
+/* ================
+   CONTAINER (GRID LAYOUT)
+========================= */
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.page-title {
+  grid-column: 1 / -1;
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   EMPTY TEXT
+========================= */
+
+.empty-text {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: rgba(255,255,255,0.6);
+}
+
+/* =========================
+   CARD (GLASS STYLE)
+========================= */
+
+.card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+
+  padding: 22px;
+
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+  transition: all 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+/* =========================
+   FORM TITLE
+========================= */
+
+.form-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* =========================
+   USER INFO
+========================= */
+
+.user-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.user-info p {
+  background: rgba(255,255,255,0.05);
+  padding: 12px;
+  border-radius: 12px;
+  color: #e5e5e5;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* =========================
+   ANSWERS
+========================= */
+
+.answers-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.answer-box {
+  background: rgba(255,255,255,0.04);
+  border-left: 4px solid #7c3aed;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.answer-box p {
+  margin: 5px 0;
+  color: #ffffff;
+}
+
+/* =========================
+   FINAL NOTE
+========================= */
+
+.final-note {
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.9);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+  }
+}
+.submitted-page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 20px;
+
+  background:
+    linear-gradient(rgba(8,12,20,0.85), rgba(8,12,20,0.85)),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1920");
+
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-info {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap; /* responsive safe */
+}
+
+.info-badge {
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.forms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}

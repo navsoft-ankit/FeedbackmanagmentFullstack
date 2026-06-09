@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
-import "../styles/forms.css";
+import "../styles/submittedForms.css";
 
 export default function SubmittedFormsPage() {
 
@@ -58,7 +58,7 @@ export default function SubmittedFormsPage() {
 
   // ================== UI ==================
   return (
-    <div className="container">
+    <div className="submitted-page">
 
       {/* PAGE TITLE */}
       <h2 className="page-title">
@@ -84,74 +84,38 @@ export default function SubmittedFormsPage() {
       ) : (
 
         /* FEEDBACK LIST */
-        feedbacks.map((f) => (
-          <div
-            className="card"
-            key={f.id}
-          >
+<div className="forms-grid">
+  {feedbacks.map((f) => (
+    <div className="card" key={f.id}>
 
-            {/* FORM TITLE */}
-            <h3 className="form-title">
-              {f.formTitle}
-            </h3>
+      <h3 className="form-title">{f.formTitle}</h3>
 
-            {/* USER INFO */}
-            <div className="user-info">
-              <p>
-                <b>Name:</b>{" "}
-                {f.name}
-              </p>
-              <p>
-                <b>Email:</b>{" "}
-                {f.email}
-              </p>
-              <p>
-                <b>Designation:</b>{" "}
-                {f.designation}
-              </p>
+      <div className="user-info">
+        <span className="info-badge">Name: {f.name}</span>
+        <span className="info-badge">Email: {f.email}</span>
+        <span className="info-badge">Designation: {f.designation}</span>
+      </div>
 
-            </div>
-
-            {/* ANSWERS */}
-            <div className="answers-section">
-              {f.answers &&
-                f.answers.map(
-                  (a, index) => (
-                    <div
-                      className="answer-box"
-                      key={index}
-                    >
-                      <p>
-                        <b>
-                          Question:
-                        </b>{" "}
-                        {a.question}
-                      </p>
-                      <p>
-                        <b>
-                          Answer:
-                        </b>{" "}
-                        {a.answer}
-                      </p>
-                    </div>
-                  )
-                )}
-            </div>
-
-            {/* FINAL NOTE */}
-            <div className="final-note">
-              <p>
-                <b>
-                  Final Note:
-                </b>{" "}
-                {f.finalNote ||
-                  "No final note"}
-              </p>
-            </div>
+      <div className="answers-section">
+        {f.answers?.map((a, index) => (
+          <div className="answer-box" key={index}>
+            <p><b>Question:</b> {a.question}</p>
+            <p><b>Answer:</b> {a.answer}</p>
           </div>
-        ))
-      )}
+        ))}
+      </div>
 
+      <div className="final-note">
+        <p>
+          <b>Final Note:</b> {f.finalNote || "No final note"}
+        </p>
+      </div>
+      
+    </div>
+  ))}
+</div>
+      )}
+      
     </div>
   );
 }

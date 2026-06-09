@@ -1272,15 +1272,7 @@ textarea::placeholder {
    USER FEEDBACK PAGE
 ========================= */
 
-.user-feedback-page {
-  min-height: 100vh;
-  padding: 50px 20px;
-  background:
-    linear-gradient(rgba(5, 5, 15, 0.88), rgba(5, 5, 15, 0.92)),
-    url("/office-bg.jpg");
-  background-size: cover;
-  background-position: center;
-}
+
 
 .feedback-container {
   max-width: 1200px;
@@ -1602,7 +1594,8 @@ textarea::placeholder {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none !important;
+  outline: none !important;
 
   border-radius: 20px;
 
@@ -1613,7 +1606,6 @@ textarea::placeholder {
 
   transition: all 0.3s ease;
 }
-
 .card:hover {
   transform: translateY(-4px);
 
@@ -1849,12 +1841,7 @@ select option {
   color: white;
 }
 /* FIX: keep everything inside a proper centered glass container */
-.user-feedback-page {
-  min-height: 100vh;
-  padding: 50px 20px;
-  display: flex;
-  justify-content: center;
-}
+
 
 /* MAIN WRAPPER FIX */
 .feedback-container {
@@ -1948,12 +1935,6 @@ body {
 /* =========================
    HARD REMOVE BLUE GLOW
 ========================= */
-
-/* kill all shadows globally */
-* {
-  box-shadow: none !important;
-}
-
 /* remove blur edge glow */
 .form-box,
 .preview-card,
@@ -2002,16 +1983,63 @@ select:focus {
 .feedback-container::after {
   display: none !important;
 }
-.form-page,
-.forms-page,
-.admin-feedback-page,
-.user-feedback-page,
-.export-page {
+.user-feedback-page {
+  min-height: 100vh;
+  padding: 35px;
+
   background:
-    linear-gradient(rgba(8, 12, 20, 0.85), rgba(8, 12, 20, 0.85)),
+    linear-gradient(rgba(8, 12, 20, 0.82), rgba(8, 12, 20, 0.82)),
     url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2000");
+
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   background-attachment: fixed;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+/* REMOVE BLUE / PURPLE GLOW COMPLETELY */
+* {
+  box-shadow: none !important;
+}
+
+/* remove glass blue border effect */
+.form-box,
+.feedback-container,
+.preview-card,
+.card,
+.feedback-card,
+.question-card {
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+
+  /* remove blur blue tint */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* remove focus blue glow */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* remove any gradient blue accent */
+.feedback-submit,
+.save-btn,
+.export-btn,
+.primary-btn {
+   background: linear-gradient(90deg, #2600ff, #5a1188);
+  color: white !important;
+}
+
+/* remove weird blue horizontal line (if any) */
+hr {
+  border: none !important;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08) !important;
 }
