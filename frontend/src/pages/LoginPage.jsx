@@ -20,6 +20,7 @@ export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
 
   const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -39,10 +40,12 @@ export default function LoginPage() {
         { email, password },
         { headers: { "X-Api-Key": "mvc-api-secret-key-2026" } }
       );
+      console.log(response.data);
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role);
-      localStorage.setItem("email", email);
+      localStorage.setItem("email", response.data.email);
+      localStorage.setItem("name", response.data.name);
 
       navigate("/dashboard");
 
@@ -71,7 +74,8 @@ export default function LoginPage() {
 
       localStorage.setItem("token", loginResponse.data.token);
       localStorage.setItem("role", loginResponse.data.role);
-      localStorage.setItem("email", email);
+      localStorage.setItem("email", loginResponse.data.email);
+      localStorage.setItem("name", loginResponse.data.name);
 
       navigate("/dashboard");
 

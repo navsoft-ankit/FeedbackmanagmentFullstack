@@ -29,9 +29,7 @@ namespace Authservice.Service
             return GenerateCsv(data);
         }
 
-        // =========================
-        // CSV GENERATOR
-        // =========================
+        // ================= CSV GENERATOR =================
         private (byte[], string, string) GenerateCsv(List<Answer> data)
         {
             using var memoryStream = new MemoryStream();

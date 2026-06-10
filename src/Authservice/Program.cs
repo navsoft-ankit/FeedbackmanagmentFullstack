@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 
-// 🔥 JWT SERVICE (IMPORTANT)
+// JWT SERVICE (IMPORTANT)
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Business Services
@@ -34,12 +34,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 // -------------------- JWT AUTHENTICATION --------------------
-
 builder.Services.AddAuthentication(
     options =>
     {
         //প্রতিবার request আসলে কোন method দিয়ে user identity check হবে?(JWT)
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+
         //যদি user unauthorized হয় (401), তাহলে কোন system response দেবে?(JWT)
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     }
@@ -49,6 +49,7 @@ builder.Services.AddAuthentication(
     // JWT token validation rules set করা হচ্ছে
     options.TokenValidationParameters = new TokenValidationParameters
     {
+        
         // Token issuer (কে token বানিয়েছে) verify করবে
         ValidateIssuer = true,
 
@@ -69,8 +70,10 @@ builder.Services.AddAuthentication(
 
         // Secret key ব্যবহার করে token signature verify করা হবে
         IssuerSigningKey = new SymmetricSecurityKey(
+
             // string key কে byte array এ convert করা হচ্ছে
             Encoding.UTF8.GetBytes(configuration["Jwt:Key"])
+
         )
     };
 })
@@ -101,11 +104,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // -------------------- BUILD APP --------------------
-
 var app = builder.Build();
 
 // -------------------- SEED DATA (CORRECT WAY) --------------------
-
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -113,7 +114,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 // -------------------- MIDDLEWARE --------------------
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -124,7 +124,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowFrontend");
 
 app.UseRouting();
-app.UseAuthentication();   //IMPORTANT (JWT check)
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();

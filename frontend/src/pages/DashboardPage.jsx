@@ -17,6 +17,9 @@ import "../styles/dashboard.css";
 
 export default function DashboardPage() {
 
+  const name = localStorage.getItem("name");
+
+
   const role = (localStorage.getItem("role") || "")
     .trim()
     .toLowerCase();
@@ -45,11 +48,11 @@ export default function DashboardPage() {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-const goProfile = () => {
-  navigate("/Profile");
-};
+  const goProfile = () => {
+    navigate("/Profile");
+  };
 
   const logout = () => {
     localStorage.clear();
@@ -327,7 +330,7 @@ const goProfile = () => {
                   onClick={goProfile}
                   style={{ cursor: "pointer" }}
                 >
-                  {email?.charAt(0).toUpperCase()}
+                  {name?.charAt(0).toUpperCase()}
                 </div>
 
                 {showProfile && (
@@ -490,7 +493,7 @@ const goProfile = () => {
                 </div>
               )}
 
-              {/* ✅ ADD IT HERE (THIS FIXES EVERYTHING) */}
+              {/* ADD IT HERE (THIS FIXES EVERYTHING) */}
               <div className="glass-card trend-card">
                 <h3>Feedback Insights</h3>
 
@@ -558,16 +561,16 @@ const goProfile = () => {
 
               <div className="glass-card profile-card">
                 <div className="avatar-big">
-                  {email?.charAt(0).toUpperCase()}
+                  {name?.charAt(0).toUpperCase()}
                 </div>
 
-                <h3>{email?.split("@")[0]}</h3>
+                <h3>{name}</h3>
 
-                <p>
-                  {role === "admin"
-                    ? "Administrator"
-                    : "User"}
-                </p>
+                <p>{email}</p>
+
+                <span className="role-badge">
+                  {role}
+                </span>
               </div>
 
               <div className="glass-card progress-card">

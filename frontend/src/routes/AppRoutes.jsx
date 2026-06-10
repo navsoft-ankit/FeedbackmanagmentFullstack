@@ -27,7 +27,7 @@ import FormResponsesPage from "../pages/FormResponsesPage";
 import AdminFeedbackDetailsPage from "../pages/AdminFeedbackDetailsPage";
 import SubmittedFormsPage from "../pages/SubmittedFormsPage";
 import ExportPage from "../pages/ExportPage";
-import ProfileSetup from "../pages/ProfileSetup";
+
 
 export default function AppRoutes({ theme, toggleTheme }) {
   return (
@@ -83,7 +83,7 @@ export default function AppRoutes({ theme, toggleTheme }) {
         element={<SubmittedFormsPage />} />
 
       <Route path="/export" element={<ExportPage />} />
-      <Route path="/profile-setup" element={<ProfileSetup />} />
+  
 
     </Routes>
   );
