@@ -40,10 +40,7 @@ export default function FeedbackPage() {
   const [feedbacks, setFeedbacks] =
     useState([]);
 
-  // =========================
-  // LOAD
-  // =========================
-
+  // ================= LOAD =================
   useEffect(() => {
 
     fetchForm();
@@ -55,10 +52,7 @@ export default function FeedbackPage() {
 
   }, [id]);
 
-  // =========================
-  // GET FORM
-  // =========================
-
+  // ================= GET FORM =================
   const fetchForm = async () => {
 
     try {
@@ -87,10 +81,7 @@ export default function FeedbackPage() {
     }
   };
 
-  // =========================
-  // GET FEEDBACKS
-  // =========================
-
+  // ================= GET FEEDBACKS =================
   const fetchFeedbacks = async () => {
 
     try {
@@ -108,10 +99,7 @@ export default function FeedbackPage() {
     }
   };
 
-  // =========================
-  // DELETE FEEDBACK
-  // =========================
-
+  // ================= DELETE FEEDBACK =================
   const deleteFeedback =
     async (feedbackId) => {
 
@@ -129,10 +117,7 @@ export default function FeedbackPage() {
       }
     };
 
-  // =========================
-  // UPDATE ANSWER
-  // =========================
-
+  // ================= UPDATE ANSWER =================
   const updateAnswer = (
     index,
     value
@@ -147,10 +132,7 @@ export default function FeedbackPage() {
     setAnswers(updated);
   };
 
-  // =========================
-  // SUBMIT FEEDBACK
-  // =========================
-
+  // ================= SUBMIT FEEDBACK =================
   const submitFeedback =
     async () => {
 
@@ -199,10 +181,7 @@ export default function FeedbackPage() {
       }
     };
 
-  // =========================
-  // LOADING
-  // =========================
-
+  // ================= LOADING =================
   if (!form)
     return <h3>Loading...</h3>;
 

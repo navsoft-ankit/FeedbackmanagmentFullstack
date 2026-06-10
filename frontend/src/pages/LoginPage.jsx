@@ -161,9 +161,7 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT SIDE */}
-
         <div className="right-panel">
-
           <form
             className="auth-form"
             onSubmit={

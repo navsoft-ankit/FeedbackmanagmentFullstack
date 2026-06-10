@@ -55,9 +55,7 @@ export default function LoginPage() {
   return (
 
     <div className="auth-container">
-
       <div className="auth-box">
-
         <h1>Navsoft</h1>
 
         <p>Feedback Management System</p>

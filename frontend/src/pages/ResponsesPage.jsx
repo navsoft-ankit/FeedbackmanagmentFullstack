@@ -42,7 +42,7 @@ export default function ResponsesPage() {
     if (!confirmDelete) return;
 
     try {
-      
+
       // Delete each response individually (since backend only supports single delete)
       const formResponses = responses.filter(r => r.formId === formId);
       for (let r of formResponses) {

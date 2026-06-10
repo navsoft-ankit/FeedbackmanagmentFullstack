@@ -16,9 +16,7 @@ export default function CreateFormPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // =========================
-  // LOAD EXISTING FORM (EDIT MODE)
-  // =========================
+  // ================= LOAD EXISTING FORM (EDIT MODE) =================
   useEffect(() => {
     if (isEdit) fetchForm();
   }, [id]);
@@ -48,9 +46,7 @@ export default function CreateFormPage() {
     }
   };
 
-  // =========================
-  // ADD / DELETE / UPDATE QUESTIONS
-  // =========================
+  // ================= ADD / DELETE / UPDATE QUESTIONS =================
   const addQuestion = () =>
     setQuestions([
       ...questions,
@@ -69,9 +65,7 @@ export default function CreateFormPage() {
     setQuestions(updated);
   };
 
-  // =========================
-  // ADD / UPDATE / DELETE OPTIONS
-  // =========================
+  // ================= ADD / UPDATE / DELETE OPTIONS =================
   const updateOption = (qIndex, optIndex, value) => {
     const updated = [...questions];
     updated[qIndex].options[optIndex] = value;
@@ -90,9 +84,7 @@ export default function CreateFormPage() {
     setQuestions(updated);
   };
 
-  // =========================
-  // VALIDATE FORM
-  // =========================
+  // ================= VALIDATE FORM =================
   const validateForm = () => {
     if (!title.trim()) {
       alert("Form title cannot be empty");
@@ -113,9 +105,7 @@ export default function CreateFormPage() {
     return true;
   };
 
-  // =========================
-  // MAP STRING TO ENUM BACKEND
-  // =========================
+  // ================= MAP STRING TO ENUM BACKEND =================
   const mapToEnum = (typeStr) => {
     switch (typeStr) {
       case "MCQ": return "MCQ";
@@ -126,9 +116,7 @@ export default function CreateFormPage() {
     }
   };
 
-  // =========================
-  // SUBMIT FORM
-  // =========================
+  // ================= SUBMIT FORM =================
   const submitForm = async () => {
     if (!validateForm()) return;
     setLoading(true);

@@ -155,23 +155,17 @@ export default function DashboardPage() {
       .includes(searchTerm.toLowerCase())
   );
 
-  // =========================
-  // UNIQUE USERS (ADMIN)
-  // =========================
+  // ================= UNIQUE USERS (ADMIN) =================
   const uniqueUsers = new Set(
     feedbacks.map((f) => f.email)
   ).size;
 
-  // =========================
-  // UNIQUE SUBMITTED FORMS
-  // =========================
+  // ================= UNIQUE SUBMITTED FORMS =================
   const uniqueSubmittedForms = new Set(
     feedbacks.map((f) => f.formId)
   ).size;
 
-  // =========================
-  // ADMIN CIRCLE (ENGAGEMENT)
-  // =========================
+  // ================= ADMIN CIRCLE (ENGAGEMENT) =================
   const totalForms = stats.totalForms || 0;
   const totalResponses = stats.totalFeedbacks || 0;
 
@@ -183,10 +177,11 @@ export default function DashboardPage() {
         100
       )
       : 0;
-  // =========================
+
+  // =================
   // USER CIRCLE (COMPLETION)
   // FIX: better + correct logic
-  // =========================
+  // =================
   const available = stats.totalForms || 0;
   const submitted = stats.totalFeedbacks || 0;
 
@@ -196,9 +191,8 @@ export default function DashboardPage() {
     totalFormsAll > 0
       ? Math.round((submitted / totalFormsAll) * 100)
       : 0;
-  // =========================
-  // FINAL VALUE (ROLE BASED)
-  // =========================
+
+  // ================= FINAL VALUE (ROLE BASED) =================
   const completionRate =
     role === "admin"
       ? adminTotalKPI
