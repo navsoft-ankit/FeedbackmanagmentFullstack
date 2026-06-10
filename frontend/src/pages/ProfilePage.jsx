@@ -3,8 +3,6 @@ import "../styles/profile.css";
 import { QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 
-
-
 function QRCode({ data }) {
   return (
     <QRCodeCanvas
@@ -149,7 +147,6 @@ export default function ProfilePage() {
 
             <div className="profile-details">
               <div className="brand-chip">
-                <span className="brand-dot"></span>
                 {data.company}
               </div>
 
