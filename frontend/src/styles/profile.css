@@ -1,5 +1,4 @@
-css
-* {
+css * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -19,10 +18,7 @@ body {
   padding: 30px;
 
   background:
-    linear-gradient(
-      rgba(8, 12, 22, 0.82),
-      rgba(8, 12, 22, 0.82)
-    ),
+    linear-gradient(rgba(8, 12, 22, 0.82), rgba(8, 12, 22, 0.82)),
     url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1920");
 
   background-size: cover;
@@ -38,12 +34,12 @@ body {
   background:
     radial-gradient(
       circle at top left,
-      rgba(80,120,255,.12),
+      rgba(80, 120, 255, 0.12),
       transparent 40%
     ),
     radial-gradient(
       circle at bottom right,
-      rgba(60,80,255,.12),
+      rgba(60, 80, 255, 0.12),
       transparent 40%
     );
 
@@ -71,21 +67,20 @@ body {
 
   border-radius: 30px;
 
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.08),
-      rgba(255,255,255,.02)
-    );
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
 
-  backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.04),
-    0 10px 30px rgba(0,0,0,.35);
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .profile-info {
@@ -156,7 +151,7 @@ body {
 ========================= */
 
 .brand-chip {
-  color: rgba(255,255,255,.65);
+  color: rgba(255, 255, 255, 0.65);
   letter-spacing: 2px;
 }
 
@@ -184,7 +179,7 @@ body {
 
   border-radius: 999px;
 
-  background: rgba(50,211,153,.15);
+  background: rgba(50, 211, 153, 0.15);
   color: #32d399;
 
   font-size: 12px;
@@ -218,24 +213,21 @@ body {
   font-size: 14px;
   font-weight: 600;
 
-  transition: .3s;
+  transition: 0.3s;
 
   border: none;
 }
 
-
-
-
 .btn:hover {
-  background: rgba(50,100,255,.18);
+  background: rgba(50, 100, 255, 0.18);
 }
 
 .btn-primary {
   color: #dcc9ff;
 
-  background: rgba(140,90,255,.16);
+  background: rgba(140, 90, 255, 0.16);
 
-  border: 1px solid rgba(170,120,255,.35);
+  border: 1px solid rgba(170, 120, 255, 0.35);
 }
 
 .btn-primary:hover {
@@ -244,9 +236,9 @@ body {
 .btn {
   color: #9ec5ff;
 
-  background: rgba(50,100,255,.12);
+  background: rgba(50, 100, 255, 0.12);
 
-  border: 1px solid rgba(80,140,255,.35);
+  border: 1px solid rgba(80, 140, 255, 0.35);
 }
 .btn-p {
   color: #e79d91;
@@ -281,33 +273,32 @@ body {
 
   border-radius: 30px;
 
-  background:
-    linear-gradient(
-      120deg,
-      rgba(255,255,255,.08),
-      rgba(255,255,255,.02)
-    );
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
 
-  backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.04),
-    0 10px 30px rgba(0,0,0,.35);
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 10px 30px rgba(0, 0, 0, 0.35);
 
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .profile-card:hover {
   transform: translateY(-3px);
 
-  border-color: rgba(255,255,255,.12);
+  border-color: rgba(255, 255, 255, 0.12);
 
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.05),
-    0 20px 40px rgba(0,0,0,.4);
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .profile-card h3 {
@@ -344,7 +335,7 @@ body {
 }
 
 .info-item span {
-  color: rgba(255,255,255,.95);
+  color: rgba(255, 255, 255, 0.95);
 
   font-size: 16px;
   font-weight: 500;
@@ -361,7 +352,7 @@ body {
 }
 
 .expiry-badge {
-  background: rgba(50,211,153,.15);
+  background: rgba(50, 211, 153, 0.15);
   color: #32d399;
 
   padding: 3px 8px;
@@ -396,7 +387,7 @@ body {
 
   border-radius: 999px;
 
-  background: rgba(255,255,255,.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .progress-fill {
@@ -405,11 +396,7 @@ body {
 
   border-radius: 999px;
 
-  background: linear-gradient(
-    90deg,
-    #4f8cff,
-    #7c6cff
-  );
+  background: linear-gradient(90deg, #4f8cff, #7c6cff);
 }
 
 /* =========================
@@ -421,9 +408,9 @@ body {
 }
 
 .qr-box {
-  background: rgba(255,255,255,.04);
+  background: rgba(255, 255, 255, 0.04);
 
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   border-radius: 20px;
 
@@ -447,11 +434,12 @@ body {
 
   border-radius: 28px;
 
-  background: rgba(18,24,40,.55);
+  background: rgba(18, 24, 40, 0.55);
 
+  -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
 
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .edit-panel h2 {
@@ -461,7 +449,7 @@ body {
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
 }
 
@@ -480,9 +468,9 @@ body {
 
   border-radius: 14px;
 
-  background: rgba(255,255,255,.06);
+  background: rgba(255, 255, 255, 0.06);
 
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   color: white;
 
@@ -509,7 +497,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,.2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 999px;
 }
 
@@ -547,13 +535,13 @@ body {
 
   border-radius: 50%;
 
-  border: 2px solid rgba(255,255,255,.18);
+  border: 2px solid rgba(255, 255, 255, 0.18);
 
   overflow: hidden;
 }
 
 .avatar-initials {
-  background: rgba(255,255,255,.06);
+  background: rgba(255, 255, 255, 0.06);
 
   color: white;
 

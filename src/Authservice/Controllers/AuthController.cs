@@ -81,8 +81,8 @@ namespace Authservice.Controllers
             return Ok(new
             {
                 message = $"{user.Role} logged in successfully",
-                   name = user.Name,
-    email = user.Email,
+                name = user.Name,
+                email = user.Email,
                 role = user.Role,
                 token,
                 refreshToken,

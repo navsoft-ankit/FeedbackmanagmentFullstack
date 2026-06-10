@@ -22,41 +22,41 @@ ID:${data.idNumber}`}
 }
 
 export default function ProfilePage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const name = localStorage.getItem("name") || "";
   const email = localStorage.getItem("email") || "";
   const role = localStorage.getItem("role") || "User";
 
-const createdAt = localStorage.getItem("createdAt");
+  const createdAt = localStorage.getItem("createdAt");
 
-const joinDateObj = createdAt
-  ? new Date(createdAt)
-  : new Date();
+  const joinDateObj = createdAt
+    ? new Date(createdAt)
+    : new Date();
 
-const expiryDateObj = new Date(joinDateObj);
-expiryDateObj.setFullYear(
-  expiryDateObj.getFullYear() + 1
-);
+  const expiryDateObj = new Date(joinDateObj);
+  expiryDateObj.setFullYear(
+    expiryDateObj.getFullYear() + 1
+  );
 
-const daysLeft = Math.max(
-  0,
-  Math.ceil(
-    (expiryDateObj - new Date()) /
+  const daysLeft = Math.max(
+    0,
+    Math.ceil(
+      (expiryDateObj - new Date()) /
       (1000 * 60 * 60 * 24)
-  )
-);
+    )
+  );
 
-const defaultData = {
-  name,
-  role,
-  idNumber: "",
-  address: "",
-  phone: "",
-  email,
-joinDate: joinDateObj.toLocaleDateString(),
-expireDate: expiryDateObj.toLocaleDateString(),
-  company: "VOXIFY",
-};
+  const defaultData = {
+    name,
+    role,
+    idNumber: "",
+    address: "",
+    phone: "",
+    email,
+    joinDate: joinDateObj.toLocaleDateString(),
+    expireDate: expiryDateObj.toLocaleDateString(),
+    company: "VOXIFY",
+  };
 
   const savedData = localStorage.getItem("idCardData");
 
@@ -179,12 +179,12 @@ expireDate: expiryDateObj.toLocaleDateString(),
             >
               Edit Profile
             </button>
-<button
-  className="btn-p"
-  onClick={() => navigate("/")}
->
-  Log Out
-</button>
+            <button
+              className="btn-p"
+              onClick={() => navigate("/")}
+            >
+              Log Out
+            </button>
 
             <input
               ref={fileRef}
@@ -243,9 +243,9 @@ expireDate: expiryDateObj.toLocaleDateString(),
               <label>Expiry Date</label>
               <div className="expiry-row">
                 <span>{data.expireDate}</span>
-<span className="expiry-badge">
-  {daysLeft}d left
-</span>
+                <span className="expiry-badge">
+                  {daysLeft}d left
+                </span>
               </div>
             </div>
           </div>

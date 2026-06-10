@@ -1874,7 +1874,7 @@ select:focus {
 .save-btn,
 .export-btn,
 .primary-btn {
-   background: linear-gradient(90deg, #2600ff, #5a1188);
+  background: linear-gradient(90deg, #2600ff, #5a1188);
   color: white !important;
 }
 

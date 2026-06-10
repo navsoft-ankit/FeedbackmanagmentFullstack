@@ -35,7 +35,7 @@ public class FormService : IFormService
             {
                 Id = Guid.NewGuid(),
                 Value = o,
-                SortOrder = index 
+                SortOrder = index
             }).ToList()
         }).ToList();
 
