@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import "../styles/profile.css";
 import { QRCodeCanvas } from "qrcode.react";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -21,6 +22,7 @@ ID:${data.idNumber}`}
 }
 
 export default function ProfilePage() {
+    const navigate = useNavigate();
   const name = localStorage.getItem("name") || "";
   const email = localStorage.getItem("email") || "";
   const role = localStorage.getItem("role") || "User";
@@ -177,6 +179,12 @@ expireDate: expiryDateObj.toLocaleDateString(),
             >
               Edit Profile
             </button>
+<button
+  className="btn-p"
+  onClick={() => navigate("/")}
+>
+  Log Out
+</button>
 
             <input
               ref={fileRef}
