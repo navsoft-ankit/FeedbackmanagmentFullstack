@@ -3,7 +3,7 @@ Feedback Management System
 A backend system built with ASP.NET Core Web API that allows users to create dynamic feedback forms.
 It supports form creation, questions, options, and structured retrieval of form data.
 
-Features
+**Features**
 Create dynamic feedback forms
 Add multiple questions per form
 Support multiple question types (Text, Dropdown, MCQ, etc.)
@@ -14,11 +14,11 @@ Clean layered architecture (Controller → Service → Data)
 DTO-based API design (no direct entity exposure)
 Entity Framework Core integration
 Tech Stack
-ASP.NET Core Web API (.NET 8)
+**ASP.NET Core Web API (.NET 8)
 Entity Framework Core
 SQL Server
 C#
-Postman
+Postman**
 Setup Instructions
 1. Clone the repository
 
