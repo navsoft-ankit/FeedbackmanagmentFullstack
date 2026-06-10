@@ -2,32 +2,7 @@ import { useState, useRef } from "react";
 import "../styles/profile.css";
 import { QRCodeCanvas } from "qrcode.react";
 
-const name = localStorage.getItem("name") || "";
-const email = localStorage.getItem("email") || "";
-const role = localStorage.getItem("role") || "User";
 
-const today = new Date();
-
-const expiry = new Date();
-expiry.setFullYear(expiry.getFullYear() + 1);
-
-const defaultData = {
-  name,
-  role,
-  idNumber: "",
-  address: "",
-  phone: "",
-  email,
-  joinDate: today.toLocaleDateString(),
-  expireDate: expiry.toLocaleDateString(),
-  company: "VOXIFY",
-};
-
-const savedData = localStorage.getItem("idCardData");
-
-const initialData = savedData
-  ? JSON.parse(savedData)
-  : defaultData;
 
 function QRCode({ data }) {
   return (
@@ -46,6 +21,46 @@ ID:${data.idNumber}`}
 }
 
 export default function ProfilePage() {
+  const name = localStorage.getItem("name") || "";
+  const email = localStorage.getItem("email") || "";
+  const role = localStorage.getItem("role") || "User";
+
+const createdAt = localStorage.getItem("createdAt");
+
+const joinDateObj = createdAt
+  ? new Date(createdAt)
+  : new Date();
+
+const expiryDateObj = new Date(joinDateObj);
+expiryDateObj.setFullYear(
+  expiryDateObj.getFullYear() + 1
+);
+
+const daysLeft = Math.max(
+  0,
+  Math.ceil(
+    (expiryDateObj - new Date()) /
+      (1000 * 60 * 60 * 24)
+  )
+);
+
+const defaultData = {
+  name,
+  role,
+  idNumber: "",
+  address: "",
+  phone: "",
+  email,
+joinDate: joinDateObj.toLocaleDateString(),
+expireDate: expiryDateObj.toLocaleDateString(),
+  company: "VOXIFY",
+};
+
+  const savedData = localStorage.getItem("idCardData");
+
+  const initialData = savedData
+    ? JSON.parse(savedData)
+    : defaultData;
   const [data, setData] = useState(initialData);
   const [draft, setDraft] = useState(initialData);
   const [editing, setEditing] = useState(false);
@@ -115,20 +130,34 @@ export default function ProfilePage() {
       <div className="profile-container">
 
         <div className="profile-header">
-          <div className="profile-avatar">
-            {photo ? (
-              <img src={photo} alt={data.name} />
-            ) : (
-              <div className="avatar-initials">
-                {initials}
+          <div className="profile-info">
+            <div className="profile-avatar-wrapper">
+              <div className="profile-avatar">
+                {photo ? (
+                  <img src={photo} alt={data.name} />
+                ) : (
+                  <div className="avatar-initials">
+                    {initials}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          <div className="profile-details">
-            <h1>{data.name}</h1>
-            <p>{data.role}</p>
-            <span>{data.company}</span>
+              <span className="online-dot"></span>
+            </div>
+
+            <div className="profile-details">
+              <div className="brand-chip">
+                <span className="brand-dot"></span>
+                {data.company}
+              </div>
+
+              <h1>{data.name}</h1>
+
+              <div className="role-pill">
+                <span className="role-dot"></span>
+                {data.role}
+              </div>
+            </div>
           </div>
 
           <div className="profile-actions">
@@ -140,7 +169,7 @@ export default function ProfilePage() {
             </button>
 
             <button
-              className="btn"
+              className="btn-primary"
               onClick={() => {
                 setDraft(data);
                 setEditing(true);
@@ -204,7 +233,12 @@ export default function ProfilePage() {
 
             <div className="info-item">
               <label>Expiry Date</label>
-              <span>{data.expireDate}</span>
+              <div className="expiry-row">
+                <span>{data.expireDate}</span>
+<span className="expiry-badge">
+  {daysLeft}d left
+</span>
+              </div>
             </div>
           </div>
 

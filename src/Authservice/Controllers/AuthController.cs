@@ -45,7 +45,8 @@ namespace Authservice.Controllers
                 Name = dto.Name,
                 Email = dto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-                Role = dto.Role ?? "User"
+                Role = dto.Role ?? "User",
+                CreatedAt = DateTime.UtcNow
             };
 
             await _userService.AddUserAsync(user);
@@ -84,7 +85,8 @@ namespace Authservice.Controllers
     email = user.Email,
                 role = user.Role,
                 token,
-                refreshToken
+                refreshToken,
+                createdAt = user.CreatedAt
             });
         }
 

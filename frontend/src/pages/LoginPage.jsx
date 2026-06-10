@@ -46,6 +46,7 @@ export default function LoginPage() {
       localStorage.setItem("role", response.data.role);
       localStorage.setItem("email", response.data.email);
       localStorage.setItem("name", response.data.name);
+      localStorage.setItem("createdAt", response.data.createdAt);
 
       navigate("/dashboard");
 
@@ -76,6 +77,7 @@ export default function LoginPage() {
       localStorage.setItem("role", loginResponse.data.role);
       localStorage.setItem("email", loginResponse.data.email);
       localStorage.setItem("name", loginResponse.data.name);
+      localStorage.setItem("createdAt", loginResponse.data.createdAt);
 
       navigate("/dashboard");
 

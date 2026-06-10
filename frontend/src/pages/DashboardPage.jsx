@@ -54,10 +54,11 @@ export default function DashboardPage() {
     navigate("/Profile");
   };
 
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+const logout = () => {
+  localStorage.removeItem("token");
+
+  navigate("/");
+};
 
   useEffect(() => {
     if (!email || !role) return;
