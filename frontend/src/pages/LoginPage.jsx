@@ -18,17 +18,13 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
-
   const [name, setName] = useState("");
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // LOGIN
 
   // LOGIN
   const handleLogin = async (e) => {
