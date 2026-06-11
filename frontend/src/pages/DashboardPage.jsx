@@ -19,8 +19,6 @@ export default function DashboardPage() {
 
   const name = localStorage.getItem("name");
 
-
-
   const role = (localStorage.getItem("role") || "")
     .trim()
     .toLowerCase();
@@ -44,6 +42,7 @@ export default function DashboardPage() {
   const [forms, setForms] = useState([]);
   const [activity, setActivity] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [openFAQ, setOpenFAQ] = useState(null);
 
 
   const toggleTheme = () => {
@@ -196,419 +195,287 @@ export default function DashboardPage() {
     role === "admin"
       ? adminTotalKPI
       : userCircleValue;
+
+  const faqs = [
+    {
+      question: "Can I create different feedback forms for different departments or events?",
+      answer:
+        "Yes. Voxify allows administrators to create multiple custom feedback forms tailored to specific departments, events, workshops, courses, or customer experiences."
+    },
+    {
+      question: "How can I distribute feedback forms to users?",
+      answer:
+        "Forms can be shared through direct links, QR codes, email invitations, or embedded within your organization's website."
+    },
+    {
+      question: "Is it possible to customize the feedback questions and branding?",
+      answer:
+        "Absolutely. You can customize form colors, logos, titles, descriptions, and questions to match your organization's identity."
+    },
+    {
+      question: "Can I track feedback in real time?",
+      answer:
+        "Yes. Voxify provides real-time analytics and reporting dashboards that update instantly when users submit feedback."
+    },
+    {
+      question: "Does Voxify support data export?",
+      answer:
+        "Yes. Administrators can export feedback data and reports in CSV format for further analysis and record keeping."
+    }
+  ];
+
+  console.log(stats);
+console.log(activeUsers);
+console.log(totalUsers);
+console.log(uniqueUsers);
+console.log(uniqueSubmittedForms);
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
-      <aside className="sidebar">
-        <div>
-          <div className="logo">
-            <h2>Voxify</h2>
-          </div>
+      <header className="dashboard-navbar">
+
+        <div className="nav-left">
+          <h2 className="nav-logo">Voxify</h2>
 
           {role === "admin" ? (
             <>
-              <div
-                className="nav-item active"
-                onClick={() => navigate("/dashboard")}
-              >
-                <LayoutDashboard size={20} />
-              </div>
+              {/* <button onClick={() => navigate("/dashboard")}>
+                Dashboard
+              </button> */}
 
-              <div
-                className="nav-item"
-                onClick={() => navigate("/create-form")}
-              >
-                <FilePlus size={20} />
-              </div>
+              <button onClick={() => navigate("/create-form")}>
+                Create Form
+              </button>
 
-              <div
-                className="nav-item"
-                onClick={() => navigate("/forms")}
-              >
-                <FileText size={20} />
-              </div>
+              <button onClick={() => navigate("/forms")}>
+                Forms
+              </button>
 
-              <div
-                className="nav-item"
-                onClick={() => navigate("/responses")}
-              >
-                <MessageSquare size={20} />
-              </div>
+              <button onClick={() => navigate("/responses")}>
+                Responses
+              </button>
 
-              <div
-                className="nav-item"
-                onClick={() => navigate("/export")}
-              >
-                <Download size={20} />
-              </div>
+              <button onClick={() => navigate("/export")}>
+                Export
+              </button>
             </>
           ) : (
             <>
-              <div
-                className="nav-item active"
-                onClick={() => navigate("/forms")}
-              >
-                <FileText size={20} />
-              </div>
+              <button onClick={() => navigate("/forms")}>
+                Forms
+              </button>
 
-              <div
-                className="nav-item"
-                onClick={() => navigate("/submitted-forms")}
-              >
-                <BarChart3 size={20} />
-              </div>
+              <button onClick={() => navigate("/submitted-forms")}>
+                Submitted
+              </button>
             </>
           )}
         </div>
 
-        <button className="logout-btn" onClick={logout}>
-          <LogOut size={18} />
-        </button>
-      </aside>
+        <div className="nav-right">
+          <button className="book-demo-btn" onClick={goProfile}>
+            Profile
+          </button>
+
+          <button className="logout-btn-top" onClick={logout}>
+            Logout
+          </button>
+        </div>
+
+      </header>
 
       <div className="dashboard-layout">
         <div className="dashboard-main">
 
-          {/* TOPBAR */}
-          <div className="topbar">
-            <div>
-              <h1>
-                {role === "admin"
-                  ? "Admin Dashboard"
-                  : "User Dashboard"}
-              </h1>
-
-              <p>{email}</p>
-            </div>
-
-            <div className="top-right">
-
-              {/* Search Box */}
-              <div className="search-container">
-                <div className="search-box">
-                  <input
-                    type="text"
-                    placeholder="Search forms..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-
-                {searchTerm && (
-                  <div className="search-results">
-                    {filteredForms.length > 0 ? (
-                      filteredForms.slice(0, 5).map((form) => (
-                        <div
-                          key={form.id}
-                          className="search-item"
-                          onClick={() => navigate(`/admin/forms/view/${form.id}`)}
-                        >
-                          {form.title}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="search-item">
-                        No forms found
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <Bell size={18} />
-
-              {/* Avatar */}
-              <div className="profile-wrapper">
-                <div
-                  className="profile-avatar"
-                  onClick={goProfile}
-                  style={{ cursor: "pointer" }}
-                >
-                  {profilePhoto ? (
-                    <img
-                      src={profilePhoto}
-                      alt="Profile"
-                      className="avatar-img"
-                    />
-                  ) : (
-                    name?.charAt(0).toUpperCase()
-                  )}
-                </div>
-
-                {showProfile && (
-                  <div className="profile-dropdown">
-                    <div className="profile-dropdown-header">
-                      <div className="avatar-big">
-                        {profilePhoto ? (
-                          <img
-                            src={profilePhoto}
-                            alt="Profile"
-                            className="avatar-big-img"
-                          />
-                        ) : (
-                          name?.charAt(0).toUpperCase()
-                        )}
-                      </div>
-
-                      <div>
-                        <h4>{email?.split("@")[0]}</h4>
-                        <p>{email}</p>
-                      </div>
-                    </div>
-
-                    <div className="profile-role">
-                      {role === "admin"
-                        ? "Administrator"
-                        : "User"}
-                    </div>
-
-                    <button
-                      className="profile-logout"
-                      onClick={logout}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
           {/* GLASS DASHBOARD */}
-          <div className="glass-dashboard">
+          <div className="modern-dashboard">
 
-            {/* LEFT */}
-            <div className="glass-left">
+            <section className="hero-section">
+              <div className="hero-left">
+                <h1>
+                  Collect Actionable Feedback
+                  <br />
+                  With Smart Voxify Forms
+                </h1>
 
-              <div className="glass-card activity-card">
-                <h3>Feedback Activity</h3>
+                <p>
+                  Create, distribute and analyze feedback forms
+                  with powerful real-time insights and reporting.
+                </p>
 
-                <div className="activity-bars">
-                  {(() => {
-                    const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-                    const sortedActivity = [...(activity || [])].sort(
-                      (a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day)
-                    );
-
-                    const max = Math.max(
-                      ...sortedActivity.map(a => a.count || 0),
-                      1
-                    );
-
-                    return sortedActivity.map((item, index) => {
-                      const height = (item.count / max) * 100;
-
-                      return (
-                        <div
-                          key={index}
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div
-                            className="bar"
-                            style={{ height: `${height}%` }}
-                            title={`${item.day}: ${item.count}`}
-                          />
-
-                          <span className="bar-label">{item.day}</span>
-                        </div>
-                      );
-                    });
-                  })()}
-                </div>
+                <button
+                  className="hero-btn"
+                  onClick={() => navigate("/create-form")}
+                >
+                  Create Form
+                </button>
               </div>
 
-              <div className="glass-card challenge-card">
-                <h3>
-                  {role === "admin"
-                    ? "Quick Actions"
-                    : "My Actions"}
-                </h3>
-
-                {role === "admin" ? (
-                  <>
-                    <div className="challenge-item">
-                      <span>Create Form</span>
-                      <button onClick={() => navigate("/create-form")}>
-                        Create
-                      </button>
-                    </div>
-
-                    <div className="challenge-item">
-                      <span>Manage Forms</span>
-                      <button onClick={() => navigate("/forms")}>
-                        Manage
-                      </button>
-                    </div>
-
-                    <div className="challenge-item">
-                      <span>Responses</span>
-                      <button onClick={() => navigate("/responses")}>
-                        Response
-                      </button>
-                    </div>
-
-                    <div className="challenge-item">
-                      <span>Export CSV</span>
-                      <button onClick={() => navigate("/export")}>
-                        Csv
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="challenge-item">
-                      <span>Fill Forms</span>
-                      <button onClick={() => navigate("/forms")}>
-                        Fill
-                      </button>
-                    </div>
-
-                    <div className="challenge-item">
-                      <span>Submitted Forms</span>
-                      <button
-                        onClick={() =>
-                          navigate("/submitted-forms")
-                        }
-                      >
-                        View
-                      </button>
-                    </div>
-                  </>
-                )}
+              <div className="hero-right">
+                <img
+                  src="image copy.png"
+                  alt="Feedback"
+                />
               </div>
-            </div>
+            </section>
 
-            {/* CENTER */}
-            <div className="glass-center">
+            <section className="stats-grid">
 
-              <div className="small-glass-card">
-                <h4>{role === "admin" ? "Total Forms" : "Available Forms"}</h4>
+              <div className="stat-card">
+                <h4>Total Forms</h4>
                 <h2>{stats.totalForms}</h2>
               </div>
 
-              <div className="small-glass-card">
-                <h4>{role === "admin" ? "Total Feedbacks" : "Submitted Forms"}</h4>
+              <div className="stat-card">
+                <h4>Total Feedbacks</h4>
                 <h2>{stats.totalFeedbacks}</h2>
               </div>
 
-              {role === "admin" && (
-                <div className="small-glass-card">
-                  <h4>Active Users</h4>
-                  <h2>{activeUsers}</h2>
-                </div>
-              )}
+              <div className="stat-card">
+                <h4>Active Users</h4>
+                <h2>{activeUsers}</h2>
+              </div>
 
-              {/* ADD IT HERE (THIS FIXES EVERYTHING) */}
-              <div className="glass-card trend-card">
-                <h3>Feedback Insights</h3>
+              <div className="stat-card">
+                <h4>Total Users</h4>
+                <h2>{totalUsers}</h2>
+              </div>
 
-                {(() => {
-                  const today = new Date().toLocaleDateString("en-US", {
-                    weekday: "short",
-                  });
+              <div className="stat-card">
+                <h4>Unique Submitters</h4>
+                <h2>{uniqueUsers}</h2>
+              </div>
 
-                  // normalize day format (Mon, Tue etc)
-                  const normalizeDay = (d) => d.slice(0, 3);
+              <div className="stat-card">
+                <h4>Submitted Forms</h4>
+                <h2>{uniqueSubmittedForms}</h2>
+              </div>
+            </section>
 
-                  const todayData = activity.find(
-                    (a) => normalizeDay(a.day) === today
-                  );
+            <section className="features-section">
+  <div className="features-header">
+    <h2>
+      Capture Insights That Shape Better
+      <br />
+      Experiences
+    </h2>
 
-                  const todayCount = todayData?.count || 0;
+    <p>
+      Collect structured feedback, analyze responses,
+      and improve decision making with Voxify's
+      powerful feedback management platform.
+    </p>
+  </div>
 
-                  const total = activity.reduce(
-                    (sum, a) => sum + (a.count || 0),
-                    0
-                  );
+  <div className="features-grid">
 
-                  const avg = activity.length
-                    ? Math.round(total / activity.length)
-                    : 0;
+    <div className="feature-card">
+      <div className="feature-icon">📝</div>
 
-                  const peak = activity.reduce(
-                    (max, a) =>
-                      (a.count || 0) > (max.count || 0) ? a : max,
-                    activity[0] || { day: "-", count: 0 }
-                  );
+      <h3>Smart Form Creation</h3>
 
-                  return (
-                    <div className="trend-metrics">
+      <p>
+        Create custom feedback forms for events,
+        courses, products and services in minutes.
+      </p>
+    </div>
 
-                      {/* TODAY */}
-                      <div className="trend-item">
-                        <span>Today Submit</span>
-                        <strong>{todayCount}</strong>
-                      </div>
+    <div className="feature-card">
+      <div className="feature-icon">📊</div>
 
-                      {/* AVERAGE */}
-                      <div className="trend-item">
-                        <span>Avg per day</span>
-                        <strong>{avg}</strong>
-                      </div>
+      <h3>Real-Time Analytics</h3>
 
-                      {/* PEAK */}
-                      <div className="trend-item">
-                        <span>Peak Form</span>
-                        <strong>
-                          {peak.day} ({peak.count})
-                        </strong>
-                      </div>
+      <p>
+        Monitor responses instantly with visual
+        insights and reporting dashboards.
+      </p>
+    </div>
 
+    <div className="feature-card">
+      <div className="feature-icon">⚙️</div>
+
+      <h3>Customizable Fields</h3>
+
+      <p>
+        Add ratings, text answers, multiple choice
+        questions and more to collect rich feedback.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+            <section className="faq-section">
+              <h2>FAQs - Feedback Manager</h2>
+
+              {faqs.map((faq, index) => (
+                <div key={index} className="faq-item">
+                  <div
+                    className="faq-question"
+                    onClick={() =>
+                      setOpenFAQ(
+                        openFAQ === index ? null : index
+                      )
+                    }
+                  >
+                    <span>
+                      {index + 1}. {faq.question}
+                    </span>
+
+                    <div className="faq-icon">
+                      {openFAQ === index ? "−" : "+"}
                     </div>
-                  );
-                })()}
-              </div>
-
-            </div>
-
-            {/* RIGHT */}
-            <div className="glass-right">
-
-              <div className="glass-card progress-card">
-                <h3>Overview</h3>
-
-                <div
-                  className="progress-ring"
-                  style={{ "--percent": completionRate }}
-                >
-                  <div className="progress-inner">
-                    <span>{completionRate}%</span>
                   </div>
+
+                  {openFAQ === index && (
+                    <div className="faq-answer">
+                      {faq.answer}
+                    </div>
+                  )}
                 </div>
+              ))}
+            </section>
+<footer className="dashboard-footer">
+  <div className="footer-content">
 
-                <p>
-                  {role === "admin"
-                    ? "Users who submitted forms"
-                    : "Your form completion"}
-                </p>
+    <div className="footer-brand">
+      <h1>Voxify</h1>
+      <p>
+        Smart feedback collection platform that helps
+        organizations gather, analyze and improve
+        customer and employee experiences.
+      </p>
+    </div>
 
-                <p>Completion Rate</p>
-              </div>
+    <div className="footer-links">
+      <h3>Product</h3>
+      <a href="/create-form">Forms</a>
+      <a href="/responses">Analytics</a>
+      <a href="/export">Export</a>
+    </div>
 
-              {role === "admin" && (
-                <div className="glass-card calendar-card">
-                  <h3>Recent Responses</h3>
+    <div className="footer-links">
+      <h3>Resources</h3>
+      <a href="#">Help Center</a>
+      <a href="#">Documentation</a>
+      <a href="#">FAQs</a>
+      <a href="#">Support</a>
+    </div>
 
-                  <div className="recent-scroll">
-                    {recentResponses.length === 0 ? (
-                      <p>No Responses</p>
-                    ) : (
-                      recentResponses.map((r) => (
-                        <div key={r.id} className="response-row">
-                          <strong>{r.name}</strong>
-                          <span>{r.formTitle}</span>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
+    <div className="footer-links">
+      <h3>Contact</h3>
+      <p>support@voxify.com</p>
+      <p>+91 XXXXX XXXXX</p>
+      <p>Kolkata, India</p>
+    </div>
+
+  </div>
+
+  <div className="footer-bottom">
+    © 2026 Voxify. All rights reserved.
+  </div>
+</footer>
+
           </div>
         </div>
       </div>

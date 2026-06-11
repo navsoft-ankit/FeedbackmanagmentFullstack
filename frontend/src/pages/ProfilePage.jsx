@@ -3,6 +3,7 @@ import "../styles/profile.css";
 import { QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 
+
 function QRCode({ data }) {
   return (
     <QRCodeCanvas
@@ -20,6 +21,10 @@ function QRCode({ data }) {
   );
 }
 
+<div className="profile-title">
+  <h1>My Profile</h1>
+  <p>Manage your account information and settings.</p>
+</div>
 export default function ProfilePage() {
   const navigate = useNavigate();
   const name = localStorage.getItem("name") || "";
@@ -141,132 +146,87 @@ export default function ProfilePage() {
     <div className="profile-page">
       <div className="profile-container">
 
-        <div className="profile-header">
-          <div className="profile-info">
-            <div className="profile-avatar-wrapper">
-              <div className="profile-avatar">
-                {photo ? (
-                  <img src={photo} alt={data.name} />
-                ) : (
-                  <div className="avatar-initials">
-                    {initials}
-                  </div>
-                )}
-              </div>
+<section className="profile-hero">
 
-              <span className="online-dot"></span>
-            </div>
+  <div className="profile-hero-left">
 
-            <div className="profile-details">
-              <div className="brand-chip">
-                {data.company}
-              </div>
-
-              <h1>{data.name}</h1>
-
-              <div className="role-pill">
-                <span className="role-dot"></span>
-                {data.role}
-              </div>
-            </div>
-          </div>
-
-          <div className="profile-actions">
-            <button
-              className="btn"
-              onClick={() => fileRef.current?.click()}
-            >
-              Upload Photo
-            </button>
-
-            <button
-              className="btn-primary"
-              onClick={() => {
-                setDraft(data);
-                setEditing(true);
-              }}
-            >
-              Edit Profile
-            </button>
-            <button
-              className="btn-p"
-              onClick={() => navigate("/")}
-            >
-              Log Out
-            </button>
-
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={handlePhotoChange}
-            />
-          </div>
+    <div className="profile-avatar">
+      {photo ? (
+        <img src={photo} alt="" />
+      ) : (
+        <div className="avatar-initials">
+          {initials}
         </div>
+      )}
+    </div>
 
-        <div className="profile-grid">
-          <div className="profile-card">
-            <h3>Personal Information</h3>
+    <div>
+      <h1>{data.name}</h1>
+      <p>{data.email}</p>
 
-            <div className="info-item">
-              <label>Full Name</label>
-              <span>{data.name}</span>
-            </div>
+      <span className="hero-role">
+        {data.role}
+      </span>
+    </div>
 
-            <div className="info-item">
-              <label>Email</label>
-              <span>{data.email}</span>
-            </div>
+  </div>
 
-            <div className="info-item">
-              <label>Phone</label>
-              <span>{data.phone || "Not Added"}</span>
-            </div>
+  <div className="profile-actions">
 
-            <div className="info-item">
-              <label>Address</label>
-              <span>{data.address || "Not Added"}</span>
-            </div>
-          </div>
+    <button
+      className="btn"
+      onClick={() => fileRef.current?.click()}
+    >
+      Upload Photo
+    </button>
 
-          <div className="profile-card">
-            <h3>Company Information</h3>
+    <button
+      className="btn-primary"
+      onClick={() => {
+        setDraft(data);
+        setEditing(true);
+      }}
+    >
+      Edit Profile
+    </button>
 
-            <div className="info-item">
-              <label>Role</label>
-              <span>{data.role}</span>
-            </div>
+  </div>
 
-            <div className="info-item">
-              <label>ID Number</label>
-              <span>{data.idNumber || "Not Assigned"}</span>
-            </div>
+</section>
 
-            <div className="info-item">
-              <label>Join Date</label>
-              <span>{data.joinDate}</span>
-            </div>
+       <section className="profile-stats">
 
-            <div className="info-item">
-              <label>Expiry Date</label>
-              <div className="expiry-row">
-                <span>{data.expireDate}</span>
-                <span className="expiry-badge">
-                  {daysLeft}d left
-                </span>
-              </div>
-            </div>
-          </div>
+  <div className="profile-stat-card">
+    <h4>Full Name</h4>
+    <h2>{data.name}</h2>
+  </div>
 
-          <div className="profile-card qr-card">
-            <h3>Profile QR Code</h3>
+  <div className="profile-stat-card">
+    <h4>Email</h4>
+    <h2>{data.email}</h2>
+  </div>
 
-            <div className="qr-box">
-              <QRCode data={data} />
-            </div>
-          </div>
-        </div>
+  <div className="profile-stat-card">
+    <h4>Role</h4>
+    <h2>{data.role}</h2>
+  </div>
+
+  <div className="profile-stat-card">
+    <h4>ID Number</h4>
+    <h2>{data.idNumber || "N/A"}</h2>
+  </div>
+
+  <div className="profile-stat-card">
+    <h4>Join Date</h4>
+    <h2>{data.joinDate}</h2>
+  </div>
+
+  <div className="profile-stat-card">
+    <h4>Expiry</h4>
+    <h2>{daysLeft} Days</h2>
+  </div>
+
+</section>
 
         {editing && (
           <div className="edit-panel">
@@ -294,8 +254,18 @@ export default function ProfilePage() {
               </button>
             </div>
           </div>
+          
 
         )}
+        <section className="qr-section">
+
+  <h2>Profile QR Code</h2>
+
+  <div className="qr-box">
+    <QRCode data={data} />
+  </div>
+
+</section>
 
       </div>
     </div>
