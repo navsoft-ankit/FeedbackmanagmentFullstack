@@ -13,11 +13,9 @@ export default function FormsPage() {
 
   useEffect(() => {
     fetchForms();
-  }, []); // ✅ just fetch once, refresh manually after actions
+  }, []); // just fetch once, refresh manually after actions
 
-  // =========================
-  // FETCH FORMS
-  // =========================
+  // ================= FETCH FORMS =================
   const fetchForms = async () => {
     try {
       let res;
@@ -32,16 +30,14 @@ export default function FormsPage() {
     }
   };
 
-  // =========================
-  // DELETE FORM
-  // =========================
+  // ================= DELETE FORM =================
   const deleteForm = async (id) => {
     if (!window.confirm("Are you sure you want to delete this form?")) return;
 
     try {
       await api.delete(`/forms/${id}`);
       alert("Deleted Successfully");
-      fetchForms(); // ✅ refresh list
+      fetchForms(); // refresh list
     } catch (err) {
       console.log(err);
       alert("Error deleting form");

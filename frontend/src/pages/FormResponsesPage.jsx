@@ -21,7 +21,7 @@ export default function FormResponsesPage() {
     }
   };
 
-  // DELETE FUNCTION
+  // ================= DELETE FUNCTION =================
   const deleteFeedback = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this response?"

@@ -142,27 +142,22 @@ export default function FeedbackPage() {
           "/feedback/submit",
           {
             formId: id,
-
             name,
-
             email,
-
             designation,
-
             finalNote,
-
             answers
           }
         );
 
-        // SUCCESS
+        // ================= SUCCESS =================
         navigate("/dashboard");
 
       } catch (err) {
 
         console.log(err);
 
-        // ALREADY SUBMITTED
+        // ================= ALREADY SUBMITTED =================
         if (
           err.response?.data ===
           "Feedback already submitted"
@@ -190,7 +185,6 @@ export default function FeedbackPage() {
     <div className="user-feedback-page">
 
       {/* ================= USER ================= */}
-
       {role !== "Admin" && (
 
         <div className="feedback-container">
@@ -257,7 +251,6 @@ export default function FeedbackPage() {
             </div>
 
             {/* QUESTIONS */}
-
             {form.questions.map((q, i) => (
 
               <div
@@ -290,7 +283,6 @@ export default function FeedbackPage() {
                   )}
 
                   {/* DROPDOWN */}
-
                   {q.type === "Dropdown" && (
 
                     <select
@@ -347,14 +339,14 @@ export default function FeedbackPage() {
                         </label>
                       ))}
                     </div>
-                  )}             </div>
+                  )}             
+                </div>
 
               </div>
 
             ))}
 
             {/* FINAL NOTE */}
-
             <div className="feedback-section">
 
               <h3>
@@ -375,7 +367,6 @@ export default function FeedbackPage() {
             </div>
 
             {/* BUTTON */}
-
             <button
               className="feedback-submit"
               onClick={submitFeedback}
@@ -389,7 +380,6 @@ export default function FeedbackPage() {
       )}
 
       {/* ================= ADMIN ================= */}
-
       {role === "Admin" && (
 
         <div className="feedback-container">
@@ -491,7 +481,6 @@ export default function FeedbackPage() {
                 </div>
 
                 {/* DELETE BUTTON */}
-
                 <button
                   className="delete-feedback-btn"
                   onClick={() =>

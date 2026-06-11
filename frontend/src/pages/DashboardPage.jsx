@@ -26,8 +26,8 @@ export default function DashboardPage() {
     .toLowerCase();
 
   const email = localStorage.getItem("email");
-    const profilePhoto = localStorage.getItem(`idCardPhoto_${email}`
-);
+  const profilePhoto = localStorage.getItem(`idCardPhoto_${email}`
+  );
 
   const [stats, setStats] = useState({
     totalForms: 0,
@@ -38,7 +38,6 @@ export default function DashboardPage() {
   const [recentResponses, setRecentResponses] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [submittedUsers, setSubmittedUsers] = useState(0);
-
   const [showProfile, setShowProfile] = useState(false);
   const [theme, setTheme] = useState("light");
   const [searchTerm, setSearchTerm] = useState("");
@@ -181,10 +180,7 @@ export default function DashboardPage() {
       )
       : 0;
 
-  // =================
-  // USER CIRCLE (COMPLETION)
-  // FIX: better + correct logic
-  // =================
+  // ================= USER CIRCLE (COMPLETION) || FIX: better + correct logic =================
   const available = stats.totalForms || 0;
   const submitted = stats.totalFeedbacks || 0;
 
@@ -323,36 +319,36 @@ export default function DashboardPage() {
 
               {/* Avatar */}
               <div className="profile-wrapper">
-<div
-  className="profile-avatar"
-  onClick={goProfile}
-  style={{ cursor: "pointer" }}
->
-  {profilePhoto ? (
-    <img
-      src={profilePhoto}
-      alt="Profile"
-      className="avatar-img"
-    />
-  ) : (
-    name?.charAt(0).toUpperCase()
-  )}
-</div>
+                <div
+                  className="profile-avatar"
+                  onClick={goProfile}
+                  style={{ cursor: "pointer" }}
+                >
+                  {profilePhoto ? (
+                    <img
+                      src={profilePhoto}
+                      alt="Profile"
+                      className="avatar-img"
+                    />
+                  ) : (
+                    name?.charAt(0).toUpperCase()
+                  )}
+                </div>
 
                 {showProfile && (
                   <div className="profile-dropdown">
                     <div className="profile-dropdown-header">
-<div className="avatar-big">
-  {profilePhoto ? (
-    <img
-      src={profilePhoto}
-      alt="Profile"
-      className="avatar-big-img"
-    />
-  ) : (
-    name?.charAt(0).toUpperCase()
-  )}
-</div>
+                      <div className="avatar-big">
+                        {profilePhoto ? (
+                          <img
+                            src={profilePhoto}
+                            alt="Profile"
+                            className="avatar-big-img"
+                          />
+                        ) : (
+                          name?.charAt(0).toUpperCase()
+                        )}
+                      </div>
 
                       <div>
                         <h4>{email?.split("@")[0]}</h4>
@@ -571,31 +567,31 @@ export default function DashboardPage() {
             </div>
 
             {/* RIGHT */}
-<div className="glass-right">
+            <div className="glass-right">
 
-  <div className="glass-card progress-card">
-    <h3>Overview</h3>
+              <div className="glass-card progress-card">
+                <h3>Overview</h3>
 
-    <div
-      className="progress-ring"
-      style={{ "--percent": completionRate }}
-    >
-      <div className="progress-inner">
-        <span>{completionRate}%</span>
-      </div>
-    </div>
+                <div
+                  className="progress-ring"
+                  style={{ "--percent": completionRate }}
+                >
+                  <div className="progress-inner">
+                    <span>{completionRate}%</span>
+                  </div>
+                </div>
 
-    <p>
-      {role === "admin"
-        ? "Users who submitted forms"
-        : "Your form completion"}
-    </p>
+                <p>
+                  {role === "admin"
+                    ? "Users who submitted forms"
+                    : "Your form completion"}
+                </p>
 
-    <p>Completion Rate</p>
-  </div>
+                <p>Completion Rate</p>
+              </div>
 
-  {role === "admin" && (
-    <div className="glass-card calendar-card">
+              {role === "admin" && (
+                <div className="glass-card calendar-card">
                   <h3>Recent Responses</h3>
 
                   <div className="recent-scroll">

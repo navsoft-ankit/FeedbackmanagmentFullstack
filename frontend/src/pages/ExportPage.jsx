@@ -8,9 +8,7 @@ export default function ExportPage() {
   const [toDate, setToDate] = useState("");
   const [email, setEmail] = useState("");
 
-  // =========================
-  // EXPORT CSV
-  // =========================
+  // ================= EXPORT CSV =================
   const exportCSV = async () => {
     if (!fromDate || !toDate || !email) {
       alert("Please fill all fields");
@@ -54,6 +52,7 @@ export default function ExportPage() {
 
   return (
     <div className="export-page">
+
       {/* HEADER */}
       <div className="export-header">
         <div>

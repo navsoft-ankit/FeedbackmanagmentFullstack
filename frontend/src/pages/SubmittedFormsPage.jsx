@@ -11,7 +11,6 @@ export default function SubmittedFormsPage() {
     useState(true);
 
   // ================== FETCH SUBMITTED FORMS ==================
-
   useEffect(() => {
 
     fetchSubmittedForms();
@@ -56,7 +55,7 @@ export default function SubmittedFormsPage() {
       }
     };
 
-  // ================== UI ==================
+  // ================= UI ==================
   return (
     <div className="submitted-page">
 
@@ -83,7 +82,7 @@ export default function SubmittedFormsPage() {
 
       ) : (
 
-        /* FEEDBACK LIST */
+        // ================= FEEDBACK LIST ================= //
         <div className="forms-grid">
           {feedbacks.map((f) => (
             <div className="card" key={f.id}>

@@ -91,7 +91,6 @@ export default function LoginPage() {
     }
   };
 
-
   // FORGOT PASSWORD (SEPARATE)
   const handleForgotPassword = async (e) => {
     e.preventDefault();
