@@ -20,11 +20,14 @@ export default function DashboardPage() {
   const name = localStorage.getItem("name");
 
 
+
   const role = (localStorage.getItem("role") || "")
     .trim()
     .toLowerCase();
 
   const email = localStorage.getItem("email");
+    const profilePhoto = localStorage.getItem(`idCardPhoto_${email}`
+);
 
   const [stats, setStats] = useState({
     totalForms: 0,
@@ -320,20 +323,36 @@ export default function DashboardPage() {
 
               {/* Avatar */}
               <div className="profile-wrapper">
-                <div
-                  className="profile-avatar"
-                  onClick={goProfile}
-                  style={{ cursor: "pointer" }}
-                >
-                  {name?.charAt(0).toUpperCase()}
-                </div>
+<div
+  className="profile-avatar"
+  onClick={goProfile}
+  style={{ cursor: "pointer" }}
+>
+  {profilePhoto ? (
+    <img
+      src={profilePhoto}
+      alt="Profile"
+      className="avatar-img"
+    />
+  ) : (
+    name?.charAt(0).toUpperCase()
+  )}
+</div>
 
                 {showProfile && (
                   <div className="profile-dropdown">
                     <div className="profile-dropdown-header">
-                      <div className="avatar-big">
-                        {email?.charAt(0).toUpperCase()}
-                      </div>
+<div className="avatar-big">
+  {profilePhoto ? (
+    <img
+      src={profilePhoto}
+      alt="Profile"
+      className="avatar-big-img"
+    />
+  ) : (
+    name?.charAt(0).toUpperCase()
+  )}
+</div>
 
                       <div>
                         <h4>{email?.split("@")[0]}</h4>

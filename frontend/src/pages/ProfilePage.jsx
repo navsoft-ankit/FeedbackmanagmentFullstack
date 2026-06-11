@@ -7,9 +7,10 @@ function QRCode({ data }) {
   return (
     <QRCodeCanvas
       value={`Name:${data.name}
-Role:${data.role}
-Email:${data.email}
-ID:${data.idNumber}`}
+              Role:${data.role}
+              Email:${data.email}
+              ID:${data.idNumber}`
+      }
       size={180}
       bgColor="#ffffff"
       fgColor="#1B2A5E"
@@ -24,6 +25,7 @@ export default function ProfilePage() {
   const name = localStorage.getItem("name") || "";
   const email = localStorage.getItem("email") || "";
   const role = localStorage.getItem("role") || "User";
+  const employeeId = localStorage.getItem("employeeId") || "";
 
   const createdAt = localStorage.getItem("createdAt");
 
@@ -47,7 +49,7 @@ export default function ProfilePage() {
   const defaultData = {
     name,
     role,
-    idNumber: "",
+    idNumber: employeeId,
     address: "",
     phone: "",
     email,
@@ -55,20 +57,27 @@ export default function ProfilePage() {
     expireDate: expiryDateObj.toLocaleDateString(),
     company: "VOXIFY",
   };
+  const userKey = `idCardData_${email}`;
 
-  const savedData = localStorage.getItem("idCardData");
+  const savedData = localStorage.getItem(userKey);
 
   const initialData = savedData
-    ? JSON.parse(savedData)
+    ? {
+      ...JSON.parse(savedData),
+      name,
+      email,
+      role,
+      idNumber: employeeId,
+      company: "VOXIFY",
+    }
     : defaultData;
   const [data, setData] = useState(initialData);
   const [draft, setDraft] = useState(initialData);
   const [editing, setEditing] = useState(false);
 
   const [photo, setPhoto] = useState(
-    localStorage.getItem("idCardPhoto") || null
+    localStorage.getItem(`idCardPhoto_${email}`) || null
   );
-
   const fileRef = useRef(null);
 
   const handlePhotoChange = (e) => {
@@ -80,7 +89,10 @@ export default function ProfilePage() {
 
     reader.onloadend = () => {
       setPhoto(reader.result);
-      localStorage.setItem("idCardPhoto", reader.result);
+      localStorage.setItem(
+        `idCardPhoto_${email}`,
+        reader.result
+      );
     };
 
     reader.readAsDataURL(file);
@@ -90,7 +102,7 @@ export default function ProfilePage() {
     setData(draft);
 
     localStorage.setItem(
-      "idCardData",
+      userKey,
       JSON.stringify(draft)
     );
 
@@ -262,14 +274,8 @@ export default function ProfilePage() {
 
             <div className="form-grid">
               {field("name", "Full Name")}
-              {field("role", "Role")}
-              {field("idNumber", "ID Number")}
               {field("address", "Address")}
               {field("phone", "Phone")}
-              {field("email", "Email")}
-              {field("joinDate", "Join Date")}
-              {field("expireDate", "Expiry Date")}
-              {field("company", "Company")}
             </div>
 
             <div className="edit-actions">
@@ -290,7 +296,7 @@ export default function ProfilePage() {
           </div>
 
         )}
-        
+
       </div>
     </div>
   );

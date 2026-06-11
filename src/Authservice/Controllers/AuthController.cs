@@ -39,6 +39,7 @@ namespace Authservice.Controllers
 
             if (existingUser != null)
                 return Conflict(new { message = "Email already exists" });
+            var totalUsers = await _context.Users.CountAsync();
 
             var user = new User
             {
@@ -46,7 +47,8 @@ namespace Authservice.Controllers
                 Email = dto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 Role = dto.Role ?? "User",
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                EmployeeId = $"VOX-EMP-{(totalUsers + 1):D4}"
             };
 
             await _userService.AddUserAsync(user);
@@ -84,9 +86,11 @@ namespace Authservice.Controllers
                 name = user.Name,
                 email = user.Email,
                 role = user.Role,
+                EmployeeId = user.EmployeeId,
                 token,
                 refreshToken,
-                createdAt = user.CreatedAt
+                createdAt = user.CreatedAt,
+                
             });
         }
 
