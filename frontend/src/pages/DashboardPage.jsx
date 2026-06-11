@@ -571,45 +571,31 @@ export default function DashboardPage() {
             </div>
 
             {/* RIGHT */}
-            <div className="glass-right">
+<div className="glass-right">
 
-              <div className="glass-card profile-card">
-                <div className="avatar-big">
-                  {name?.charAt(0).toUpperCase()}
-                </div>
+  <div className="glass-card progress-card">
+    <h3>Overview</h3>
 
-                <h3>{name}</h3>
+    <div
+      className="progress-ring"
+      style={{ "--percent": completionRate }}
+    >
+      <div className="progress-inner">
+        <span>{completionRate}%</span>
+      </div>
+    </div>
 
-                <p>{email}</p>
+    <p>
+      {role === "admin"
+        ? "Users who submitted forms"
+        : "Your form completion"}
+    </p>
 
-                <span className="role-badge">
-                  {role}
-                </span>
-              </div>
+    <p>Completion Rate</p>
+  </div>
 
-              <div className="glass-card progress-card">
-                <h3>Overview</h3>
-
-                <div
-                  className="progress-ring"
-                  style={{ "--percent": completionRate }}
-                >
-                  <div className="progress-inner">
-                    <span>{completionRate}%</span>
-                  </div>
-                </div>
-
-                <p>
-                  {role === "admin"
-                    ? "Users who submitted forms"
-                    : "Your form completion"}
-                </p>
-
-                <p>Completion Rate</p>
-              </div>
-
-              {role === "admin" && (
-                <div className="glass-card calendar-card">
+  {role === "admin" && (
+    <div className="glass-card calendar-card">
                   <h3>Recent Responses</h3>
 
                   <div className="recent-scroll">
