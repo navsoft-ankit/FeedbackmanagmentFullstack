@@ -51,63 +51,179 @@ export default function ExportPage() {
   };
 
   return (
-    <div className="export-page">
+  <div className="export-page">
 
-      {/* HEADER */}
-      <div className="export-header">
-        <div>
-          <h1>Export Feedback</h1>
-          <p>Download feedback reports professionally.</p>
-        </div>
+    {/* HEADER */}
+    <div className="export-header">
 
-        <div className="export-icon">
-          <FileSpreadsheet size={55} />
-        </div>
+      <div>
+        <span className="page-tag">
+          REPORT CENTER
+        </span>
+
+        <h1>Export Feedback Reports</h1>
+
+        <p>
+          Generate and download professional feedback reports
+          filtered by user and date range.
+        </p>
       </div>
 
-      {/* EXPORT CARD */}
+      <button
+        className="export-btn-header"
+        onClick={exportCSV}
+      >
+        <Download size={18} />
+        Export CSV
+      </button>
+
+    </div>
+
+    {/* STATS */}
+    <div className="export-stats">
+
+      <div className="stat-card">
+        <span>Format</span>
+        <h3>CSV</h3>
+      </div>
+
+      <div className="stat-card">
+        <span>Date Range</span>
+        <h3>Custom</h3>
+      </div>
+
+      <div className="stat-card">
+        <span>Reports</span>
+        <h3>Feedback</h3>
+      </div>
+
+      <div className="stat-card">
+        <span>Status</span>
+        <h3>Ready</h3>
+      </div>
+
+    </div>
+
+    {/* MAIN LAYOUT */}
+    <div className="export-layout">
+
+      {/* LEFT */}
       <div className="export-card">
-        <h2>Export CSV Report</h2>
+
+        <div className="card-header">
+          <h2>Export Configuration</h2>
+          <span>
+            Configure report filters
+          </span>
+        </div>
 
         <div className="export-grid">
-          {/* FROM DATE */}
-          <div>
+
+          <div className="form-group">
             <label>From Date</label>
+
             <input
               type="date"
               value={fromDate}
-              onChange={(e) => setFromDate(e.target.value)}
+              onChange={(e) =>
+                setFromDate(
+                  e.target.value
+                )
+              }
             />
           </div>
 
-          {/* TO DATE */}
-          <div>
+          <div className="form-group">
             <label>To Date</label>
+
             <input
               type="date"
               value={toDate}
-              onChange={(e) => setToDate(e.target.value)}
+              onChange={(e) =>
+                setToDate(
+                  e.target.value
+                )
+              }
             />
           </div>
 
-          {/* EMAIL */}
-          <div>
+          <div className="form-group email-field">
             <label>User Email</label>
+
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@gmail.com"
+              onChange={(e) =>
+                setEmail(
+                  e.target.value
+                )
+              }
+              placeholder="employee@company.com"
             />
           </div>
+
         </div>
 
-        {/* BUTTON */}
-        <button className="export-btn" onClick={exportCSV}>
+        <button
+          className="export-btn"
+          onClick={exportCSV}
+        >
           <Download size={18} />
-          Download CSV
+          Download CSV Report
         </button>
+
       </div>
+
+      {/* RIGHT */}
+      <div className="preview-card">
+
+        <div className="preview-icon">
+          <FileSpreadsheet size={60} />
+        </div>
+
+        <h2>Report Preview</h2>
+
+        <p>
+          Your exported report will contain:
+        </p>
+
+        <ul className="preview-list">
+          <li>Feedback Records</li>
+          <li>User Information</li>
+          <li>Submission Dates</li>
+          <li>Question Responses</li>
+          <li>CSV Compatible Format</li>
+        </ul>
+
+        <div className="preview-info">
+
+          <div>
+            <span>From</span>
+            <strong>
+              {fromDate || "--"}
+            </strong>
+          </div>
+
+          <div>
+            <span>To</span>
+            <strong>
+              {toDate || "--"}
+            </strong>
+          </div>
+
+          <div>
+            <span>Email</span>
+            <strong>
+              {email || "--"}
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
-  );
+
+  </div>
+);
 }

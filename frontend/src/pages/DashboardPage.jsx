@@ -225,10 +225,10 @@ export default function DashboardPage() {
   ];
 
   console.log(stats);
-console.log(activeUsers);
-console.log(totalUsers);
-console.log(uniqueUsers);
-console.log(uniqueSubmittedForms);
+  console.log(activeUsers);
+  console.log(totalUsers);
+  console.log(uniqueUsers);
+  console.log(uniqueSubmittedForms);
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
@@ -353,57 +353,57 @@ console.log(uniqueSubmittedForms);
             </section>
 
             <section className="features-section">
-  <div className="features-header">
-    <h2>
-      Capture Insights That Shape Better
-      <br />
-      Experiences
-    </h2>
+              <div className="features-header">
+                <h2>
+                  Capture Insights That Shape Better
+                  <br />
+                  Experiences
+                </h2>
 
-    <p>
-      Collect structured feedback, analyze responses,
-      and improve decision making with Voxify's
-      powerful feedback management platform.
-    </p>
-  </div>
+                <p>
+                  Collect structured feedback, analyze responses,
+                  and improve decision making with Voxify's
+                  powerful feedback management platform.
+                </p>
+              </div>
 
-  <div className="features-grid">
+              <div className="features-grid">
 
-    <div className="feature-card">
-      <div className="feature-icon">📝</div>
+                <div className="feature-card">
+                  <div className="feature-icon">📝</div>
 
-      <h3>Smart Form Creation</h3>
+                  <h3>Smart Form Creation</h3>
 
-      <p>
-        Create custom feedback forms for events,
-        courses, products and services in minutes.
-      </p>
-    </div>
+                  <p>
+                    Create custom feedback forms for events,
+                    courses, products and services in minutes.
+                  </p>
+                </div>
 
-    <div className="feature-card">
-      <div className="feature-icon">📊</div>
+                <div className="feature-card">
+                  <div className="feature-icon">📊</div>
 
-      <h3>Real-Time Analytics</h3>
+                  <h3>Real-Time Analytics</h3>
 
-      <p>
-        Monitor responses instantly with visual
-        insights and reporting dashboards.
-      </p>
-    </div>
+                  <p>
+                    Monitor responses instantly with visual
+                    insights and reporting dashboards.
+                  </p>
+                </div>
 
-    <div className="feature-card">
-      <div className="feature-icon">⚙️</div>
+                <div className="feature-card">
+                  <div className="feature-icon">⚙️</div>
 
-      <h3>Customizable Fields</h3>
+                  <h3>Customizable Fields</h3>
 
-      <p>
-        Add ratings, text answers, multiple choice
-        questions and more to collect rich feedback.
-      </p>
-    </div>
+                  <p>
+                    Add ratings, text answers, multiple choice
+                    questions and more to collect rich feedback.
+                  </p>
+                </div>
 
-  </div>
-</section>
+              </div>
+            </section>
 
             <section className="faq-section">
               <h2>FAQs - Feedback Manager</h2>
@@ -435,46 +435,46 @@ console.log(uniqueSubmittedForms);
                 </div>
               ))}
             </section>
-<footer className="dashboard-footer">
-  <div className="footer-content">
+            <footer className="dashboard-footer">
+              <div className="footer-content">
 
-    <div className="footer-brand">
-      <h1>Voxify</h1>
-      <p>
-        Smart feedback collection platform that helps
-        organizations gather, analyze and improve
-        customer and employee experiences.
-      </p>
-    </div>
+                <div className="footer-brand">
+                  <h1>Voxify</h1>
+                  <p>
+                    Smart feedback collection platform that helps
+                    organizations gather, analyze and improve
+                    customer and employee experiences.
+                  </p>
+                </div>
 
-    <div className="footer-links">
-      <h3>Product</h3>
-      <a href="/create-form">Forms</a>
-      <a href="/responses">Analytics</a>
-      <a href="/export">Export</a>
-    </div>
+                <div className="footer-links">
+                  <h3>Product</h3>
+                  <a href="/create-form">Forms</a>
+                  <a href="/responses">Analytics</a>
+                  <a href="/export">Export</a>
+                </div>
 
-    <div className="footer-links">
-      <h3>Resources</h3>
-      <a href="#">Help Center</a>
-      <a href="#">Documentation</a>
-      <a href="#">FAQs</a>
-      <a href="#">Support</a>
-    </div>
+                <div className="footer-links">
+                  <h3>Resources</h3>
+                  <a href="#">Help Center</a>
+                  <a href="#">Documentation</a>
+                  <a href="#">FAQs</a>
+                  <a href="#">Support</a>
+                </div>
 
-    <div className="footer-links">
-      <h3>Contact</h3>
-      <p>support@voxify.com</p>
-      <p>+91 XXXXX XXXXX</p>
-      <p>Kolkata, India</p>
-    </div>
+                <div className="footer-links">
+                  <h3>Contact</h3>
+                  <p>support@voxify.com</p>
+                  <p>+91 XXXXX XXXXX</p>
+                  <p>Kolkata, India</p>
+                </div>
 
-  </div>
+              </div>
 
-  <div className="footer-bottom">
-    © 2026 Voxify. All rights reserved.
-  </div>
-</footer>
+              <div className="footer-bottom">
+                © 2026 Voxify. All rights reserved.
+              </div>
+            </footer>
 
           </div>
         </div>

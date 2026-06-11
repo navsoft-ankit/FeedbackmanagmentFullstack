@@ -169,108 +169,391 @@ export default function CreateFormPage() {
 
   return (
     <div className="form-page">
-      {/* FORM HEADER */}
+
+      {/* HEADER */}
       <div className="form-header">
         <div>
-          <h1>{isEdit ? "Update Form" : "Create New Form"}</h1>
-          <p>{isEdit ? "Update existing form details" : "Create feedback forms and add questions easily"}</p>
+          <span className="page-tag">
+            FORM BUILDER
+          </span>
+
+          <h1>
+            {isEdit
+              ? "Edit Feedback Form"
+              : "Create Feedback Form"}
+          </h1>
+
+          <p>
+            Design professional feedback forms and collect
+            responses effortlessly.
+          </p>
         </div>
-        <button className="save-btn" onClick={submitForm}>
-          {isEdit ? "Update Form" : "Save Form"}
+
+        <button
+          className="publish-btn"
+          onClick={submitForm}
+        >
+          {isEdit
+            ? "Update Form"
+            : "Publish Form"}
         </button>
       </div>
 
-      {/* FORM DETAILS */}
-      <div className="form-box">
-        <h2>Form Details</h2>
-        <div className="form-grid">
-          <div>
-            <label>Form Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter form title"
-            />
-          </div>
+      {/* STATS */}
+      <div className="form-stats">
 
-          <div>
-            <label>Description</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter form description"
-            />
-          </div>
+        <div className="stat-card">
+          <span>Total Questions</span>
+          <h3>{questions.length}</h3>
         </div>
+
+        <div className="stat-card">
+          <span>MCQs</span>
+          <h3>
+            {
+              questions.filter(
+                (q) => q.type === "MCQ"
+              ).length
+            }
+          </h3>
+        </div>
+
+        <div className="stat-card">
+          <span>Dropdowns</span>
+          <h3>
+            {
+              questions.filter(
+                (q) => q.type === "Dropdown"
+              ).length
+            }
+          </h3>
+        </div>
+
+        <div className="stat-card">
+          <span>Text Fields</span>
+          <h3>
+            {
+              questions.filter(
+                (q) => q.type === "Text"
+              ).length
+            }
+          </h3>
+        </div>
+
       </div>
 
-      {/* QUESTIONS */}
-      <div className="form-box">
-        <div className="question-top">
-          <h2>Questions</h2>
-          <button className="add-btn" onClick={addQuestion}>+ Add Question</button>
-        </div>
+      {/* MAIN LAYOUT */}
+      <div className="form-layout">
 
-        {questions.map((q, i) => (
-          <div key={q.id} className="question-card">
-            <div className="question-input">
-              <label>Question</label>
+        {/* LEFT SIDE */}
+        <div className="form-editor">
+
+          {/* FORM DETAILS */}
+          <div className="modern-card">
+
+            <div className="card-header">
+              <h2>Form Information</h2>
+              <span>Basic Details</span>
+            </div>
+
+            <div className="form-group">
+              <label>Form Title</label>
+
               <input
                 type="text"
-                value={q.text}
-                onChange={(e) => updateQuestion(i, "text", e.target.value)}
-                placeholder="Enter question"
+                value={title}
+                onChange={(e) =>
+                  setTitle(e.target.value)
+                }
+                placeholder="Employee Feedback Survey"
               />
             </div>
 
-            <div className="type-input">
-              <label>Type</label>
-              <select value={q.type} onChange={(e) => updateQuestion(i, "type", e.target.value)}>
-                <option value="Text">Text</option>
-                <option value="Dropdown">Dropdown</option>
-                <option value="MCQ">MCQ</option>
-                <option value="FinalFeedback">FinalFeedback</option>
-              </select>
+            <div className="form-group">
+              <label>Description</label>
+
+              <textarea
+                value={description}
+                onChange={(e) =>
+                  setDescription(
+                    e.target.value
+                  )
+                }
+                placeholder="Describe the purpose of this form..."
+              />
             </div>
 
-            {(q.type === "Dropdown" || q.type === "MCQ") && (
-              <div className="option-section">
-                {q.options.map((opt, optIndex) => (
-                  <div key={optIndex} className="option-row">
-                    <input
-                      type="text"
-                      value={opt}
-                      placeholder={`Option ${optIndex + 1}`}
-                      onChange={(e) => updateOption(i, optIndex, e.target.value)}
-                      className="option-input"
-                    />
-                    <button type="button" className="delete-option-btn" onClick={() => deleteOption(i, optIndex)}>✕</button>
+          </div>
+
+          {/* QUESTIONS */}
+          <div className="modern-card">
+
+            <div className="question-header">
+
+              <div>
+                <h2>Questions</h2>
+                <span>
+                  Manage all questions
+                </span>
+              </div>
+
+              <button
+                className="add-question-btn"
+                onClick={addQuestion}
+              >
+                + Add Question
+              </button>
+
+            </div>
+
+            {questions.map((q, i) => (
+              <div
+                key={q.id}
+                className="question-card"
+              >
+
+                <div className="question-card-top">
+
+                  <div className="question-number">
+                    Question {i + 1}
                   </div>
-                ))}
-                <div className="question-actions">
-                  <button
-                    type="button"
-                    className="add-option-btn"
-                    onClick={() => addOption(i)}
-                  >
-                    + Add Option
-                  </button>
 
                   {questions.length > 1 && (
                     <button
                       className="delete-btn"
-                      onClick={() => deleteQuestion(i)}
+                      onClick={() =>
+                        deleteQuestion(i)
+                      }
                     >
-                      Delete Question
+                      Delete
                     </button>
                   )}
+
                 </div>
+
+                <div className="question-field">
+
+                  <label>
+                    Question Text
+                  </label>
+
+                  <input
+                    type="text"
+                    value={q.text}
+                    onChange={(e) =>
+                      updateQuestion(
+                        i,
+                        "text",
+                        e.target.value
+                      )
+                    }
+                    placeholder="Enter your question..."
+                  />
+
+                </div>
+
+                <div className="question-field">
+
+                  <label>
+                    Response Type
+                  </label>
+
+                  <select
+                    value={q.type}
+                    onChange={(e) =>
+                      updateQuestion(
+                        i,
+                        "type",
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option value="Text">
+                      Text
+                    </option>
+
+                    <option value="Dropdown">
+                      Dropdown
+                    </option>
+
+                    <option value="MCQ">
+                      Multiple Choice
+                    </option>
+
+                    <option value="FinalFeedback">
+                      Final Feedback
+                    </option>
+                  </select>
+
+                </div>
+
+                {(q.type === "MCQ" ||
+                  q.type === "Dropdown") && (
+                    <div className="option-section">
+
+                      <div className="option-top">
+
+                        <h4>Options</h4>
+
+                        <button
+                          type="button"
+                          className="add-option-btn"
+                          onClick={() =>
+                            addOption(i)
+                          }
+                        >
+                          + Add Option
+                        </button>
+
+                      </div>
+
+                      {q.options.map(
+                        (opt, optIndex) => (
+                          <div
+                            key={optIndex}
+                            className="option-row"
+                          >
+
+                            <input
+                              type="text"
+                              value={opt}
+                              placeholder={`Option ${optIndex + 1
+                                }`}
+                              onChange={(e) =>
+                                updateOption(
+                                  i,
+                                  optIndex,
+                                  e.target.value
+                                )
+                              }
+                            />
+
+                            <button
+                              type="button"
+                              className="delete-option-btn"
+                              onClick={() =>
+                                deleteOption(
+                                  i,
+                                  optIndex
+                                )
+                              }
+                            >
+                              ✕
+                            </button>
+
+                          </div>
+                        )
+                      )}
+
+                    </div>
+                  )}
+
               </div>
-            )}
+            ))}
+
           </div>
-        ))}
+
+        </div>
+
+        {/* RIGHT SIDE */}
+        <div className="preview-panel">
+
+          <div className="preview-card">
+
+            <h2>Live Preview</h2>
+
+            <div className="preview-form">
+
+              <h3>
+                {title ||
+                  "Untitled Form"}
+              </h3>
+
+              <p>
+                {description ||
+                  "Your form description will appear here"}
+              </p>
+
+              {questions.map(
+                (q, index) => (
+                  <div
+                    key={q.id}
+                    className="preview-question"
+                  >
+
+                    <label>
+                      {index + 1}.{" "}
+                      {q.text ||
+                        "Untitled Question"}
+                    </label>
+
+                    {q.type ===
+                      "Text" && (
+                        <input
+                          disabled
+                          placeholder="Text answer"
+                        />
+                      )}
+
+                    {q.type ===
+                      "Dropdown" && (
+                        <select disabled>
+                          <option>
+                            Select an option
+                          </option>
+                        </select>
+                      )}
+
+                    {q.type ===
+                      "MCQ" && (
+                        <div className="preview-options">
+
+                          {q.options.map(
+                            (
+                              option,
+                              idx
+                            ) => (
+                              <div
+                                key={idx}
+                              >
+                                <input
+                                  type="radio"
+                                  disabled
+                                />
+
+                                <span>
+                                  {option ||
+                                    `Option ${idx +
+                                    1
+                                    }`}
+                                </span>
+                              </div>
+                            )
+                          )}
+
+                        </div>
+                      )}
+
+                    {q.type ===
+                      "FinalFeedback" && (
+                        <textarea
+                          disabled
+                          placeholder="Write your feedback..."
+                        />
+                      )}
+
+                  </div>
+                )
+              )}
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
+
     </div>
   );
 }

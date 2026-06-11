@@ -70,7 +70,11 @@ body {
   border: none;
   border-radius: 12px;
 
-  background: #57d163;
+    background: linear-gradient(
+    135deg,
+    #4f277d,
+    #6d3fa3
+  );
   color: white;
 
   font-weight: 600;

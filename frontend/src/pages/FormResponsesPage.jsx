@@ -38,37 +38,170 @@ export default function FormResponsesPage() {
     }
   };
 
-  return (
-    <div className="forms-page">
-      <div className="forms-header">
-        <h1>All Responses</h1>
+ return (
+  <div className="responses-page">
+
+    {/* HEADER */}
+
+    <div className="responses-header">
+
+      <div>
+        <span className="page-tag">
+          RESPONSE MANAGEMENT
+        </span>
+
+        <h1>Feedback Responses</h1>
+
+        <p>
+          Review all submitted responses for this form.
+        </p>
       </div>
 
-      <div className="forms-grid">
-        {responses.map((r) => (
-          <div className="form-card" key={r.id}>
-            <p><b>Name:</b> {r.name}</p>
-            <p><b>Email:</b> {r.email}</p>
-            <p><b>Designation:</b> {r.designation}</p>
-            <p><b>Note:</b> {r.finalNote}</p>
+    </div>
 
-            <h4>Answers:</h4>
-            {r.answers.map((a, i) => (
-              <p key={i}>
-                {a.question}: {a.answer}
-              </p>
+    {/* STATS */}
+
+    <div className="responses-stats">
+
+      <div className="stat-box">
+        <span>Total Responses</span>
+        <h2>{responses.length}</h2>
+      </div>
+
+      <div className="stat-box">
+        <span>Questions</span>
+        <h2>{responses[0]?.answers?.length || 0}</h2>
+      </div>
+
+      <div className="stat-box">
+        <span>Status</span>
+        <h2>Active</h2>
+      </div>
+
+    </div>
+
+    {/* EMPTY */}
+
+    {responses.length === 0 ? (
+
+      <div className="empty-state">
+        <h2>No Responses Found</h2>
+        <p>
+          Responses will appear here once users submit feedback.
+        </p>
+      </div>
+
+    ) : (
+
+      <div className="responses-table-card">
+
+        <table className="responses-table">
+
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Email</th>
+              <th>Designation</th>
+              <th>Answers</th>
+              <th>Final Note</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {responses.map((response) => (
+
+              <tr key={response.id}>
+
+                <td>
+
+                  <div className="user-cell">
+
+                    <div className="avatar-circle">
+                      {response.name?.charAt(0)}
+                    </div>
+
+                    <span>
+                      {response.name}
+                    </span>
+
+                  </div>
+
+                </td>
+
+                <td>
+                  {response.email}
+                </td>
+
+                <td>
+                  {response.designation}
+                </td>
+
+                <td>
+
+                  <div className="answers-preview">
+
+                    {response.answers?.map(
+                      (answer, index) => (
+
+                        <div
+                          key={index}
+                          className="answer-chip"
+                        >
+                          <strong>
+                            {answer.question}
+                          </strong>
+
+                          <span>
+                            {answer.answer}
+                          </span>
+                        </div>
+
+                      )
+                    )}
+
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <div className="note-preview">
+                    {response.finalNote ||
+                      "No feedback"}
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <button
+                    className="delete-btn"
+                    onClick={() =>
+                      deleteFeedback(
+                        response.id
+                      )
+                    }
+                  >
+                    <Trash2 size={16} />
+                    Delete
+                  </button>
+
+                </td>
+
+              </tr>
+
             ))}
 
-            <button
-              className="delete-btn"
-              style={{ marginTop: "10px" }}
-              onClick={() => deleteFeedback(r.id)}
-            >
-              <Trash2 size={16} /> Delete
-            </button>
-          </div>
-        ))}
+          </tbody>
+
+        </table>
+
       </div>
-    </div>
-  );
+
+    )}
+
+  </div>
+);
 }

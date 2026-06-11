@@ -181,326 +181,412 @@ export default function FeedbackPage() {
     return <h3>Loading...</h3>;
 
   return (
+  <div className="user-feedback-page">
 
-    <div className="user-feedback-page">
+    {/* ================= USER VIEW ================= */}
+    {role !== "Admin" && (
 
-      {/* ================= USER ================= */}
-      {role !== "Admin" && (
+      <div className="feedback-container">
 
-        <div className="feedback-container">
+        {/* HERO */}
 
-          {/* HEADER */}
+        <div className="feedback-hero">
 
-          <div className="feedback-header">
+          <span className="page-tag">
+            FEEDBACK FORM
+          </span>
 
-            <h1>
-              {form.title}
-            </h1>
+          <h1>
+            {form.title}
+          </h1>
 
-            <p>
-              {form.description}
-            </p>
+          <p>
+            {form.description}
+          </p>
 
+        </div>
+
+        {/* BASIC INFO */}
+
+        <div className="modern-feedback-card">
+
+          <div className="section-title">
+            Basic Information
           </div>
 
-          {/* FORM */}
+          <input
+            className="feedback-input"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
+          />
 
-          <div className="feedback-form">
+          <input
+            className="feedback-input"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
 
-            {/* BASIC INFO */}
+          <input
+            className="feedback-input"
+            placeholder="Designation"
+            value={designation}
+            onChange={(e) =>
+              setDesignation(
+                e.target.value
+              )
+            }
+          />
 
-            <div className="feedback-section">
+        </div>
 
-              <h3>
-                Basic Information
-              </h3>
+        {/* QUESTIONS */}
 
-              <input
-                className="feedback-input"
-                placeholder="Your Name"
-                value={name}
-                onChange={(e) =>
-                  setName(
-                    e.target.value
-                  )
-                }
-              />
+        {form.questions.map((q, i) => (
 
-              <input
-                className="feedback-input"
-                placeholder="Email"
-                value={email}
-                onChange={(e) =>
-                  setEmail(
-                    e.target.value
-                  )
-                }
-              />
+          <div
+            key={q.id}
+            className="question-card-modern"
+          >
 
-              <input
-                className="feedback-input"
-                placeholder="Designation"
-                value={designation}
-                onChange={(e) =>
-                  setDesignation(
-                    e.target.value
-                  )
-                }
-              />
-
+            <div className="question-number">
+              Question {i + 1}
             </div>
 
-            {/* QUESTIONS */}
-            {form.questions.map((q, i) => (
+            <label>
+              {q.text}
+            </label>
 
-              <div
-                className="feedback-section"
-                key={q.id}
+            {/* TEXT */}
+
+            {q.type === "Text" && (
+
+              <input
+                type="text"
+                className="feedback-input"
+                placeholder="Enter your answer"
+                onChange={(e) =>
+                  updateAnswer(
+                    i,
+                    e.target.value
+                  )
+                }
+              />
+
+            )}
+
+            {/* DROPDOWN */}
+
+            {q.type === "Dropdown" && (
+
+              <select
+                className="feedback-select"
+                onChange={(e) =>
+                  updateAnswer(
+                    i,
+                    e.target.value
+                  )
+                }
               >
 
-                <div className="question-block">
+                <option value="">
+                  Select Option
+                </option>
 
-                  <label>
-                    {q.text}
-                  </label>
+                {q.options?.map(
+                  (opt, idx) => (
 
-                  {/* TEXT */}
+                    <option
+                      key={idx}
+                      value={opt}
+                    >
+                      {opt}
+                    </option>
 
-                  {q.type === "Text" && (
+                  )
+                )}
 
-                    <input
-                      type="text"
-                      className="feedback-input"
-                      placeholder="Enter answer"
-                      onChange={(e) =>
-                        updateAnswer(
-                          i,
-                          e.target.value
-                        )
-                      }
-                    />
+              </select>
 
-                  )}
+            )}
 
-                  {/* DROPDOWN */}
-                  {q.type === "Dropdown" && (
+            {/* MCQ */}
 
-                    <select
-                      className="feedback-select"
-                      onChange={(e) =>
-                        updateAnswer(
-                          i,
-                          e.target.value
-                        )
-                      }
+            {q.type === "MCQ" && (
+
+              <div className="modern-mcq-grid">
+
+                {q.options?.map(
+                  (opt, idx) => (
+
+                    <label
+                      key={idx}
+                      className="modern-option"
                     >
 
-                      <option value="">
-                        Select Option
-                      </option>
+                      <input
+                        type="radio"
+                        name={q.id}
+                        value={opt}
+                        onChange={(e) =>
+                          updateAnswer(
+                            i,
+                            e.target.value
+                          )
+                        }
+                      />
 
-                      {q.options?.map(
-                        (opt, idx) => (
+                      <span>
+                        {opt}
+                      </span>
 
-                          <option
-                            key={idx}
-                            value={opt}
-                          >
-                            {opt}
-                          </option>
+                    </label>
 
-                        )
-                      )}
-
-                    </select>
-
-                  )}
-
-                  {/* MCQ */}
-                  {q.type === "MCQ" && (
-                    <div className="mcq-options">
-                      {q.options?.map((opt, idx) => (
-                        <label
-                          key={idx}
-                          className="mcq-option"
-                          htmlFor={`${q.id}-${idx}`}
-                        >
-                          <input
-                            id={`${q.id}-${idx}`}
-                            type="radio"
-                            name={q.id}
-                            value={opt}
-                            onChange={(e) =>
-                              updateAnswer(i, e.target.value)
-                            }
-                          />
-
-                          <span className="mcq-text">{opt}</span>
-                        </label>
-                      ))}
-                    </div>
-                  )}             
-                </div>
+                  )
+                )}
 
               </div>
 
-            ))}
+            )}
 
-            {/* FINAL NOTE */}
-            <div className="feedback-section">
+          </div>
 
-              <h3>
-                Additional Feedback
-              </h3>
+        ))}
 
-              <textarea
-                className="feedback-textarea"
-                placeholder="Final Note"
-                value={finalNote}
-                onChange={(e) =>
-                  setFinalNote(
-                    e.target.value
-                  )
-                }
-              />
+        {/* FINAL NOTE */}
 
-            </div>
+        <div className="modern-feedback-card">
 
-            {/* BUTTON */}
-            <button
-              className="feedback-submit"
-              onClick={submitFeedback}
-            >
-              Submit Feedback
-            </button>
+          <div className="section-title">
+            Additional Feedback
+          </div>
 
+          <textarea
+            className="feedback-textarea"
+            placeholder="Share any additional thoughts..."
+            value={finalNote}
+            onChange={(e) =>
+              setFinalNote(
+                e.target.value
+              )
+            }
+          />
+
+        </div>
+
+        {/* SUBMIT */}
+
+        <button
+          className="modern-submit-btn"
+          onClick={submitFeedback}
+        >
+          Submit Feedback
+        </button>
+
+      </div>
+
+    )}
+
+    {/* ================= ADMIN VIEW ================= */}
+
+    {role === "Admin" && (
+
+      <div className="feedback-container">
+
+        {/* HEADER */}
+
+        <div className="feedback-hero">
+
+          <span className="page-tag">
+            RESPONSE CENTER
+          </span>
+
+          <h1>
+            Submitted Feedbacks
+          </h1>
+
+          <p>
+            Monitor, review and manage all
+            submitted responses.
+          </p>
+
+        </div>
+
+        {/* STATS */}
+
+        <div className="responses-stats">
+
+          <div className="stat-card">
+            <span>Total Responses</span>
+            <h3>
+              {feedbacks.length}
+            </h3>
+          </div>
+
+          <div className="stat-card">
+            <span>Form</span>
+            <h3>
+              {form.title}
+            </h3>
+          </div>
+
+          <div className="stat-card">
+            <span>Questions</span>
+            <h3>
+              {form.questions?.length}
+            </h3>
+          </div>
+
+          <div className="stat-card">
+            <span>Status</span>
+            <h3>Live</h3>
           </div>
 
         </div>
-      )}
 
-      {/* ================= ADMIN ================= */}
-      {role === "Admin" && (
+        {/* FEEDBACKS */}
 
-        <div className="feedback-container">
+        <div className="feedback-grid">
 
-          <div className="feedback-header">
+          {feedbacks.length === 0 && (
 
-            <h1>
-              Submitted Feedbacks
-            </h1>
+            <div className="modern-feedback-card">
 
-            <p>
-              All submitted responses
-            </p>
+              <h3>
+                No Feedback Yet
+              </h3>
 
-          </div>
+              <p>
+                Responses will appear
+                here once users submit
+                feedback.
+              </p>
 
-          <div className="feedback-grid">
+            </div>
 
-            {feedbacks.length === 0 && (
-              <p>No feedback yet</p>
-            )}
+          )}
 
-            {feedbacks.map((fb) => (
+          {feedbacks.map((fb) => (
 
-              <div
-                key={fb.id}
-                className="feedback-card"
-              >
+            <div
+              key={fb.id}
+              className="feedback-card"
+            >
 
-                <div className="user-top">
+              {/* USER */}
 
-                  <div className="avatar">
+              <div className="user-top">
 
-                    {fb.name?.charAt(0)}
+                <div className="avatar">
 
-                  </div>
-
-                  <div>
-
-                    <h3>
-                      {fb.name}
-                    </h3>
-
-                    <p>
-                      {fb.email}
-                    </p>
-
-                  </div>
+                  {fb.name?.charAt(0)}
 
                 </div>
 
-                <div className="feedback-info">
+                <div>
 
-                  <div className="info-row">
-
-                    Designation:
-                    {fb.designation}
-
-                  </div>
-
-                </div>
-
-                <div className="answers-box">
-
-                  {fb.answers?.map(
-                    (a, i) => (
-
-                      <div
-                        key={i}
-                        className="answer-item"
-                      >
-
-                        <h4>
-                          Question :
-                          {a.question}
-                        </h4>
-
-                        <p>
-                          {a.answer}
-                        </p>
-
-                      </div>
-
-                    )
-                  )}
-
-                </div>
-
-                <div className="final-note">
-
-                  <h4>
-                    Final Note
-                  </h4>
+                  <h3>
+                    {fb.name}
+                  </h3>
 
                   <p>
-                    {fb.finalNote}
+                    {fb.email}
                   </p>
 
                 </div>
 
-                {/* DELETE BUTTON */}
-                <button
-                  className="delete-feedback-btn"
-                  onClick={() =>
-                    deleteFeedback(
-                      fb.id
-                    )
-                  }
-                >
-                  Delete Feedback
-                </button>
+              </div>
+
+              {/* INFO */}
+
+              <div className="feedback-info">
+
+                <div>
+                  <span>
+                    Designation
+                  </span>
+
+                  <strong>
+                    {fb.designation}
+                  </strong>
+                </div>
 
               </div>
 
-            ))}
+              {/* ANSWERS */}
 
-          </div>
+              <div className="answers-box">
+
+                <h3>
+                  Responses
+                </h3>
+
+                {fb.answers?.map(
+                  (a, i) => (
+
+                    <div
+                      key={i}
+                      className="answer-item"
+                    >
+
+                      <h4>
+                        {a.question}
+                      </h4>
+
+                      <p>
+                        {a.answer}
+                      </p>
+
+                    </div>
+
+                  )
+                )}
+
+              </div>
+
+              {/* NOTE */}
+
+              <div className="final-note">
+
+                <h4>
+                  Final Feedback
+                </h4>
+
+                <p>
+                  {fb.finalNote ||
+                    "No additional feedback"}
+                </p>
+
+              </div>
+
+              {/* DELETE */}
+
+              <button
+                className="delete-feedback-btn"
+                onClick={() =>
+                  deleteFeedback(
+                    fb.id
+                  )
+                }
+              >
+                Delete Feedback
+              </button>
+
+            </div>
+
+          ))}
 
         </div>
-      )}
 
-    </div>
-  );
+      </div>
+
+    )}
+
+  </div>
+);
 }

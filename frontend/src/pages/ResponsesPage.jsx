@@ -56,36 +56,182 @@ export default function ResponsesPage() {
     }
   };
 
-  return (
-    <div className="forms-page">
-      <div className="forms-header">
-        <h1>All Forms</h1>
-      </div>
+ return (
+  <div className="responses-dashboard">
 
-      <div className="forms-grid">
-        {Object.values(grouped).map((form) => (
-          <div className="form-card" key={form.formId}>
-            <h3>{form.formTitle}</h3>
-            <p>Total Responses: {form.count}</p>
+    {/* HEADER */}
 
-            <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-              <button
-                className="view-btn"
-                onClick={() => navigate(`/admin-feedbacks/${form.formId}`)}
-              >
-                <Eye size={16} /> View Responses
-              </button>
+    <div className="dashboard-header">
+      <div>
+        <span className="page-tag">RESPONSE MANAGEMENT</span>
 
-              <button
-                className="delete-btn"
-                onClick={() => deleteAllResponses(form.formId)}
-              >
-                <Trash2 size={16} /> Delete All Responses
-              </button>
-            </div>
-          </div>
-        ))}
+        <h1>Feedback Responses</h1>
+
+        <p>
+          Monitor and manage all submitted feedback responses from your forms.
+        </p>
       </div>
     </div>
-  );
+
+    {/* STATS */}
+
+    <div className="dashboard-stats">
+
+      <div className="analytics-card">
+        <span>Total Forms</span>
+        <h2>{Object.values(grouped).length}</h2>
+      </div>
+
+      <div className="analytics-card">
+        <span>Total Responses</span>
+        <h2>{responses.length}</h2>
+      </div>
+
+      <div className="analytics-card">
+        <span>Status</span>
+        <h2>Active</h2>
+      </div>
+
+    </div>
+
+    {/* EMPTY STATE */}
+
+    {Object.values(grouped).length === 0 ? (
+
+      <div className="empty-state">
+
+        <h2>No Responses Found</h2>
+
+        <p>
+          Submitted feedback responses will appear here once users start
+          submitting forms.
+        </p>
+
+      </div>
+
+    ) : (
+
+      <div className="responses-table-wrapper">
+
+        <div className="table-header">
+
+          <div>
+            <h2>All Form Responses</h2>
+            <p>
+              Manage responses collected from all your feedback forms.
+            </p>
+          </div>
+
+          <div className="table-count">
+            {Object.values(grouped).length} Forms
+          </div>
+
+        </div>
+
+        <div className="table-container">
+
+          <table className="responses-table">
+
+            <thead>
+
+              <tr>
+                <th>Form</th>
+                <th>Form ID</th>
+                <th>Responses</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {Object.values(grouped).map((form) => (
+
+                <tr key={form.formId}>
+
+                  <td>
+
+                    <div className="form-cell">
+
+                      <div className="form-avatar">
+                        {form.formTitle?.charAt(0)?.toUpperCase()}
+                      </div>
+
+                      <div>
+
+                        <h4>{form.formTitle}</h4>
+
+                        <p>Feedback Form</p>
+
+                      </div>
+
+                    </div>
+
+                  </td>
+
+                  <td>
+                    #{form.formId}
+                  </td>
+
+                  <td>
+
+                    <span className="response-pill">
+                      {form.count}
+                    </span>
+
+                  </td>
+
+                  <td>
+
+                    <span className="status-pill">
+                      Active
+                    </span>
+
+                  </td>
+
+                  <td>
+
+                    <div className="action-buttons">
+
+                      <button
+                        className="view-btn"
+                        onClick={() =>
+                          navigate(`/admin-feedbacks/${form.formId}`)
+                        }
+                      >
+                        <Eye size={16} />
+                        <span>View</span>
+                      </button>
+
+                      <button
+                        className="delete-btn"
+                        onClick={() =>
+                          deleteAllResponses(form.formId)
+                        }
+                      >
+                        <Trash2 size={16} />
+                        <span>Delete</span>
+                      </button>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    )}
+
+  </div>
+);
 }

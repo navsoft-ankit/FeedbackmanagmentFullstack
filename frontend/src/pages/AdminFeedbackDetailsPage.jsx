@@ -40,113 +40,163 @@ export default function AdminFeedbacksPage() {
       }
     };
 
-  return (
+ return (
+  <div className="admin-feedback-page">
 
-    <div className="admin-feedback-page">
-      {/* HEADER */}
+    <div className="dashboard-header">
 
-      <div className="forms-header">
-        <h1>
-          User Responses
-        </h1>
+      <div>
+        <span className="page-tag">
+          FEEDBACK RESPONSES
+        </span>
+
+        <h1>User Responses</h1>
+
         <p>
-          Admin can view all
-          submitted feedbacks.
+          Review all submitted responses for this form.
         </p>
       </div>
 
-      {/* EMPTY */}
+      <div className="response-counter">
+        {feedbacks.length} Responses
+      </div>
 
-      {feedbacks.length === 0 && (
-        <div className="empty-box">
-          <MessageSquare size={60} />
-          <h2>
-            No Feedback Found
-          </h2>
-        </div>
-      )}
+    </div>
 
-      {/* FEEDBACK GRID */}
+    {feedbacks.length === 0 ? (
 
-      <div className="feedback-grid">
-        {feedbacks.map((f) => (
+      <div className="empty-state">
+
+        <MessageSquare size={70} />
+
+        <h2>No Responses Found</h2>
+
+        <p>
+          Responses submitted by users will appear here.
+        </p>
+
+      </div>
+
+    ) : (
+
+      <div className="responses-list">
+
+        {feedbacks.map((f, index) => (
+
           <div
-            className="feedback-card"
+            className="response-panel"
             key={f.id}
           >
-            {/* USER */}
-            <div className="user-top">
-              <div className="avatar">
-                <User size={28} />
-              </div>
-              <div>
-                <h3>
-                  {f.name}
-                </h3>
-                <p>
-                  User Response
-                </p>
-              </div>
 
-            </div>
+            {/* USER HEADER */}
 
-            {/* USER DETAILS */}
+            <div className="response-top">
 
-            <div className="feedback-info">
-              <div className="info-row">
-                <Mail size={18} />
-                <span>
-                  {f.email}
-                </span>
+              <div className="response-user">
+
+                <div className="user-avatar">
+                  {f.name?.charAt(0)?.toUpperCase()}
+                </div>
+
+                <div>
+
+                  <h3>{f.name}</h3>
+
+                  <p>{f.email}</p>
+
+                </div>
+
               </div>
 
-              <div className="info-row">
-                <Briefcase size={18} />
-                <span>
-                  {f.designation}
-                </span>
+              <div className="response-number">
+                #{index + 1}
               </div>
 
             </div>
 
-            {/* ANSWERS */}
+            {/* DESIGNATION */}
 
-            <div className="answers-box">
-              {(f.answers || []).map(
-                (a, index) => (
+            <div className="response-meta">
 
-                  <div
-                    className="answer-item"
-                    key={index}
-                  >
+              <div className="meta-box">
 
-                    <h4>
-                      {a.question}
-                    </h4>
+                <span>Designation</span>
 
-                    <p>
-                      {a.answer}
-                    </p>
+                <h4>
+                  {f.designation || "Not Provided"}
+                </h4>
 
-                  </div>
-                )
-              )}
+              </div>
+
+            </div>
+
+            {/* ANSWERS TABLE */}
+
+            <div className="answers-section">
+
+              <h3>Responses</h3>
+
+              <div className="answers-table-wrapper">
+
+                <table className="answers-table">
+
+                  <thead>
+
+                    <tr>
+                      <th>Question</th>
+                      <th>Answer</th>
+                    </tr>
+
+                  </thead>
+
+                  <tbody>
+
+                    {(f.answers || []).map((a, i) => (
+
+                      <tr key={i}>
+
+                        <td className="question-cell">
+                          {a.question}
+                        </td>
+
+                        <td className="answer-cell">
+                          {a.answer}
+                        </td>
+
+                      </tr>
+
+                    ))}
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
             </div>
 
             {/* FINAL NOTE */}
-            <div className="final-note">
-              <h4>
-                Final Note
-              </h4>
-              <p>
-                {f.finalNote}
-              </p>
-            </div>
+
+            {f.finalNote && (
+
+              <div className="final-note">
+
+                <h4>Final Note</h4>
+
+                <p>{f.finalNote}</p>
+
+              </div>
+
+            )}
+
           </div>
+
         ))}
 
       </div>
 
-    </div>
-  );
+    )}
+
+  </div>
+);
 }

@@ -25,45 +25,115 @@ export default function AdminFormViewPage() {
   if (!form) return <h3 style={{ textAlign: "center", marginTop: "40px" }}>Loading...</h3>;
 
   return (
-    <div className="form-page">
-      {/* HEADER */}
-      <div className="form-header">
-        <button
-          className="view-btn"
-          onClick={() => navigate(-1)}
-          style={{ marginBottom: "15px", display: "inline-flex", alignItems: "center", gap: "6px" }}
-        >
-          <ArrowLeft size={16} /> Back
-        </button>
+    <div className="admin-form-view">
 
-        <h1>{form.title}</h1>
-        <p>{form.description}</p>
+      {/* Header */}
+      <div className="admin-view-header">
+
+        {/* <button
+        className="back-button"
+        onClick={() => navigate(-1)}
+      >
+        <ArrowLeft size={18} />
+        Back
+      </button> */}
+
+        <div className="form-title-section">
+
+          <span className="page-badge">
+            FORM PREVIEW
+          </span>
+
+          <h1>{form.title}</h1>
+
+          <p>
+            {form.description || "No description provided"}
+          </p>
+
+        </div>
+
       </div>
 
-      {/* QUESTIONS */}
-      <div className="form-grid">
-        {form.questions.map((q) => (
-          <div className="question-card" key={q.id}>
+      {/* Stats */}
+      <div className="form-preview-stats">
 
-            {/* QUESTION TEXT (WHITE) */}
-            <h3 style={{ color: "white" }}>{q.text}</h3>
+        <div className="preview-stat-card">
+          <span>Total Questions</span>
+          <h3>{form.questions.length}</h3>
+        </div>
 
-            {/* QUESTION TYPE (WHITE) */}
-            <p style={{ color: "white" }}>Type: {q.type}</p>
+        <div className="preview-stat-card">
+          <span>Form Status</span>
+          <h3>Active</h3>
+        </div>
 
-            {q.options?.length > 0 && (
-              <div className="mcq-options">
-                {q.options.map((opt, idx) => (
-                  <div className="mcq-option" key={idx}>
-                    <span>{opt}</span>
-                  </div>
-                ))}
+        <div className="preview-stat-card">
+          <span>Type</span>
+          <h3>Feedback Form</h3>
+        </div>
+
+      </div>
+
+      {/* Questions */}
+      <div className="questions-wrapper">
+
+        {form.questions.map((q, index) => (
+
+          <div
+            key={q.id}
+            className="preview-question-card"
+          >
+
+            <div className="question-top">
+
+              <div className="question-number">
+                Q{index + 1}
               </div>
+
+              <div className="question-type">
+                {q.type}
+              </div>
+
+            </div>
+
+            <h3>{q.text}</h3>
+
+            {(q.type === "MCQ" ||
+              q.type === "Dropdown") &&
+              q.options?.length > 0 && (
+
+                <div className="preview-options">
+
+                  {q.options.map((opt, idx) => (
+
+                    <div
+                      key={idx}
+                      className="preview-option"
+                    >
+                      {opt}
+                    </div>
+
+                  ))}
+
+                </div>
+
+              )}
+
+            {q.type === "Text" && (
+              <input
+                type="text"
+                disabled
+                placeholder="User answer will appear here..."
+                className="preview-input"
+              />
             )}
 
           </div>
+
         ))}
+
       </div>
+
     </div>
   );
 }

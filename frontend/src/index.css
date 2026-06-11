@@ -14,12 +14,11 @@ body,
 }
 
 body {
-  background: #0f0b0b;
+  background: #ffffff;
   font-family: "Inter", sans-serif;
-  color: white;
+  color: #111827;
   overflow-x: hidden;
 }
-
 /* ROOT */
 
 #root {
